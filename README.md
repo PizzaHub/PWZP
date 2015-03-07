@@ -1,5 +1,5 @@
 # PWZP
-Program wspomagający zarządzanie pizzerią, tworzony w ramach Projektu Zespołowego.
+Program wspomagający zarządzanie pizzerią, tworzony w ramach "Projektu Zespołowego".
 
 <center><h2>Harmonogram prac zespołu</h2></center>
 

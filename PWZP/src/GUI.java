@@ -21,18 +21,18 @@ public class GUI extends JFrame implements ActionListener{
 	 * Konstruktor bezparametrowy klasy GUI
 	 */
 	public GUI(){
-		this.getContentPane().add(card, BorderLayout.CENTER);
+	this.getContentPane().add(card, BorderLayout.CENTER);
         this.setSize(650, 400);
         this.setVisible(true);
-		utworzKarty();
+	utworzKarty();
 	}
 	
 	/**
 	 * Metoda tworząca karty dla menadżer rozkładu
 	 */
 	private void utworzKarty(){
-		card.setLayout(new CardLayout());
-		JPanel card1 = new JPanel();
+	card.setLayout(new CardLayout());
+	JPanel card1 = new JPanel();
         card1.setBackground(Color.blue);
         card1.setLayout(new FlowLayout());
         card1.add(new JLabel("Ekran startowy"));

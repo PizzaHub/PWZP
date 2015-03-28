@@ -10,13 +10,11 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
-
-import com.jgoodies.forms.debug.FormDebugPanel;
+import javax.swing.table.DefaultTableCellRenderer;
 import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.RowSpec;
 
 
 /** 
@@ -64,6 +62,7 @@ public class GUI extends JFrame implements ActionListener{
 		this.setAlwaysOnTop(true);
 		this.setResizable(false);  
 		this.setVisible(true);
+	
 	}
 	
 	/**
@@ -279,7 +278,7 @@ public class GUI extends JFrame implements ActionListener{
 		scrollPane.setBorder(border3);
 		
 		//Tabela Cennik
-		String[] kolumny = {"Liczba","Nazwa", "Rozmiar1","Rozmiar2", "Rozmiar3"};
+		String[] kolumny = {"Nazwa", "Rozmiar1","Rozmiar2", "Rozmiar3"};
 		
 		//Ustawienie czcionki dla zawartosci tabeli cennik
 		FontUIResource font = new FontUIResource("Arial", Font.PLAIN, 17);
@@ -287,57 +286,57 @@ public class GUI extends JFrame implements ActionListener{
 		
 		//zawartosc tabeli
 		Object[][] dane = {
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},	
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},	
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},	
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},	
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},	
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},	
-				{"5.", "<html><strong>Margarita</strong><br>"
-						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},	
-			};
-		
+				{"<html><strong>1. Margherita</strong><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, oregano</font></html>","9,50", "17,80", "19,90"},	
+				{"<html><strong>2. Capriciosa</strong><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, szynka, pieczarki, oregano</font></html>","15,50", "22,80", "27,00"},
+				{"<html><strong>3. Califfo</strong><br>"
+					    + "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, szynka, kabanosy,</font><br>"
+					    + "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>papryka konserwowa, oliwki zielone, oregano</font></html>","19,00", "27,90", "33,00"},
+				{"<html><strong>4. Calzone</strong><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, szynka, kabanosy,</font><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>boczek wędzony, salami, oregano</font></html>","19,00", "28,30", "33,00"},	
+				{"<html><strong>5. Decoro</strong><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sospomidorowy, szynka, pieczarki,</font><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>papryka konserwowa, czosnek, oregano</font></html>","18,30", "26,70", "31,80"},
+				{"<html><strong>6. Pepe Roso</strong><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, salami, papryka konserwowa,</font><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>oregano</font></html>","15,40", "22,80", "26,80"},
+				{"<html><strong>7. Napoletana</strong><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, salami, oliwki zielone</font></html>","17,00", "24,60", "29,60"},	
+				{"<html><strong>8. Piacere</strong><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, salami, boczek wędzony,</font><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>cebula biała, kukurydza, oregano</html>","17,60", "26,90", "30,60"},
+				{"<html><strong>9. Roma</strong><br>"
+					    + "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, salami, kabanosy,</font><br>"
+					    + "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>papryka konserwowa, oregano</font></html>","16,90", "24,80", "29,30"},
+			    {"<html><strong>10. Polska</strong><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, szynka, kiełbasa, kabanosy,</font><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>biała cebula, świeża papryka, oregano</font></html>","18,10", "25,60", "31,50"},	
+				{"<html><strong>11. Margherita</strong><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, oregano</font></html>","9,50", "17,80", "19,90"},
+				{"<html><strong>12. Margherita</strong><br>"
+					    + "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, oregano</font></html>","9,50", "17,80", "19,90"},
+			    {"<html><strong>12. Margherita</strong><br>"
+					    + "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, oregano</font></html>","9,50", "17,80", "19,90"},
+				{"<html><strong>12. Margherita</strong><br>"
+					    + "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, oregano</font></html>","9,50", "17,80", "19,90"},
+				{"<html><strong>12. Margherita</strong><br>"
+					    + "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, oregano</font></html>","9,50", "17,80", "19,90"},
+		};
+			
 		cennikTabela = new JTable(dane, kolumny);
+		
+		//wyrownanie zawartosci tabeli do gory
+		DefaultTableCellRenderer renderer = (DefaultTableCellRenderer)cennikTabela.getDefaultRenderer(cennikTabela.getColumnClass(0));
+		renderer.setVerticalAlignment(SwingConstants.NORTH);
+		
 		cennikTabela.setEnabled(false);
 		cennikTabela.setShowGrid(false);
 		cennikTabela.setIntercellSpacing(new Dimension(0, 0));
-		//ustawienie rozmiarow kolumn w tabeli
-		cennikTabela.getColumn("Liczba").setMinWidth(32);
-		cennikTabela.getColumn("Liczba").setMaxWidth(32);
-		cennikTabela.getColumn("Nazwa").setMinWidth(449);
-		cennikTabela.getColumn("Nazwa").setMaxWidth(449);
+		
+		cennikTabela.getColumn("Nazwa").setMinWidth(481);
+		cennikTabela.getColumn("Nazwa").setMaxWidth(481);
 		cennikTabela.getColumn("Rozmiar1").setMinWidth(80);
 		cennikTabela.getColumn("Rozmiar1").setMaxWidth(80);
 		cennikTabela.getColumn("Rozmiar2").setMinWidth(80);
@@ -347,8 +346,18 @@ public class GUI extends JFrame implements ActionListener{
 
 		cennikTabela.setBackground(null);
 	    cennikTabela.setTableHeader(null);
-	    cennikTabela.setRowHeight(38);
-		scrollPane2 = new JScrollPane(cennikTabela);
+	    
+	    //dodanie odpowiednich wysokosci wierszy
+	    cennikTabela.setRowHeight(60);
+        cennikTabela.setRowHeight(0, 40);
+        cennikTabela.setRowHeight(1, 40);
+        cennikTabela.setRowHeight(6, 40);
+        cennikTabela.setRowHeight(10, 40);
+        cennikTabela.setRowHeight(11, 40);
+        cennikTabela.setRowHeight(12, 40);
+        cennikTabela.setRowHeight(13, 40);
+        
+	    scrollPane2 = new JScrollPane(cennikTabela);
 		scrollPane2.setBorder(BorderFactory.createEmptyBorder()); 
 		scrollPane2.getViewport().setBackground(new Color(0xf2f2f3));
 		
@@ -384,13 +393,17 @@ public class GUI extends JFrame implements ActionListener{
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		UIManager.put("ScrollBar.trackHighlight", new ColorUIResource(new Color(0xf2f2f3)));		
 		new GUI();
 	}
+	
 	
 	/**
 	 * Obsługa zdarzeń 
 	 */
 	@Override
+    
+
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource() == btnZamowzMenu) {
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());

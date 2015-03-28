@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.FontUIResource;
 
 import com.jgoodies.forms.debug.FormDebugPanel;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -24,7 +25,12 @@ import com.jgoodies.forms.layout.RowSpec;
 * @version 1.0	23/03/2015
 */
 public class GUI extends JFrame implements ActionListener{
-	JScrollPane scrollPane;
+	JScrollPane scrollPane, scrollPane2;
+	
+	/**
+	 * Zmienna definiująca tabele cennika
+	 */
+	JTable cennikTabela;
 	JPanel panelGorny, panelDolny;
 	
 	/**
@@ -54,12 +60,10 @@ public class GUI extends JFrame implements ActionListener{
 		this.getContentPane().add(utworzPanelDolny(), BorderLayout.CENTER);
 		this.getContentPane().add(utworzPanelGorny(), BorderLayout.NORTH);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		//this.setSize(650, 400);
 		this.setUndecorated(true);
 		this.setAlwaysOnTop(true);
 		this.setResizable(false);  
 		this.setVisible(true);
-
 	}
 	
 	/**
@@ -173,11 +177,12 @@ public class GUI extends JFrame implements ActionListener{
 	
 	private JPanel utworzDrugaKarte() {
 		FormLayout layout = new FormLayout(
-			"26px, 481px, 41px, 38px, 41px, 39px, 41px, 60px, 153px, 27px, 33px, 46px, 12px, 10px, 13px, 125px, 48px, 2px, 40px,"
+			"26px, 481px, 41px, 38px, 41px, 39px, 41px, 30px, 30px, 153px, 27px, 33px, 46px, 12px, 10px, 13px, 125px, 48px, 2px, 40px,"
 			+ "9px, 7px, 6px, 14px, 27px, 3px, 24px",
 			"115px, 29px, 17px, 19px, 27px, 32px, 6px, 15px, 2px, 2px, 7px, 6px, 15px, 2px, 2px, 7px, 6px, 15px, 2px, 2px, 7px, "
 			+ "6px, 12px, 7px, 29px, 27px, 20px, 100px, 85px, 21px, 27px, 28px, 17px, 30px, 5px");
 		cennik = new JPanel(layout);
+		//cennik = new FormDebugPanel(layout);
 		cennik.setBackground(new Color(0xf2f2f3));
 		CellConstraints cc = new CellConstraints();
 		
@@ -273,28 +278,103 @@ public class GUI extends JFrame implements ActionListener{
 		
 		scrollPane.setBorder(border3);
 		
+		//Tabela Cennik
+		String[] kolumny = {"Liczba","Nazwa", "Rozmiar1","Rozmiar2", "Rozmiar3"};
+		
+		//Ustawienie czcionki dla zawartosci tabeli cennik
+		FontUIResource font = new FontUIResource("Arial", Font.PLAIN, 17);
+		UIManager.put("Table.font", font);
+		
+		//zawartosc tabeli
+		Object[][] dane = {
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},	
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},	
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},	
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},	
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},	
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},	
+				{"5.", "<html><strong>Margarita</strong><br>"
+						+ "<font size='16px'>sos, sos pomidorowy, oregano</font></html>","4,20", "9,90", "9,90"},	
+			};
+		
+		cennikTabela = new JTable(dane, kolumny);
+		cennikTabela.setEnabled(false);
+		cennikTabela.setShowGrid(false);
+		cennikTabela.setIntercellSpacing(new Dimension(0, 0));
+		//ustawienie rozmiarow kolumn w tabeli
+		cennikTabela.getColumn("Liczba").setMinWidth(32);
+		cennikTabela.getColumn("Liczba").setMaxWidth(32);
+		cennikTabela.getColumn("Nazwa").setMinWidth(449);
+		cennikTabela.getColumn("Nazwa").setMaxWidth(449);
+		cennikTabela.getColumn("Rozmiar1").setMinWidth(80);
+		cennikTabela.getColumn("Rozmiar1").setMaxWidth(80);
+		cennikTabela.getColumn("Rozmiar2").setMinWidth(80);
+		cennikTabela.getColumn("Rozmiar2").setMaxWidth(80);
+		cennikTabela.getColumn("Rozmiar3").setMinWidth(70);
+		cennikTabela.getColumn("Rozmiar3").setMaxWidth(70);
+
+		cennikTabela.setBackground(null);
+	    cennikTabela.setTableHeader(null);
+	    cennikTabela.setRowHeight(38);
+		scrollPane2 = new JScrollPane(cennikTabela);
+		scrollPane2.setBorder(BorderFactory.createEmptyBorder()); 
+		scrollPane2.getViewport().setBackground(new Color(0xf2f2f3));
+		
 		btnAnuluj=new JButton(new ImageIcon("images/anuluj.png"));
 		btnAnuluj.setPreferredSize(new Dimension(208,27));
 		btnAnuluj.addActionListener(this);
 		
 		lblPasekStanu=new JLabel(new ImageIcon("images/pasekstanu.png"));
 		
-		cennik.add(lblCennik, cc.xyw(1,1,26));
+		cennik.add(lblCennik, cc.xyw(1,1,27)); 
 		cennik.add(lbl30cm, cc.xy(3,3));
 		cennik.add(lbl40cm, cc.xy(5,3));
 		cennik.add(lbl50cm, cc.xy(7,3));
-		cennik.add(lblSzukaj, cc.xyw(10,5,14));
-		cennik.add(btnOK, cc.xy(24,5));
-		cennik.add(lblNumerPizzy, cc.xywh(11,8,5,2));
-		cennik.add(lblRozmiarPizzy, cc.xywh(11,13,6,2));
-		cennik.add(lblLiczbaPizz, cc.xywh(11,18,4,2));
-		cennik.add(lblSos, cc.xyw(11,23,2));
-		cennik.add(lblWprowadzNumer, cc.xywh(20,7,4,4));
-		cennik.add(lblWprowadzLiczbe, cc.xywh(20,17,4,4));
-		cennik.add(btnDodaj, cc.xyw(13,26,5));
-		cennik.add(btnAnuluj, cc.xyw(13,31,5));
-		cennik.add(scrollPane, cc.xywh(10,28,15,2));
-		cennik.add(lblPasekStanu, cc.xywh(1,33,26,3));
+		cennik.add(lblSzukaj, cc.xyw(11,5,14));
+		cennik.add(btnOK, cc.xy(25,5));
+		cennik.add(lblNumerPizzy, cc.xywh(12,8,5,2));
+		cennik.add(lblRozmiarPizzy, cc.xywh(12,13,6,2));
+		cennik.add(lblLiczbaPizz, cc.xywh(12,18,4,2));
+		cennik.add(lblSos, cc.xyw(12,23,2));
+		cennik.add(lblWprowadzNumer, cc.xywh(21,7,4,4));
+		cennik.add(lblWprowadzLiczbe, cc.xywh(21,17,4,4));
+		cennik.add(btnDodaj, cc.xyw(14,26,5));
+		cennik.add(btnAnuluj, cc.xyw(14,31,5));
+		cennik.add(scrollPane, cc.xywh(11,28,15,2)); 
+		cennik.add(scrollPane2,cc.xywh(2, 5, 7, 27)); 
+		cennik.add(lblPasekStanu, cc.xywh(1,33,27,3)); 
 		
 		return cennik;
 	}

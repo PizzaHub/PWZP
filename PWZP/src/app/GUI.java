@@ -20,7 +20,7 @@ import com.jgoodies.forms.layout.FormLayout;
 /** 
 * Program do wspomagania zarządzaniem pizzerią
 * Klasa GUI definiująca okno aplikacji	 	
-* @version 1.0	23/03/2015
+* @version 1.0	29/03/2015
 */
 public class GUI extends JFrame implements ActionListener{
 	JScrollPane scrollPane, scrollPane2;
@@ -50,6 +50,9 @@ public class GUI extends JFrame implements ActionListener{
 	private JButton btnOK, btnDodaj, btnAnuluj;
 	private JTextField txtSzukaj, txtWprowadzNumer, txtWprowadzLiczbe;
 	private JTextArea txtaZamowienie;
+	ComboBox customCombobox, customCombobox2;
+	private String[] listaRozmiarow = {"30cm", "40cm", "50cm"};
+	private String[] listaSosow = {"Brak", "Czosnkowy", "Ostry"};
 	
 	/**
 	 * Konstruktor bezparametrowy klasy GUI
@@ -62,7 +65,6 @@ public class GUI extends JFrame implements ActionListener{
 		this.setAlwaysOnTop(true);
 		this.setResizable(false);  
 		this.setVisible(true);
-	
 	}
 	
 	/**
@@ -166,7 +168,7 @@ public class GUI extends JFrame implements ActionListener{
         card5.add(btnAnulujZamowienie4);
         
         panelDolny.add(card1, "card1");
-        panelDolny.add(utworzDrugaKarte(), "card2");
+        panelDolny.add(utworzCennik(), "card2");
         panelDolny.add(card3, "card3");
         panelDolny.add(card4, "card4");
         panelDolny.add(card5, "card5");
@@ -174,10 +176,10 @@ public class GUI extends JFrame implements ActionListener{
         return panelDolny;
 	}
 	
-	private JPanel utworzDrugaKarte() {
+	private JPanel utworzCennik() {
 		FormLayout layout = new FormLayout(
-			"26px, 481px, 41px, 38px, 41px, 39px, 41px, 30px, 30px, 153px, 27px, 33px, 46px, 12px, 10px, 13px, 125px, 48px, 2px, 40px,"
-			+ "9px, 7px, 6px, 14px, 27px, 3px, 24px",
+			"36px, 481px, 41px, 38px, 41px, 39px, 41px, 30px, 30px, 134px, 27px, 33px, 46px, 12px, 10px, 13px, 125px, 48px, 2px, 40px,"
+			+ "9px, 7px, 6px, 14px, 27px, 3px, 33px",
 			"115px, 29px, 17px, 19px, 27px, 32px, 6px, 15px, 2px, 2px, 7px, 6px, 15px, 2px, 2px, 7px, 6px, 15px, 2px, 2px, 7px, "
 			+ "6px, 12px, 7px, 29px, 27px, 20px, 100px, 85px, 21px, 27px, 28px, 17px, 30px, 5px");
 		cennik = new JPanel(layout);
@@ -231,16 +233,27 @@ public class GUI extends JFrame implements ActionListener{
 		lblNumerPizzy=new JLabel("Numer pizzy:");
 		lblNumerPizzy.setFont(new Font("Arial", Font.BOLD, 17));
 
-		
 		lblRozmiarPizzy=new JLabel("Rozmiar pizzy:");
 		lblRozmiarPizzy.setFont(new Font("Arial", Font.BOLD, 17));
 		
+		customCombobox = new ComboBox();
+		customCombobox.setEditable(true);
+		customCombobox.addItem(listaRozmiarow);
+		customCombobox.setUI(ColorArrowUI.createUI(customCombobox));
+		customCombobox.setBorder(line);
+
 		lblLiczbaPizz=new JLabel("Liczba pizz:");
 		lblLiczbaPizz.setFont(new Font("Arial", Font.BOLD, 17));
 		
 		lblSos=new JLabel("Sos:");
 		lblSos.setFont(new Font("Arial", Font.BOLD, 17));
 	
+		customCombobox2 = new ComboBox();
+		customCombobox2.setEditable(true);
+		customCombobox2.addItem(listaSosow);
+		customCombobox2.setUI(ColorArrowUI.createUI(customCombobox2));
+		customCombobox2.setBorder(line);
+
 		Border empty2 = new EmptyBorder(0, 7, 0, 0);
 		CompoundBorder border2 = new CompoundBorder(line, empty2);
 		
@@ -375,8 +388,10 @@ public class GUI extends JFrame implements ActionListener{
 		cennik.add(btnOK, cc.xy(25,5));
 		cennik.add(lblNumerPizzy, cc.xywh(12,8,5,2));
 		cennik.add(lblRozmiarPizzy, cc.xywh(12,13,6,2));
+		cennik.add(customCombobox, cc.xywh(20,12,5,4));
 		cennik.add(lblLiczbaPizz, cc.xywh(12,18,4,2));
 		cennik.add(lblSos, cc.xyw(12,23,2));
+		cennik.add(customCombobox2, cc.xywh(18,22,7,3));
 		cennik.add(lblWprowadzNumer, cc.xywh(21,7,4,4));
 		cennik.add(lblWprowadzLiczbe, cc.xywh(21,17,4,4));
 		cennik.add(btnDodaj, cc.xyw(14,26,5));

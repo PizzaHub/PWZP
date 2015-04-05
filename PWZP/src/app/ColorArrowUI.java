@@ -21,7 +21,7 @@ class ColorArrowUI extends BasicComboBoxUI {
     }
 
     @Override protected JButton createArrowButton() {
-    	JButton btn= new JButton(new ImageIcon("images/a2.png"));
+    	JButton btn= new JButton(new ImageIcon("images/przycisk_lista.png"));
     	btn.setBackground(new Color(0xeaeaeb));
     	btn.setBorder(null);
     	return btn;

@@ -13,14 +13,17 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.table.DefaultTableCellRenderer;
+
+import com.jgoodies.forms.debug.FormDebugPanel;
 import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.CellConstraints.Alignment;
 import com.jgoodies.forms.layout.FormLayout;
 
 
 /** 
 * Program do wspomagania zarządzaniem pizzerią
 * Klasa GUI definiująca okno aplikacji	 	
-* @version 1.0	29/03/2015
+* @version 1.0	04/04/2015
 */
 public class GUI extends JFrame implements ActionListener{
 	JScrollPane scrollPane, scrollPane2;
@@ -34,18 +37,25 @@ public class GUI extends JFrame implements ActionListener{
 	/**
 	 * Zmienne definiujące karty dla menadżera rozkładu
 	 */
+	private JPanel ekranStartowy;
 	private JPanel cennik;
 	
 	/**
 	 * Zmienne definiujące przyciski w kartach
 	 */
-	private JButton btnZamknij, btnZamowzMenu, btnZamowWlasna, btnAnulujZamowienie, btnAnulujZamowienie2, 
+	private JButton btnZamknij, btnMinimalizuj, btnAnulujZamowienie, btnAnulujZamowienie2, 
 	btnAnulujZamowienie3, btnAnulujZamowienie4, btnDostawa, btnDostawa2, btnDodajDoZamowienia, btnPotwierdzenie, btnDrukuj;
+	
+	/**
+	 * Zmienne definiujące komponenty ekranu startowego
+	 */
+	private JButton btnZamowzMenu, btnZamowWlasna;
+	private JLabel lblStartowyLogo, lblMenuImage, lblWlasnaImage, lblPasekStanuEkranStartowy, lblPasekStanuEkranStartowyMin, lblPasekStanuEkranStartowyMin2, lblPasekStanuEkranStartowyMin3, lblPasekStanuEkranStartowyPomoc;
 	
 	/**
 	 * Zmienne definiujące komponenty cennika
 	 */
-	private JLabel lblPasek, lblCennik, lbl30cm, lbl40cm, lbl50cm, lblSzukaj, lblNumerPizzy, lblRozmiarPizzy, lblLiczbaPizz,
+	private JLabel lblPasek, lblPasekMin, lblCennik, lbl30cm, lbl40cm, lbl50cm, lblSzukaj, lblNumerPizzy, lblRozmiarPizzy, lblLiczbaPizz,
 			lblSos, lblWprowadzNumer, lblWprowadzLiczbe, lblPasekStanu;
 	private JButton btnOK, btnDodaj, btnAnuluj;
 	private JTextField txtSzukaj, txtWprowadzNumer, txtWprowadzLiczbe;
@@ -61,6 +71,8 @@ public class GUI extends JFrame implements ActionListener{
 		this.getContentPane().add(utworzPanelDolny(), BorderLayout.CENTER);
 		this.getContentPane().add(utworzPanelGorny(), BorderLayout.NORTH);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		ImageIcon icon = new ImageIcon("images/ico.png");
+		this.setIconImage(icon.getImage());
 		this.setUndecorated(true);
 		this.setAlwaysOnTop(true);
 		this.setResizable(false);  
@@ -72,18 +84,35 @@ public class GUI extends JFrame implements ActionListener{
 	 * @return panel
 	 */
 	private JPanel utworzPanelGorny(){
-		panelGorny= new JPanel();
+		FormLayout layout2 = new FormLayout(
+				"1306px, 29px, 2px, 29px", "19px");
+		panelGorny = new JPanel(layout2);
+		CellConstraints cc = new CellConstraints();	
 		panelGorny.setPreferredSize(new Dimension(1366,19));
-		panelGorny.setLayout(new BorderLayout());
+		lblPasek=new JLabel(new ImageIcon("images/pasek_lewy.png"));
+		lblPasek.setPreferredSize(new Dimension(1307, 19));
+		lblPasekMin = new JLabel(new ImageIcon("images/pasek_prawy.png"));
+		lblPasekMin.setPreferredSize(new Dimension(2,19));
 		
-		lblPasek=new JLabel(new ImageIcon("images/pasek.png"));
+		btnMinimalizuj = new JButton(new ImageIcon("images/minimalizuj.png"));
+		btnMinimalizuj.setOpaque(false);
+		btnMinimalizuj.setFocusable(false);
+		btnMinimalizuj.setBorderPainted(false);
+		
+		btnMinimalizuj.setPreferredSize(new Dimension(29,19));
+		btnMinimalizuj.addActionListener(this);
 		
 		btnZamknij=new JButton(new ImageIcon("images/zamknij.png"));
+		btnZamknij.setOpaque(false);
+		btnZamknij.setFocusable(false);
+		btnZamknij.setBorderPainted(false);
 		btnZamknij.setPreferredSize(new Dimension(29,19));
 		btnZamknij.addActionListener(this);
 		
-		panelGorny.add(lblPasek, BorderLayout.WEST);
-		panelGorny.add(btnZamknij, BorderLayout.EAST);
+		panelGorny.add(lblPasek, cc.xy(1, 1));
+		panelGorny.add(btnMinimalizuj, cc.xy(2, 1));
+		panelGorny.add(lblPasekMin, cc.xy(3, 1));
+		panelGorny.add(btnZamknij, cc.xy(4, 1));
 		
 		return panelGorny;
 	}
@@ -94,21 +123,7 @@ public class GUI extends JFrame implements ActionListener{
 	private JPanel utworzPanelDolny(){
 		panelDolny=new JPanel();
 		panelDolny.setLayout(new CardLayout());
-		
-		JPanel card1 = new JPanel();
-        card1.setBackground(Color.blue);
-        card1.setLayout(new FlowLayout());
-        card1.add(new JLabel("Ekran startowy"));
-        
-        btnZamowzMenu = new JButton("Zamów pizzę z menu");
-        btnZamowzMenu.addActionListener(this);
-        
-        btnZamowWlasna = new JButton("Zamów pizzę według własnego przepisu");
-        btnZamowWlasna.addActionListener(this);
-        
-        card1.add(btnZamowzMenu);
-        card1.add(btnZamowWlasna);
-        
+
         JPanel card2 = new JPanel(); 
         card2.setBackground(Color.WHITE);
         card2.setLayout(new FlowLayout());
@@ -167,7 +182,7 @@ public class GUI extends JFrame implements ActionListener{
         card5.add(btnDostawa2);
         card5.add(btnAnulujZamowienie4);
         
-        panelDolny.add(card1, "card1");
+        panelDolny.add(utworzEkranStartowy(), "card1");
         panelDolny.add(utworzCennik(), "card2");
         panelDolny.add(card3, "card3");
         panelDolny.add(card4, "card4");
@@ -175,7 +190,68 @@ public class GUI extends JFrame implements ActionListener{
         
         return panelDolny;
 	}
-	
+	/**
+	 * Metoda tworząca Ekran Starowy
+	 * @return ekranStartowy
+	 */
+	private JPanel utworzEkranStartowy(){
+		FormLayout layout3 = new FormLayout(
+					"36px, 64px, 51px, 123px, 231px, 146px, 70px, 120px, 323px, 102px, 100px", 
+					"115px, 140px, 55px, 22px, 304px, 62px, 12px, 27px, 13px");
+		ekranStartowy = new JPanel(layout3);
+		//ekranStartowy = new FormDebugPanel(layout3);
+		ekranStartowy.setBackground(new Color(0xf2f2f3));
+		CellConstraints cc = new CellConstraints();
+		lblStartowyLogo= new JLabel(new ImageIcon("images/startowy_naglowek.png"));
+		
+		btnZamowzMenu = new JButton(new ImageIcon("images/zamow_z_menu.png"));
+		btnZamowzMenu.setOpaque(false);
+		btnZamowzMenu.setFocusable(false);
+		btnZamowzMenu.setBorderPainted(false);
+		btnZamowzMenu.setPreferredSize(new Dimension(551,65));
+		btnZamowzMenu.addActionListener(this);
+		
+		btnZamowWlasna = new JButton(new ImageIcon("images/zamow_wlasna.png"));
+		btnZamowWlasna.setOpaque(false);
+		btnZamowWlasna.setFocusable(false);
+		btnZamowWlasna.setBorderPainted(false);
+		btnZamowWlasna.setPreferredSize(new Dimension(545,65));
+		btnZamowWlasna.addActionListener(this);
+		
+		lblMenuImage = new JLabel(new ImageIcon("images/pizza_z_menu.png"));
+		lblMenuImage.setPreferredSize(new Dimension(231,304));
+		
+		lblWlasnaImage = new JLabel(new ImageIcon("images/pizza_wlasna.png"));
+		lblWlasnaImage.setPreferredSize(new Dimension(323,304));
+		
+		lblPasekStanuEkranStartowyMin = new JLabel(new ImageIcon("images/pasek_stanu_startowy_lewy.png"));
+		lblPasekStanuEkranStartowyMin.setPreferredSize(new Dimension(36,52));
+		
+		lblPasekStanuEkranStartowyMin2 = new JLabel(new ImageIcon("images/pasek_stanu_startowy_gorny.png"));
+		lblPasekStanuEkranStartowyMin2.setPreferredSize(new Dimension(63, 12));
+		
+		lblPasekStanuEkranStartowyMin3 = new JLabel(new ImageIcon("images/pasek_stanu_startowy_dolny.png"));
+		lblPasekStanuEkranStartowyMin3.setPreferredSize(new Dimension(115, 13));
+
+		lblPasekStanuEkranStartowyPomoc = new JLabel(new ImageIcon("images/pasek_stanu_startowy_pomoc.png"));
+		lblPasekStanuEkranStartowyPomoc.setPreferredSize(new Dimension(115, 27));
+		
+		lblPasekStanuEkranStartowy = new JLabel(new ImageIcon("images/pasek_stanu_startowy_prawy.png"));
+		lblPasekStanuEkranStartowy.setPreferredSize(new Dimension(1215, 52));
+
+		ekranStartowy.add(lblStartowyLogo, cc.xyw(1, 1, 11)); 
+		ekranStartowy.add(btnZamowzMenu, cc.xyw(3, 3, 4));
+		ekranStartowy.add(btnZamowWlasna, cc.xyw(8, 3, 3));
+		ekranStartowy.add(lblMenuImage, cc.xy(5, 5));
+		ekranStartowy.add(lblWlasnaImage, cc.xy(9, 5));
+		ekranStartowy.add(lblPasekStanuEkranStartowyMin, cc.xywh(1, 7, 1, 3));
+		ekranStartowy.add(lblPasekStanuEkranStartowyMin2, cc.xyw(2,7, 2));
+		ekranStartowy.add(lblPasekStanuEkranStartowyMin3, cc.xyw(2, 9, 2));
+		ekranStartowy.add(lblPasekStanuEkranStartowyPomoc, cc.xyw(2, 8, 2));
+		ekranStartowy.add(lblPasekStanuEkranStartowy, cc.xywh(4, 7, 8, 3));
+		
+		return ekranStartowy;
+	}
 	private JPanel utworzCennik() {
 		FormLayout layout = new FormLayout(
 			"36px, 481px, 41px, 38px, 41px, 39px, 41px, 30px, 30px, 134px, 27px, 33px, 46px, 12px, 10px, 13px, 125px, 48px, 2px, 40px,"
@@ -222,11 +298,11 @@ public class GUI extends JFrame implements ActionListener{
 		
 		txtSzukaj.setBorder(border);
 		
-		lblSzukaj=new JLabel(new ImageIcon("images/szukaj.png"));
+		lblSzukaj=new JLabel(new ImageIcon("images/tlo_szukaj.png"));
 		lblSzukaj.setLayout(new BorderLayout());
 		lblSzukaj.add(txtSzukaj);
 		
-		btnOK=new JButton(new ImageIcon("images/ok.png"));
+		btnOK=new JButton(new ImageIcon("images/przycisk_szukaj.png"));
 		btnOK.setPreferredSize(new Dimension(27,27));
 		btnOK.addActionListener(this);
 		
@@ -378,7 +454,7 @@ public class GUI extends JFrame implements ActionListener{
 		btnAnuluj.setPreferredSize(new Dimension(208,27));
 		btnAnuluj.addActionListener(this);
 		
-		lblPasekStanu=new JLabel(new ImageIcon("images/pasekstanu.png"));
+		lblPasekStanu=new JLabel(new ImageIcon("images/pasek_stanu_cennik.png"));
 		
 		cennik.add(lblCennik, cc.xyw(1,1,27)); 
 		cennik.add(lbl30cm, cc.xy(3,3));
@@ -417,14 +493,12 @@ public class GUI extends JFrame implements ActionListener{
 	 * Obsługa zdarzeń 
 	 */
 	@Override
-    
-
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource() == btnZamowzMenu) {
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card2");
 		}
-		else if(arg0.getSource() == btnZamowWlasna) {
+		if(arg0.getSource() == btnZamowWlasna) {
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card5");
 		}
@@ -439,7 +513,10 @@ public class GUI extends JFrame implements ActionListener{
 		else if(arg0.getSource() == btnPotwierdzenie) {
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card4");
-		}	
+		}
+		else if(arg0.getSource() == btnMinimalizuj){
+			this.setState(JFrame.ICONIFIED);
+		}
 		else if(arg0.getSource() == btnZamknij) {
 			dispose();
 		}

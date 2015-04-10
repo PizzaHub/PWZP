@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -13,6 +14,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.table.DefaultTableCellRenderer;
+
+
+import javax.swing.text.MaskFormatter;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import com.jgoodies.forms.debug.FormDebugPanel;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -23,10 +30,10 @@ import com.jgoodies.forms.layout.FormLayout;
 /** 
 * Program do wspomagania zarządzaniem pizzerią
 * Klasa GUI definiująca okno aplikacji	 	
-* @version 1.0	04/04/2015
+* @version 1.0	10/04/2015
 */
 public class GUI extends JFrame implements ActionListener{
-	JScrollPane scrollPane, scrollPane2;
+	JScrollPane scrollPane, scrollPane2, scrollPane3;
 	
 	/**
 	 * Zmienna definiująca tabele cennika
@@ -38,13 +45,14 @@ public class GUI extends JFrame implements ActionListener{
 	 * Zmienne definiujące karty dla menadżera rozkładu
 	 */
 	private JPanel ekranStartowy;
+	private JPanel ekranDostawy;
 	private JPanel cennik;
 	
 	/**
 	 * Zmienne definiujące przyciski w kartach
 	 */
-	private JButton btnZamknij, btnMinimalizuj, btnAnulujZamowienie, btnAnulujZamowienie2, 
-	btnAnulujZamowienie3, btnAnulujZamowienie4, btnDostawa, btnDostawa2, btnDodajDoZamowienia, btnPotwierdzenie, btnDrukuj;
+	private JButton btnZamknij, btnMinimalizuj, btnAnulujZamowienie, 
+	btnAnulujZamowienie3, btnAnulujZamowienie4, btnDostawa, btnDostawa2, btnDrukuj;
 	
 	/**
 	 * Zmienne definiujące komponenty ekranu startowego
@@ -64,6 +72,18 @@ public class GUI extends JFrame implements ActionListener{
 	private String[] listaRozmiarow = {"30cm", "40cm", "50cm"};
 	private String[] listaSosow = {"Brak", "Czosnkowy", "Ostry"};
 	
+	/**
+	 * Zmienne definiujące komponenty ekranu dostawy
+	 */
+	private JButton btnAnulujZamowienie2, btnDodajDoZamowienia, btnPotwierdzenie;
+	private JLabel lblDostawaLogo, lblDostawaText1, lblDostawaText2, lblDostawaText3, 
+	lblDostawaText4, lblDostawaText5, lblDostawaText6,lblDostawaText7, lblDostawaText8, lblPasekStanuEkranDostawy, lblNumerTelefonu
+	,lblMiejscowosc, lblUlica, lblNrBudynku, lblNrMieszkania, lblLacznyKoszt;
+	private JTextField txtMiejscowosc, txtUlica, txtNrBudynku, txtNrMieszkania, txtLacznyKoszt;
+	private JFormattedTextField txtNumerTelefonu;
+	private JTextPane textPane;
+	private String[] listaDostawa = {"Na wynos", "Na miejscu"};
+	ComboBox comboBoxDostawa;
 	/**
 	 * Konstruktor bezparametrowy klasy GUI
 	 */
@@ -124,39 +144,6 @@ public class GUI extends JFrame implements ActionListener{
 		panelDolny=new JPanel();
 		panelDolny.setLayout(new CardLayout());
 
-        JPanel card2 = new JPanel(); 
-        card2.setBackground(Color.WHITE);
-        card2.setLayout(new FlowLayout());
-        card2.add(new JLabel("Cennik"));
-        
-        btnAnulujZamowienie = new JButton("Anuluj zamówienie");
-        btnAnulujZamowienie.addActionListener(this);
-        
-        btnDostawa = new JButton("Wybór sposobu dostawy");
-        btnDostawa.addActionListener(this);
-        
-        card2.add(btnAnulujZamowienie);
-        card2.add(btnDostawa);
- 
-
-        JPanel card3 = new JPanel();
-        card3.setBackground(Color.YELLOW);
-        card3.setLayout(new FlowLayout());
-        card3.add(new JLabel("Wybór sposobu dostawy"));
-        
-        btnDodajDoZamowienia = new JButton("Dodaj do zamówienia");
-        btnDodajDoZamowienia.addActionListener(this);
-        
-        btnPotwierdzenie = new JButton("Potwierdź zamówienie");
-        btnPotwierdzenie.addActionListener(this);
-        
-        btnAnulujZamowienie2 = new JButton("Anuluj zamówienie");
-        btnAnulujZamowienie2.addActionListener(this);
-        
-        card3.add(btnDodajDoZamowienia);
-        card3.add(btnAnulujZamowienie2);
-        card3.add(btnPotwierdzenie);
-        
         JPanel card4 = new JPanel();
         card4.setBackground(Color.ORANGE);
         card4.setLayout(new FlowLayout());
@@ -184,7 +171,7 @@ public class GUI extends JFrame implements ActionListener{
         
         panelDolny.add(utworzEkranStartowy(), "card1");
         panelDolny.add(utworzCennik(), "card2");
-        panelDolny.add(card3, "card3");
+        panelDolny.add(utworzEkranDostway(), "card3");
         panelDolny.add(card4, "card4");
         panelDolny.add(card5, "card5");
         
@@ -199,7 +186,6 @@ public class GUI extends JFrame implements ActionListener{
 					"36px, 64px, 51px, 123px, 231px, 146px, 70px, 120px, 323px, 102px, 100px", 
 					"115px, 140px, 55px, 22px, 304px, 62px, 12px, 27px, 13px");
 		ekranStartowy = new JPanel(layout3);
-		//ekranStartowy = new FormDebugPanel(layout3);
 		ekranStartowy.setBackground(new Color(0xf2f2f3));
 		CellConstraints cc = new CellConstraints();
 		lblStartowyLogo= new JLabel(new ImageIcon("images/startowy_naglowek.png"));
@@ -259,7 +245,6 @@ public class GUI extends JFrame implements ActionListener{
 			"115px, 29px, 17px, 19px, 27px, 32px, 6px, 15px, 2px, 2px, 7px, 6px, 15px, 2px, 2px, 7px, 6px, 15px, 2px, 2px, 7px, "
 			+ "6px, 12px, 7px, 29px, 27px, 20px, 100px, 85px, 21px, 27px, 28px, 17px, 30px, 5px");
 		cennik = new JPanel(layout);
-		//cennik = new FormDebugPanel(layout);
 		cennik.setBackground(new Color(0xf2f2f3));
 		CellConstraints cc = new CellConstraints();
 		
@@ -340,6 +325,7 @@ public class GUI extends JFrame implements ActionListener{
 
 		lblWprowadzNumer=new JLabel(new ImageIcon("images/liczba.png"));
 		lblWprowadzNumer.setLayout(new BorderLayout());
+		lblWprowadzNumer.setPreferredSize(new Dimension(36,25));
 		lblWprowadzNumer.add(txtWprowadzNumer);
 		
 		txtWprowadzLiczbe=new JTextField();
@@ -479,6 +465,161 @@ public class GUI extends JFrame implements ActionListener{
 		return cennik;
 	}
 	
+	private JPanel utworzEkranDostway(){
+		FormLayout layout4 = new FormLayout(
+				"208px, 136px, 9px, 199px, 135px, 182px, 49px, 97px, 14px, 35px, 30px, 32px, 29px, 211px", 
+				"115px, 67px, 25px, 25px, 28px, 25px, 3px, 25px, 3px, 25px, 3px, 25px, 3px, 25px, "
+				+ "60px, 25px, 30px, 27px, 41px, 27px, 27px, 63px, 52px");
+		ekranDostawy = new JPanel(layout4);
+		//ekranDostawy = new FormDebugPanel(layout4);
+		ekranDostawy.setBackground(new Color(0xf2f2f3));
+		CellConstraints cc = new CellConstraints();
+		
+		lblDostawaLogo= new JLabel(new ImageIcon("images/dostawa_naglowek.png"));
+		lblDostawaText1 = new JLabel(new ImageIcon("images/dostawa_text1.png"));
+		lblDostawaText2 = new JLabel(new ImageIcon("images/dostawa_text2.png"));
+		lblDostawaText3 = new JLabel(new ImageIcon("images/dostawa_text3.png"));
+		lblDostawaText4 = new JLabel(new ImageIcon("images/dostawa_text4.png"));
+		lblDostawaText5 = new JLabel(new ImageIcon("images/dostawa_text5.png"));
+		lblDostawaText6 = new JLabel(new ImageIcon("images/dostawa_text6.png"));
+		lblDostawaText7 = new JLabel(new ImageIcon("images/dostawa_text7.png"));
+		lblDostawaText8 = new JLabel(new ImageIcon("images/dostawa_text8.png"));
+		
+		btnAnulujZamowienie2 = new JButton(new ImageIcon("images/anuluj.png"));
+		btnAnulujZamowienie2.addActionListener(this);
+		btnDodajDoZamowienia = new JButton(new ImageIcon("images/dodaj.png"));
+		btnDodajDoZamowienia.addActionListener(this);
+		btnPotwierdzenie = new JButton(new ImageIcon("images/potwierdz.png"));
+		btnPotwierdzenie.addActionListener(this);
+		
+		textPane = new JTextPane();
+		
+		//style dla zawartości textPane
+		StyledDocument doc = textPane.getStyledDocument();
+		SimpleAttributeSet keyWord = new SimpleAttributeSet();
+		StyleConstants.setBold(keyWord, true);
+		StyleConstants.setFontSize(keyWord, new Integer(17));
+		StyleConstants.setLineSpacing(keyWord, 50);
+		SimpleAttributeSet keyWord2 = new SimpleAttributeSet();
+		StyleConstants.setFontSize(keyWord2, new Integer(16));
+		
+		//zawartosc textPane
+		try
+		{
+		    doc.insertString(doc.getLength(), "Margherita\t\t     40cm\t          x1\t          17,80\n", keyWord );
+		    doc.insertString(doc.getLength(), "ser, sos pomidorowy, oregano\n", keyWord2 );
+		    doc.insertString(doc.getLength(), "Sos czosnkowy", keyWord );
+		}
+		catch(Exception e) { System.out.println(e); }
+		
+		textPane.setBackground(new Color(0xeaeaeb));
+		textPane.setMargin(new Insets(8, 11, 0, 11));
+		textPane.setEditable(false);
+	
+		scrollPane3 = new JScrollPane(textPane);
+		
+		//Obramowanie i marginesy
+		Border line = BorderFactory.createLineBorder(new Color(0x939393));
+		Border empty2 = new EmptyBorder(0, 7, 0, 0);
+		CompoundBorder border2 = new CompoundBorder(line, empty2);
+		
+		//Utworzenie maski dla pola tekstowego numer telefonu
+		
+		MaskFormatter mask = null;
+        try {
+            // # ten symbol oznacza miejsce na liczbe
+            mask = new MaskFormatter("###-###-###");
+            mask.setPlaceholderCharacter('_');
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        
+		txtNumerTelefonu=new JFormattedTextField(mask);
+		txtNumerTelefonu.setOpaque(false);
+		txtNumerTelefonu.setBorder(border2);
+		txtNumerTelefonu.setFont(new Font("Arial", Font.PLAIN, 17));
+		
+		lblNumerTelefonu=new JLabel(new ImageIcon("images/tlo_input.png"));
+		lblNumerTelefonu.setLayout(new BorderLayout());
+		lblNumerTelefonu.add(txtNumerTelefonu);
+
+		txtMiejscowosc = new JTextField();
+		txtMiejscowosc.setOpaque(false);
+		txtMiejscowosc.setBorder(border2);
+		txtMiejscowosc.setFont(new Font("Arial", Font.PLAIN, 17));
+		
+		lblMiejscowosc=new JLabel(new ImageIcon("images/tlo_input.png"));
+		lblMiejscowosc.setLayout(new BorderLayout());
+		lblMiejscowosc.add(txtMiejscowosc);
+		
+		txtUlica = new JTextField();
+		txtUlica.setOpaque(false);
+		txtUlica.setBorder(border2);
+		txtUlica.setFont(new Font("Arial", Font.PLAIN, 17));
+		
+		lblUlica=new JLabel(new ImageIcon("images/tlo_input.png"));
+		lblUlica.setLayout(new BorderLayout());
+		lblUlica.add(txtUlica);
+		
+		txtNrBudynku = new JTextField();
+		txtNrBudynku.setOpaque(false);
+		txtNrBudynku.setBorder(border2);
+		txtNrBudynku.setFont(new Font("Arial", Font.PLAIN, 17));
+		
+		lblNrBudynku=new JLabel(new ImageIcon("images/liczba.png"));
+		lblNrBudynku.setLayout(new BorderLayout());
+		lblNrBudynku.add(txtNrBudynku);
+		
+		txtNrMieszkania = new JTextField();
+		txtNrMieszkania.setOpaque(false);
+		txtNrMieszkania.setBorder(border2);
+		txtNrMieszkania.setFont(new Font("Arial", Font.PLAIN, 17));
+		
+		lblNrMieszkania=new JLabel(new ImageIcon("images/liczba.png"));
+		lblNrMieszkania.setLayout(new BorderLayout());
+		lblNrMieszkania.add(txtNrMieszkania);
+		
+		txtLacznyKoszt = new JTextField();
+		txtLacznyKoszt.setOpaque(false);
+		txtLacznyKoszt.setBorder(border2);
+		txtLacznyKoszt.setFont(new Font("Arial", Font.PLAIN, 17));
+		
+		lblLacznyKoszt=new JLabel(new ImageIcon("images/tlo_input2.png"));
+		lblLacznyKoszt.setLayout(new BorderLayout());
+		lblLacznyKoszt.add(txtLacznyKoszt);
+		
+		comboBoxDostawa = new ComboBox();
+		comboBoxDostawa.setEditable(true);
+		comboBoxDostawa.addItem(listaDostawa);
+		comboBoxDostawa.setUI(ColorArrowUI.createUI(customCombobox));
+		comboBoxDostawa.setBorder(line);
+		
+		lblPasekStanuEkranDostawy = new JLabel(new ImageIcon("images/pasek_stanu_dostawa.png"));
+
+		ekranDostawy.add(lblDostawaLogo, cc.xyw(1, 1, 14));
+		ekranDostawy.add(lblDostawaText1, cc.xywh(2, 3, 2, 1));
+		ekranDostawy.add(lblDostawaText2, cc.xywh(7, 4, 2, 1));
+		ekranDostawy.add(lblDostawaText3, cc.xywh(7, 6, 2, 1));
+		ekranDostawy.add(lblDostawaText4, cc.xywh(7, 8, 2, 1));
+		ekranDostawy.add(lblDostawaText5, cc.xywh(7, 10, 2, 1));
+		ekranDostawy.add(lblDostawaText6, cc.xywh(7, 12, 2, 1));
+		ekranDostawy.add(lblDostawaText7, cc.xywh(7, 14, 2, 1));
+		ekranDostawy.add(lblDostawaText8, cc.xywh(7, 16, 5, 1));
+		ekranDostawy.add(btnAnulujZamowienie2, cc.xywh(8, 21, 5, 1));
+		ekranDostawy.add(btnDodajDoZamowienia, cc.xywh(3, 21, 2, 1));
+		ekranDostawy.add(btnPotwierdzenie, cc.xywh(8, 18, 5, 1));
+		ekranDostawy.add(scrollPane3, cc.xywh(2, 4, 4, 16));
+		ekranDostawy.add(lblNumerTelefonu, cc.xywh(10, 6, 4, 1));
+		ekranDostawy.add(lblMiejscowosc, cc.xywh(10, 8, 4, 1));
+		ekranDostawy.add(lblUlica, cc.xywh(10, 10, 4, 1));
+		ekranDostawy.add(lblNrBudynku, cc.xywh(10, 12, 1, 1));
+		ekranDostawy.add(lblNrMieszkania, cc.xywh(10, 14, 1, 1));
+		ekranDostawy.add(lblLacznyKoszt, cc.xywh(12, 16, 2, 1));
+		ekranDostawy.add(comboBoxDostawa, cc.xywh(10, 4, 4, 1));
+		ekranDostawy.add(lblPasekStanuEkranDostawy, cc.xyw(1, 23, 14));
+		
+		return ekranDostawy;
+	}
 	/**
 	 * Metoda uruchomieniowa
 	 * @param args

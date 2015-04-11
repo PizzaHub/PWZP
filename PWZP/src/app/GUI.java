@@ -57,20 +57,21 @@ public class GUI extends JFrame implements ActionListener{
 	/**
 	 * Zmienne definiujące komponenty ekranu startowego
 	 */
-	private JButton btnZamowzMenu, btnZamowWlasna;
-	private JLabel lblStartowyLogo, lblMenuImage, lblWlasnaImage, lblPasekStanuEkranStartowy, lblPasekStanuEkranStartowyMin, lblPasekStanuEkranStartowyMin2, lblPasekStanuEkranStartowyMin3, lblPasekStanuEkranStartowyPomoc;
+	private JButton btnZamowzMenu, btnZamowWlasna, btnPomoc;
+	private JLabel lblStartowyLogo, lblMenuImage, lblWlasnaImage, lblPasekStanuEkranStartowy;
 	
 	/**
 	 * Zmienne definiujące komponenty cennika
 	 */
 	private JLabel lblPasek, lblPasekMin, lblCennik, lbl30cm, lbl40cm, lbl50cm, lblSzukaj, lblNumerPizzy, lblRozmiarPizzy, lblLiczbaPizz,
 			lblSos, lblWprowadzNumer, lblWprowadzLiczbe, lblPasekStanu;
-	private JButton btnOK, btnDodaj, btnAnuluj;
+	private JButton btnOK, btnDodaj, btnAnuluj, btnDostawa3;
 	private JTextField txtSzukaj, txtWprowadzNumer, txtWprowadzLiczbe;
 	private JTextArea txtaZamowienie;
 	ComboBox customCombobox, customCombobox2;
 	private String[] listaRozmiarow = {"30cm", "40cm", "50cm"};
 	private String[] listaSosow = {"Brak", "Czosnkowy", "Ostry"};
+	private String[] kolumny = {"Nazwa", "Rozmiar1","Rozmiar2", "Rozmiar3"};
 	
 	/**
 	 * Zmienne definiujące komponenty ekranu dostawy
@@ -183,9 +184,10 @@ public class GUI extends JFrame implements ActionListener{
 	 */
 	private JPanel utworzEkranStartowy(){
 		FormLayout layout3 = new FormLayout(
-					"36px, 64px, 51px, 123px, 231px, 146px, 70px, 120px, 323px, 102px, 100px", 
-					"115px, 140px, 55px, 22px, 304px, 62px, 12px, 27px, 13px");
+					"36px, 64px, 55px, 119px, 231px, 146px, 70px, 120px, 323px, 102px, 100px", 
+					"115px, 140px, 55px, 22px, 304px, 61px, 14px, 32px, 6px");
 		ekranStartowy = new JPanel(layout3);
+		//ekranStartowy = new FormDebugPanel(layout3);
 		ekranStartowy.setBackground(new Color(0xf2f2f3));
 		CellConstraints cc = new CellConstraints();
 		lblStartowyLogo= new JLabel(new ImageIcon("images/startowy_naglowek.png"));
@@ -210,40 +212,30 @@ public class GUI extends JFrame implements ActionListener{
 		lblWlasnaImage = new JLabel(new ImageIcon("images/pizza_wlasna.png"));
 		lblWlasnaImage.setPreferredSize(new Dimension(323,304));
 		
-		lblPasekStanuEkranStartowyMin = new JLabel(new ImageIcon("images/pasek_stanu_startowy_lewy.png"));
-		lblPasekStanuEkranStartowyMin.setPreferredSize(new Dimension(36,52));
+		lblPasekStanuEkranStartowy = new JLabel(new ImageIcon("images/pasek_stanu_startowy.png"));
+		lblPasekStanuEkranStartowy.setPreferredSize(new Dimension(1366,768));
 		
-		lblPasekStanuEkranStartowyMin2 = new JLabel(new ImageIcon("images/pasek_stanu_startowy_gorny.png"));
-		lblPasekStanuEkranStartowyMin2.setPreferredSize(new Dimension(63, 12));
+		btnPomoc = new JButton(new ImageIcon("images/pomoc.png"));
+		btnPomoc.setPreferredSize(new Dimension(119,32));
+		btnPomoc.setBorder(null);
 		
-		lblPasekStanuEkranStartowyMin3 = new JLabel(new ImageIcon("images/pasek_stanu_startowy_dolny.png"));
-		lblPasekStanuEkranStartowyMin3.setPreferredSize(new Dimension(115, 13));
-
-		lblPasekStanuEkranStartowyPomoc = new JLabel(new ImageIcon("images/pasek_stanu_startowy_pomoc.png"));
-		lblPasekStanuEkranStartowyPomoc.setPreferredSize(new Dimension(115, 27));
-		
-		lblPasekStanuEkranStartowy = new JLabel(new ImageIcon("images/pasek_stanu_startowy_prawy.png"));
-		lblPasekStanuEkranStartowy.setPreferredSize(new Dimension(1215, 52));
-
 		ekranStartowy.add(lblStartowyLogo, cc.xyw(1, 1, 11)); 
 		ekranStartowy.add(btnZamowzMenu, cc.xyw(3, 3, 4));
 		ekranStartowy.add(btnZamowWlasna, cc.xyw(8, 3, 3));
 		ekranStartowy.add(lblMenuImage, cc.xy(5, 5));
 		ekranStartowy.add(lblWlasnaImage, cc.xy(9, 5));
-		ekranStartowy.add(lblPasekStanuEkranStartowyMin, cc.xywh(1, 7, 1, 3));
-		ekranStartowy.add(lblPasekStanuEkranStartowyMin2, cc.xyw(2,7, 2));
-		ekranStartowy.add(lblPasekStanuEkranStartowyMin3, cc.xyw(2, 9, 2));
-		ekranStartowy.add(lblPasekStanuEkranStartowyPomoc, cc.xyw(2, 8, 2));
-		ekranStartowy.add(lblPasekStanuEkranStartowy, cc.xywh(4, 7, 8, 3));
+		ekranStartowy.add(btnPomoc, cc.xyw(2, 8, 2));
+		ekranStartowy.add(lblPasekStanuEkranStartowy, cc.xywh(1, 7, 11, 3));
 		
 		return ekranStartowy;
 	}
 	private JPanel utworzCennik() {
 		FormLayout layout = new FormLayout(
-			"36px, 481px, 41px, 38px, 41px, 39px, 41px, 30px, 30px, 134px, 27px, 33px, 46px, 12px, 10px, 13px, 125px, 48px, 2px, 40px,"
-			+ "9px, 7px, 6px, 14px, 27px, 3px, 33px",
+			"36px, 481px, 41px, 38px, 41px, 39px, 41px, 40px, 30px, 124px, 89px, 13px, 4px, 6px, 58px, 33px, 14px, 27px, 9px, 40px,"
+			+ "21px, 29px, 35px, 14px, 27px, 3px, 33px",
 			"115px, 29px, 17px, 19px, 27px, 32px, 6px, 15px, 2px, 2px, 7px, 6px, 15px, 2px, 2px, 7px, 6px, 15px, 2px, 2px, 7px, "
 			+ "6px, 12px, 7px, 29px, 27px, 20px, 100px, 85px, 21px, 27px, 28px, 17px, 30px, 5px");
+		//cennik = new FormDebugPanel(layout);
 		cennik = new JPanel(layout);
 		cennik.setBackground(new Color(0xf2f2f3));
 		CellConstraints cc = new CellConstraints();
@@ -252,12 +244,15 @@ public class GUI extends JFrame implements ActionListener{
 		
 		lbl30cm=new JLabel("<HTML><U>30cm</U></HTML>");
 		lbl30cm.setFont(new Font("Arial", Font.BOLD, 17));
+		lbl30cm.setForeground(Color.black);
 		
 		lbl40cm=new JLabel("<HTML><U>40cm</U></HTML>");
 		lbl40cm.setFont(new Font("Arial", Font.BOLD, 17));
+		lbl40cm.setForeground(Color.black);
 		
 		lbl50cm=new JLabel("<HTML><U>50cm</U></HTML>");
 		lbl50cm.setFont(new Font("Arial", Font.BOLD, 17));
+		lbl50cm.setForeground(Color.black);
 		
 		txtSzukaj=new JTextField("Szukaj...");
 		txtSzukaj.setOpaque(false);
@@ -278,10 +273,12 @@ public class GUI extends JFrame implements ActionListener{
 
 		//Tworzę obramowanie we właściwym kolorze i ustawiam marginesy.
 		Border line = BorderFactory.createLineBorder(new Color(0x939393));
-		Border empty = new EmptyBorder(0, 9, 0, 0);
-		CompoundBorder border = new CompoundBorder(line, empty);
+		Border line2 = BorderFactory.createEmptyBorder();
+		Border empty = new EmptyBorder(2, 9, 0, 0);
+		CompoundBorder border = new CompoundBorder(line2, empty);
 		
 		txtSzukaj.setBorder(border);
+		txtSzukaj.setFont(new Font("Arial", Font.PLAIN, 17));
 		
 		lblSzukaj=new JLabel(new ImageIcon("images/tlo_szukaj.png"));
 		lblSzukaj.setLayout(new BorderLayout());
@@ -289,6 +286,7 @@ public class GUI extends JFrame implements ActionListener{
 		
 		btnOK=new JButton(new ImageIcon("images/przycisk_szukaj.png"));
 		btnOK.setPreferredSize(new Dimension(27,27));
+		btnOK.setBorder(null);
 		btnOK.addActionListener(this);
 		
 		lblNumerPizzy=new JLabel("Numer pizzy:");
@@ -315,7 +313,7 @@ public class GUI extends JFrame implements ActionListener{
 		customCombobox2.setUI(ColorArrowUI.createUI(customCombobox2));
 		customCombobox2.setBorder(line);
 
-		Border empty2 = new EmptyBorder(0, 7, 0, 0);
+		Border empty2 = new EmptyBorder(2, 7, 0, 0);
 		CompoundBorder border2 = new CompoundBorder(line, empty2);
 		
 		txtWprowadzNumer=new JTextField();
@@ -339,21 +337,19 @@ public class GUI extends JFrame implements ActionListener{
 		
 		btnDodaj=new JButton(new ImageIcon("images/dodaj.png"));
 		btnDodaj.setPreferredSize(new Dimension(208,27));
+		//btnDodaj.setBorder(BorderFactory.createEmptyBorder());
 		btnDodaj.addActionListener(this);
 		
-		
 		txtaZamowienie=new JTextArea();
-		txtaZamowienie.setMargin(new Insets(0,9,0,0));
+		txtaZamowienie.setMargin(new Insets(6,9,0,0));
 		txtaZamowienie.setBackground(new Color(0xeaeaeb));
+		txtaZamowienie.setFont(new Font("Arial", Font.PLAIN, 16));
 		scrollPane=new JScrollPane(txtaZamowienie);
 		
 		Border empty3 = new EmptyBorder(0, 0, 0, 0);
 		CompoundBorder border3 = new CompoundBorder(line, empty3);
 		
 		scrollPane.setBorder(border3);
-		
-		//Tabela Cennik
-		String[] kolumny = {"Nazwa", "Rozmiar1","Rozmiar2", "Rozmiar3"};
 		
 		//Ustawienie czcionki dla zawartosci tabeli cennik
 		FontUIResource font = new FontUIResource("Arial", Font.PLAIN, 17);
@@ -420,6 +416,7 @@ public class GUI extends JFrame implements ActionListener{
 		cennikTabela.getColumn("Rozmiar3").setMaxWidth(70);
 
 		cennikTabela.setBackground(null);
+		cennikTabela.setForeground(Color.black);
 	    cennikTabela.setTableHeader(null);
 	    
 	    //dodanie odpowiednich wysokosci wierszy
@@ -438,7 +435,13 @@ public class GUI extends JFrame implements ActionListener{
 		
 		btnAnuluj=new JButton(new ImageIcon("images/anuluj.png"));
 		btnAnuluj.setPreferredSize(new Dimension(208,27));
+		//btnAnuluj.setBorder(BorderFactory.createEmptyBorder()); 
 		btnAnuluj.addActionListener(this);
+		
+		btnDostawa3=new JButton(new ImageIcon("images/dalej.png"));
+		btnDostawa3.setPreferredSize(new Dimension(44,30));
+		btnDostawa3.setBorder(null);
+		btnDostawa3.addActionListener(this);
 		
 		lblPasekStanu=new JLabel(new ImageIcon("images/pasek_stanu_cennik.png"));
 		
@@ -448,18 +451,19 @@ public class GUI extends JFrame implements ActionListener{
 		cennik.add(lbl50cm, cc.xy(7,3));
 		cennik.add(lblSzukaj, cc.xyw(11,5,14));
 		cennik.add(btnOK, cc.xy(25,5));
-		cennik.add(lblNumerPizzy, cc.xywh(12,8,5,2));
+		cennik.add(lblNumerPizzy, cc.xywh(13,8,5,2));
 		cennik.add(lblRozmiarPizzy, cc.xywh(12,13,6,2));
-		cennik.add(customCombobox, cc.xywh(20,12,5,4));
-		cennik.add(lblLiczbaPizz, cc.xywh(12,18,4,2));
-		cennik.add(lblSos, cc.xyw(12,23,2));
-		cennik.add(customCombobox2, cc.xywh(18,22,7,3));
-		cennik.add(lblWprowadzNumer, cc.xywh(21,7,4,4));
-		cennik.add(lblWprowadzLiczbe, cc.xywh(21,17,4,4));
-		cennik.add(btnDodaj, cc.xyw(14,26,5));
-		cennik.add(btnAnuluj, cc.xyw(14,31,5));
+		cennik.add(customCombobox, cc.xywh(18,12,4,4));
+		cennik.add(lblLiczbaPizz, cc.xywh(15,18,3,2));
+		cennik.add(lblSos, cc.xyw(16,23,2));
+		cennik.add(customCombobox2, cc.xywh(18,22,5,3));
+		cennik.add(lblWprowadzNumer, cc.xywh(18,7,2,4));
+		cennik.add(lblWprowadzLiczbe, cc.xywh(18,17,2,4));
+		cennik.add(btnDodaj, cc.xyw(14,26,8));
+		cennik.add(btnAnuluj, cc.xyw(14,31,8));
 		cennik.add(scrollPane, cc.xywh(11,28,15,2)); 
 		cennik.add(scrollPane2,cc.xywh(2, 5, 7, 27)); 
+		cennik.add(btnDostawa3,cc.xyw(24, 34, 3));
 		cennik.add(lblPasekStanu, cc.xywh(1,33,27,3)); 
 		
 		return cennik;
@@ -520,7 +524,7 @@ public class GUI extends JFrame implements ActionListener{
 		
 		//Obramowanie i marginesy
 		Border line = BorderFactory.createLineBorder(new Color(0x939393));
-		Border empty2 = new EmptyBorder(0, 7, 0, 0);
+		Border empty2 = new EmptyBorder(2, 7, 0, 0);
 		CompoundBorder border2 = new CompoundBorder(line, empty2);
 		
 		//Utworzenie maski dla pola tekstowego numer telefonu
@@ -643,11 +647,14 @@ public class GUI extends JFrame implements ActionListener{
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card5");
 		}
-		else if(arg0.getSource() == btnAnulujZamowienie || arg0.getSource() == btnDodajDoZamowienia || arg0.getSource() == btnDrukuj || arg0.getSource() == btnAnulujZamowienie2 || arg0.getSource() == btnAnulujZamowienie3 || arg0.getSource() == btnAnulujZamowienie4) {
+		else if(arg0.getSource() == btnAnulujZamowienie || arg0.getSource() == btnDodajDoZamowienia || arg0.getSource() == btnDrukuj || 
+				arg0.getSource()==btnAnuluj || arg0.getSource() == btnAnulujZamowienie2 || arg0.getSource() == btnAnulujZamowienie3 || 
+				arg0.getSource() == btnAnulujZamowienie4) {
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card1");
+
 		}
-		else if(arg0.getSource() == btnDostawa || arg0.getSource() == btnDostawa2) {
+		else if(arg0.getSource() == btnDostawa || arg0.getSource() == btnDostawa2 || arg0.getSource() == btnDostawa3) {
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card3");
 		}

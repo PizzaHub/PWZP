@@ -35,9 +35,8 @@ public class ItemEditor extends BasicComboBoxEditor {
 		
 		labelItem.setOpaque(false);
 		labelItem.setHorizontalAlignment(JLabel.LEFT);
-		labelItem.setForeground(Color.BLACK);
-		labelItem.setFont(new Font("Arial", Font.PLAIN, 16));
-		
+		//labelItem.setForeground(Color.BLACK);
+		labelItem.setFont(new Font("Arial", Font.PLAIN, 17));
 		panel.add(labelItem, constraints);
 		panel.setBackground(new Color(0xeaeaeb));	
 	}

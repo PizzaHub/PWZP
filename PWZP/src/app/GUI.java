@@ -1,4 +1,4 @@
-package app;
+﻿package app;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -172,7 +172,7 @@ public class GUI extends JFrame implements ActionListener{
         
         panelDolny.add(utworzEkranStartowy(), "card1");
         panelDolny.add(utworzCennik(), "card2");
-        panelDolny.add(utworzEkranDostway(), "card3");
+        panelDolny.add(utworzEkranDostawy(), "card3");
         panelDolny.add(card4, "card4");
         panelDolny.add(card5, "card5");
         

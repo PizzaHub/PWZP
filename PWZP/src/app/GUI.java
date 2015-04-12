@@ -469,7 +469,7 @@ public class GUI extends JFrame implements ActionListener{
 		return cennik;
 	}
 	
-	private JPanel utworzEkranDostway(){
+	private JPanel utworzEkranDostawy(){
 		FormLayout layout4 = new FormLayout(
 				"208px, 136px, 9px, 199px, 135px, 182px, 49px, 97px, 14px, 35px, 30px, 32px, 29px, 211px", 
 				"115px, 67px, 25px, 25px, 28px, 25px, 3px, 25px, 3px, 25px, 3px, 25px, 3px, 25px, "

@@ -5,7 +5,7 @@ Program wspomagający zarządzanie pizzerią, tworzony w ramach "Projektu Zespo�
 - [madamski](https://github.com/madamski) (1)
 - [danielblokus](https://github.com/danielblokus) (0)
 - [mhamulak](https://github.com/mhamulak) (0)
-- [MichalPawlik](https://github.com/MichalPawlik) (2)
+- <strike>[MichalPawlik](https://github.com/MichalPawlik) (3)</strike>
 
 ## Technologie
 - Java

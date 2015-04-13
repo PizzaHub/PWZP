@@ -30,7 +30,7 @@ import com.jgoodies.forms.layout.FormLayout;
 /** 
 * Program do wspomagania zarządzaniem pizzerią
 * Klasa GUI definiująca okno aplikacji	 	
-* @version 1.0	10/04/2015
+* @version 1.0	13/04/2015
 */
 public class GUI extends JFrame implements ActionListener{
 	JScrollPane scrollPane, scrollPane2, scrollPane3;
@@ -76,7 +76,7 @@ public class GUI extends JFrame implements ActionListener{
 	/**
 	 * Zmienne definiujące komponenty ekranu dostawy
 	 */
-	private JButton btnAnulujZamowienie2, btnDodajDoZamowienia, btnPotwierdzenie;
+	private JButton btnAnulujZamowienie2, btnDodajDoZamowienia, btnPotwierdzenie, btnPotwierdzenie2;
 	private JLabel lblDostawaLogo, lblDostawaText1, lblDostawaText2, lblDostawaText3, 
 	lblDostawaText4, lblDostawaText5, lblDostawaText6,lblDostawaText7, lblDostawaText8, lblPasekStanuEkranDostawy, lblNumerTelefonu
 	,lblMiejscowosc, lblUlica, lblNrBudynku, lblNrMieszkania, lblLacznyKoszt;
@@ -470,10 +470,10 @@ public class GUI extends JFrame implements ActionListener{
 	}
 	
 	private JPanel utworzEkranDostawy(){
-		FormLayout layout4 = new FormLayout(
-				"208px, 136px, 9px, 199px, 135px, 182px, 49px, 97px, 14px, 35px, 30px, 32px, 29px, 211px", 
+		FormLayout layout4 = new FormLayout(                                                              
+				"208px, 136px, 9px, 199px, 135px, 182px, 49px, 97px, 14px, 35px, 30px, 32px, 29px, 134px, 44px, 33px", 
 				"115px, 67px, 25px, 25px, 28px, 25px, 3px, 25px, 3px, 25px, 3px, 25px, 3px, 25px, "
-				+ "60px, 25px, 30px, 27px, 41px, 27px, 27px, 63px, 52px");
+				+ "60px, 25px, 30px, 27px, 41px, 27px, 27px, 63px, 17px, 30px, 5px");																 
 		ekranDostawy = new JPanel(layout4);
 		//ekranDostawy = new FormDebugPanel(layout4);
 		ekranDostawy.setBackground(new Color(0xf2f2f3));
@@ -598,9 +598,15 @@ public class GUI extends JFrame implements ActionListener{
 		comboBoxDostawa.setUI(ColorArrowUI.createUI(customCombobox));
 		comboBoxDostawa.setBorder(line);
 		
+		btnPotwierdzenie2 = new JButton(new ImageIcon("images/dalej.png"));
+		btnPotwierdzenie2.setPreferredSize(new Dimension(44,30));
+		btnPotwierdzenie2.setBorder(null);
+		btnPotwierdzenie2.addActionListener(this);
+		
+		
 		lblPasekStanuEkranDostawy = new JLabel(new ImageIcon("images/pasek_stanu_dostawa.png"));
 
-		ekranDostawy.add(lblDostawaLogo, cc.xyw(1, 1, 14));
+		ekranDostawy.add(lblDostawaLogo, cc.xyw(1, 1, 16));
 		ekranDostawy.add(lblDostawaText1, cc.xywh(2, 3, 2, 1));
 		ekranDostawy.add(lblDostawaText2, cc.xywh(7, 4, 2, 1));
 		ekranDostawy.add(lblDostawaText3, cc.xywh(7, 6, 2, 1));
@@ -620,7 +626,9 @@ public class GUI extends JFrame implements ActionListener{
 		ekranDostawy.add(lblNrMieszkania, cc.xywh(10, 14, 1, 1));
 		ekranDostawy.add(lblLacznyKoszt, cc.xywh(12, 16, 2, 1));
 		ekranDostawy.add(comboBoxDostawa, cc.xywh(10, 4, 4, 1));
-		ekranDostawy.add(lblPasekStanuEkranDostawy, cc.xyw(1, 23, 14));
+		
+		ekranDostawy.add(btnPotwierdzenie2, cc.xy(15, 24));
+		ekranDostawy.add(lblPasekStanuEkranDostawy, cc.xywh(1, 23, 16, 3));
 		
 		return ekranDostawy;
 	}
@@ -647,18 +655,54 @@ public class GUI extends JFrame implements ActionListener{
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card5");
 		}
-		else if(arg0.getSource() == btnAnulujZamowienie || arg0.getSource() == btnDodajDoZamowienia || arg0.getSource() == btnDrukuj || 
-				arg0.getSource()==btnAnuluj || arg0.getSource() == btnAnulujZamowienie2 || arg0.getSource() == btnAnulujZamowienie3 || 
-				arg0.getSource() == btnAnulujZamowienie4) {
+		else if( arg0.getSource() == btnDodajDoZamowienia || arg0.getSource() == btnDrukuj)
+		{
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card1");
 
 		}
+		else if (arg0.getSource() == btnAnulujZamowienie || arg0.getSource()==btnAnuluj || arg0.getSource() == btnAnulujZamowienie2 || arg0.getSource() == btnAnulujZamowienie3 || 
+				arg0.getSource() == btnAnulujZamowienie4)
+		{
+			//czyszczenie zawartosci elementow ekranow
+			txtSzukaj.setText("");
+			txtSzukaj.repaint();
+			txtWprowadzNumer.setText("");
+			txtWprowadzNumer.repaint();
+			txtWprowadzLiczbe.setText("");
+			txtWprowadzLiczbe.repaint();
+			txtaZamowienie.setText("");
+			txtaZamowienie.repaint();
+			textPane.setText("");
+			textPane.repaint();
+			txtNumerTelefonu.setText("");
+			txtNumerTelefonu.setValue(null);
+			txtNumerTelefonu.repaint();
+			customCombobox.getModel().setSelectedItem("30cm");
+			customCombobox2.getModel().setSelectedItem("Brak");
+			comboBoxDostawa.getModel().setSelectedItem("Na wynos");
+			customCombobox.repaint();
+			customCombobox2.repaint();
+			comboBoxDostawa.repaint();
+			txtMiejscowosc.setText("");
+			txtMiejscowosc.repaint();
+			txtUlica.setText("");
+			txtUlica.repaint();
+			txtNrBudynku.setText("");
+			txtNrBudynku.repaint();
+			txtNrMieszkania.setText("");
+			txtNrMieszkania.repaint();
+			txtLacznyKoszt.setText("");
+			txtLacznyKoszt.repaint();
+			
+			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
+            c1.show(panelDolny,"card1");
+	     }
 		else if(arg0.getSource() == btnDostawa || arg0.getSource() == btnDostawa2 || arg0.getSource() == btnDostawa3) {
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card3");
 		}
-		else if(arg0.getSource() == btnPotwierdzenie) {
+		else if(arg0.getSource() == btnPotwierdzenie || arg0.getSource() == btnPotwierdzenie2) {
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card4");
 		}

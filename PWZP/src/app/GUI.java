@@ -30,9 +30,12 @@ import com.jgoodies.forms.layout.FormLayout;
 /** 
 * Program do wspomagania zarządzaniem pizzerią
 * Klasa GUI definiująca okno aplikacji	 	
-* @version 1.0	13/04/2015
+* @version 1.0	15/04/2015
 */
 public class GUI extends JFrame implements ActionListener{
+	/*
+	* Zmienne definujące scrollPane
+	*/
 	JScrollPane scrollPane, scrollPane2, scrollPane3;
 	
 	/**
@@ -102,7 +105,7 @@ public class GUI extends JFrame implements ActionListener{
 	
 	/**
 	 * Metoda tworząca górny panel.
-	 * @return panel
+	 * @return panelGorny
 	 */
 	private JPanel utworzPanelGorny(){
 		FormLayout layout2 = new FormLayout(
@@ -139,7 +142,8 @@ public class GUI extends JFrame implements ActionListener{
 	}
 	
 	/**
-	 * Metoda tworząca karty dla menadżer rozkładu
+	 * Metoda tworząca karty dla menadżera rozkładu
+	 * @return panelDolny;
 	 */
 	private JPanel utworzPanelDolny(){
 		panelDolny=new JPanel();
@@ -169,7 +173,8 @@ public class GUI extends JFrame implements ActionListener{
         
         card5.add(btnDostawa2);
         card5.add(btnAnulujZamowienie4);
-        
+
+        //Dodanie ekranów do penelu dolnego
         panelDolny.add(utworzEkranStartowy(), "card1");
         panelDolny.add(utworzCennik(), "card2");
         panelDolny.add(utworzEkranDostawy(), "card3");
@@ -229,6 +234,10 @@ public class GUI extends JFrame implements ActionListener{
 		
 		return ekranStartowy;
 	}
+	/**
+	 * Metoda tworząca ekran Cennika
+	 * @return cennik
+	 */
 	private JPanel utworzCennik() {
 		FormLayout layout = new FormLayout(
 			"36px, 481px, 41px, 38px, 41px, 39px, 41px, 40px, 30px, 124px, 89px, 13px, 4px, 6px, 58px, 33px, 14px, 27px, 9px, 40px,"
@@ -405,7 +414,7 @@ public class GUI extends JFrame implements ActionListener{
 		cennikTabela.setEnabled(false);
 		cennikTabela.setShowGrid(false);
 		cennikTabela.setIntercellSpacing(new Dimension(0, 0));
-		
+		//ustawienie szerokosci dla kolumn tabeli
 		cennikTabela.getColumn("Nazwa").setMinWidth(481);
 		cennikTabela.getColumn("Nazwa").setMaxWidth(481);
 		cennikTabela.getColumn("Rozmiar1").setMinWidth(80);
@@ -468,7 +477,10 @@ public class GUI extends JFrame implements ActionListener{
 		
 		return cennik;
 	}
-	
+	/**
+	 * Metoda tworząca ekran dostawy
+	 * @return ekranDostawy
+	 */
 	private JPanel utworzEkranDostawy(){
 		FormLayout layout4 = new FormLayout(                                                              
 				"208px, 136px, 9px, 199px, 135px, 182px, 49px, 97px, 14px, 35px, 30px, 32px, 29px, 134px, 44px, 33px", 
@@ -664,7 +676,7 @@ public class GUI extends JFrame implements ActionListener{
 		else if (arg0.getSource() == btnAnulujZamowienie || arg0.getSource()==btnAnuluj || arg0.getSource() == btnAnulujZamowienie2 || arg0.getSource() == btnAnulujZamowienie3 || 
 				arg0.getSource() == btnAnulujZamowienie4)
 		{
-			//czyszczenie zawartosci elementow ekranow
+			//czyszczenie zawartosci elementow w ekranach
 			txtSzukaj.setText("");
 			txtSzukaj.repaint();
 			txtWprowadzNumer.setText("");

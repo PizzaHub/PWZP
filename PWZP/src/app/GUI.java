@@ -1,4 +1,4 @@
-﻿package app;
+package app;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.BorderUIResource.CompoundBorderUIResource;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -30,26 +31,20 @@ import com.jgoodies.forms.layout.FormLayout;
 /** 
 * Program do wspomagania zarządzaniem pizzerią
 * Klasa GUI definiująca okno aplikacji	 	
-* @version 1.0	15/04/2015
+* @version 1.0	13/04/2015
 */
 public class GUI extends JFrame implements ActionListener{
-	/*
-	* Zmienne definujące scrollPane
-	*/
-	JScrollPane scrollPane, scrollPane2, scrollPane3;
-	
 	/**
-	 * Zmienna definiująca tabele cennika
+	 * Zmienne definiujące panele: górny i dolny
 	 */
-	JTable cennikTabela;
+
 	JPanel panelGorny, panelDolny;
 	
 	/**
 	 * Zmienne definiujące karty dla menadżera rozkładu
 	 */
-	private JPanel ekranStartowy;
-	private JPanel ekranDostawy;
-	private JPanel cennik;
+	private JPanel ekranStartowy, cennik, ekranDostawy, ekranZatwierdzaniaZamowienia;
+
 	
 	/**
 	 * Zmienne definiujące przyciski w kartach
@@ -70,11 +65,13 @@ public class GUI extends JFrame implements ActionListener{
 			lblSos, lblWprowadzNumer, lblWprowadzLiczbe, lblPasekStanu;
 	private JButton btnOK, btnDodaj, btnAnuluj, btnDostawa3;
 	private JTextField txtSzukaj, txtWprowadzNumer, txtWprowadzLiczbe;
-	private JTextArea txtaZamowienie;
+	private JTextArea txtrZamowienie;
 	ComboBox customCombobox, customCombobox2;
 	private String[] listaRozmiarow = {"30cm", "40cm", "50cm"};
 	private String[] listaSosow = {"Brak", "Czosnkowy", "Ostry"};
 	private String[] kolumny = {"Nazwa", "Rozmiar1","Rozmiar2", "Rozmiar3"};
+	JScrollPane scrollPane, scrollPane2;
+	JTable cennikTabela;
 	
 	/**
 	 * Zmienne definiujące komponenty ekranu dostawy
@@ -88,6 +85,18 @@ public class GUI extends JFrame implements ActionListener{
 	private JTextPane textPane;
 	private String[] listaDostawa = {"Na wynos", "Na miejscu"};
 	ComboBox comboBoxDostawa;
+	JScrollPane scrollPane3;
+	
+	/**
+	 * Zmienne definiujące komponenty ekrany zatwierdzania zamówienia
+	 */
+	private JLabel lblZatwierdzenieNaglowek, lblPodgladParagonu, lblDaneZamawiajacego, lblSposobDostawy, lblWyswietlSposobDostawy,
+		lblKosztDostawy, lblWyswietlKosztDostawy, lblLacznyKosztZ, lblWyswietlLacznyKosztZ, lblVAT, lblWyswietlVAT, lblPasekStanuZatwierdzanie;
+	private JTextField txtDaneZamawiajacego, txtSposobDostawy, txtKosztDostawy, txtLacznyKosztZ, txtVAT;
+	private JTextArea txtrPodgladParagonu, txtrDaneZamawiajacego;
+	private JButton btnZatwierdz, btnAnulujZ;
+	JScrollPane scrollPane4;
+	
 	/**
 	 * Konstruktor bezparametrowy klasy GUI
 	 */
@@ -142,8 +151,8 @@ public class GUI extends JFrame implements ActionListener{
 	}
 	
 	/**
-	 * Metoda tworząca karty dla menadżera rozkładu
-	 * @return panelDolny;
+	 * Metoda tworząca panel dolny
+	 * @return panelDolny
 	 */
 	private JPanel utworzPanelDolny(){
 		panelDolny=new JPanel();
@@ -173,18 +182,17 @@ public class GUI extends JFrame implements ActionListener{
         
         card5.add(btnDostawa2);
         card5.add(btnAnulujZamowienie4);
-
-        //Dodanie ekranów do penelu dolnego
+        
         panelDolny.add(utworzEkranStartowy(), "card1");
         panelDolny.add(utworzCennik(), "card2");
         panelDolny.add(utworzEkranDostawy(), "card3");
-        panelDolny.add(card4, "card4");
+        panelDolny.add(utworzEkranZatwierdzania(), "card4");
         panelDolny.add(card5, "card5");
         
         return panelDolny;
 	}
 	/**
-	 * Metoda tworząca Ekran Starowy
+	 * Metoda tworząca ekran startowy
 	 * @return ekranStartowy
 	 */
 	private JPanel utworzEkranStartowy(){
@@ -234,8 +242,9 @@ public class GUI extends JFrame implements ActionListener{
 		
 		return ekranStartowy;
 	}
+	
 	/**
-	 * Metoda tworząca ekran Cennika
+	 * Metoda tworząca cennik
 	 * @return cennik
 	 */
 	private JPanel utworzCennik() {
@@ -267,12 +276,9 @@ public class GUI extends JFrame implements ActionListener{
 		txtSzukaj.setOpaque(false);
 		
 		//Dzięki temu po kliknięciu w pole tekstowe jego zawartość jest czyszczona.
-		txtSzukaj.addMouseListener(new MouseAdapter()
-	    {
-	        public void mouseClicked(MouseEvent e)
-	        {
-	            if(txtSzukaj.getText().equals("Szukaj..."))
-	            {
+		txtSzukaj.addMouseListener(new MouseAdapter(){
+	        public void mouseClicked(MouseEvent e){
+	            if(txtSzukaj.getText().equals("Szukaj...")){
 	            	txtSzukaj.setText("");
 	                repaint();
 	                revalidate();
@@ -349,11 +355,11 @@ public class GUI extends JFrame implements ActionListener{
 		//btnDodaj.setBorder(BorderFactory.createEmptyBorder());
 		btnDodaj.addActionListener(this);
 		
-		txtaZamowienie=new JTextArea();
-		txtaZamowienie.setMargin(new Insets(6,9,0,0));
-		txtaZamowienie.setBackground(new Color(0xeaeaeb));
-		txtaZamowienie.setFont(new Font("Arial", Font.PLAIN, 16));
-		scrollPane=new JScrollPane(txtaZamowienie);
+		txtrZamowienie=new JTextArea();
+		txtrZamowienie.setMargin(new Insets(6,9,0,0));
+		txtrZamowienie.setBackground(new Color(0xeaeaeb));
+		txtrZamowienie.setFont(new Font("Arial", Font.PLAIN, 16));
+		scrollPane=new JScrollPane(txtrZamowienie);
 		
 		Border empty3 = new EmptyBorder(0, 0, 0, 0);
 		CompoundBorder border3 = new CompoundBorder(line, empty3);
@@ -414,7 +420,7 @@ public class GUI extends JFrame implements ActionListener{
 		cennikTabela.setEnabled(false);
 		cennikTabela.setShowGrid(false);
 		cennikTabela.setIntercellSpacing(new Dimension(0, 0));
-		//ustawienie szerokosci dla kolumn tabeli
+		
 		cennikTabela.getColumn("Nazwa").setMinWidth(481);
 		cennikTabela.getColumn("Nazwa").setMaxWidth(481);
 		cennikTabela.getColumn("Rozmiar1").setMinWidth(80);
@@ -477,8 +483,9 @@ public class GUI extends JFrame implements ActionListener{
 		
 		return cennik;
 	}
+	
 	/**
-	 * Metoda tworząca ekran dostawy
+	 * Metoda tworząca ekran wyboru sposobu dostawy zamówienia
 	 * @return ekranDostawy
 	 */
 	private JPanel utworzEkranDostawy(){
@@ -520,8 +527,7 @@ public class GUI extends JFrame implements ActionListener{
 		StyleConstants.setFontSize(keyWord2, new Integer(16));
 		
 		//zawartosc textPane
-		try
-		{
+		try{
 		    doc.insertString(doc.getLength(), "Margherita\t\t     40cm\t          x1\t          17,80\n", keyWord );
 		    doc.insertString(doc.getLength(), "ser, sos pomidorowy, oregano\n", keyWord2 );
 		    doc.insertString(doc.getLength(), "Sos czosnkowy", keyWord );
@@ -614,8 +620,7 @@ public class GUI extends JFrame implements ActionListener{
 		btnPotwierdzenie2.setPreferredSize(new Dimension(44,30));
 		btnPotwierdzenie2.setBorder(null);
 		btnPotwierdzenie2.addActionListener(this);
-		
-		
+			
 		lblPasekStanuEkranDostawy = new JLabel(new ImageIcon("images/pasek_stanu_dostawa.png"));
 
 		ekranDostawy.add(lblDostawaLogo, cc.xyw(1, 1, 16));
@@ -637,13 +642,164 @@ public class GUI extends JFrame implements ActionListener{
 		ekranDostawy.add(lblNrBudynku, cc.xywh(10, 12, 1, 1));
 		ekranDostawy.add(lblNrMieszkania, cc.xywh(10, 14, 1, 1));
 		ekranDostawy.add(lblLacznyKoszt, cc.xywh(12, 16, 2, 1));
-		ekranDostawy.add(comboBoxDostawa, cc.xywh(10, 4, 4, 1));
-		
+		ekranDostawy.add(comboBoxDostawa, cc.xywh(10, 4, 4, 1));		
 		ekranDostawy.add(btnPotwierdzenie2, cc.xy(15, 24));
 		ekranDostawy.add(lblPasekStanuEkranDostawy, cc.xywh(1, 23, 16, 3));
 		
 		return ekranDostawy;
 	}
+	
+	/**
+	 * Metoda tworząca ekran zatwierdzania zamówienia
+	 * @return ekranZatwierdzaniaZamowienia
+	 */
+	private JPanel utworzEkranZatwierdzania(){
+		FormLayout layout = new FormLayout(                                                              
+				"27px, 46px, 166px, 147px, 153px, 143px, 32px, 14px, 12px, 11px, 65px, 32px, 14px, 39px, 20px, 38px, 29px, 140px, 238px", 
+				"115px, 71px, 13px, 3px, 4px, 15px, 22px, 28px, 25px, 7px, 25px, 28px, 25px, 7px, 25px, 28px, 27px, 83px, 27px, 119px, 17px, 30px, 5px");																 
+		ekranZatwierdzaniaZamowienia = new JPanel(layout);
+		//ekranZatwierdzaniaZamowienia = new FormDebugPanel(layout);
+		ekranZatwierdzaniaZamowienia.setBackground(new Color(0xf2f2f3));
+		CellConstraints cc = new CellConstraints();		
+		
+		//Nagłówek ekranu zatwierdzania zamówienia
+		lblZatwierdzenieNaglowek=new JLabel(new ImageIcon("images/zatwierdzenie_naglowek.png"));
+		
+		//Podgląd paragonu 
+		lblPodgladParagonu=new JLabel(new ImageIcon("images/podglad_paragonu.png"));
+		
+		txtrPodgladParagonu=new JTextArea();
+		txtrPodgladParagonu.setMargin(new Insets(6,9,0,0));
+		txtrPodgladParagonu.setBackground(new Color(0xeaeaeb));
+		scrollPane4=new JScrollPane(txtrPodgladParagonu);
+		
+		//Obramowanie i marginesy dla komponentów
+		Border line = BorderFactory.createLineBorder(new Color(0x939393));
+		Border empty = new EmptyBorder(2, 7, 0, 0);
+		CompoundBorder border = new CompoundBorder(line, empty);
+		
+		//Dane zamawiającego
+		lblDaneZamawiajacego=new JLabel(new ImageIcon("images/dane_zamawiajacego.png"));
+		
+		txtrDaneZamawiajacego=new JTextArea();
+		txtrDaneZamawiajacego.setEditable(false);
+		txtrDaneZamawiajacego.setBorder(border);
+		txtrDaneZamawiajacego.setMargin(new Insets(6,9,0,0));
+		txtrDaneZamawiajacego.setBackground(new Color(0xeaeaeb));	
+		txtrDaneZamawiajacego.setFont(new Font("Arial", Font.PLAIN, 17));
+		
+		//Sposób dostawy
+		lblSposobDostawy=new JLabel(new ImageIcon("images/sposob_dostawy.png"));
+		
+		txtSposobDostawy=new JTextField();
+		txtSposobDostawy.setOpaque(false);
+		txtSposobDostawy.setBorder(border);
+		txtSposobDostawy.setFont(new Font("Arial", Font.PLAIN, 17));
+		txtSposobDostawy.setEditable(false);
+
+		lblWyswietlSposobDostawy=new JLabel(new ImageIcon("images/tlo_sposob_dostawy.png"));
+		lblWyswietlSposobDostawy.setLayout(new BorderLayout());
+		lblWyswietlSposobDostawy.add(txtSposobDostawy);			
+		
+		//Koszt dostawy
+		lblKosztDostawy=new JLabel(new ImageIcon("images/koszt_dostawy.png"));
+		
+		txtKosztDostawy=new JTextField();
+		txtKosztDostawy.setOpaque(false);
+		txtKosztDostawy.setBorder(border);
+		txtKosztDostawy.setFont(new Font("Arial", Font.PLAIN, 17));
+		txtKosztDostawy.setEditable(false);
+
+		lblWyswietlKosztDostawy=new JLabel(new ImageIcon("images/tlo_koszt_dostawy.png"));
+		lblWyswietlKosztDostawy.setLayout(new BorderLayout());
+		lblWyswietlKosztDostawy.add(txtKosztDostawy);	
+		
+		//Łączny koszt zamówienia
+		lblLacznyKosztZ=new JLabel(new ImageIcon("images/laczny_koszt.png"));
+		
+		txtLacznyKosztZ=new JTextField();
+		txtLacznyKosztZ.setOpaque(false);
+		txtLacznyKosztZ.setBorder(border);
+		txtLacznyKosztZ.setFont(new Font("Arial", Font.PLAIN, 17));
+		txtLacznyKosztZ.setEditable(false);
+
+		lblWyswietlLacznyKosztZ=new JLabel(new ImageIcon("images/tlo_laczny_koszt.png"));
+		lblWyswietlLacznyKosztZ.setLayout(new BorderLayout());
+		lblWyswietlLacznyKosztZ.add(txtLacznyKosztZ);
+		
+		//VAT
+		lblVAT=new JLabel(new ImageIcon("images/vat.png"));
+		
+		txtVAT=new JTextField();
+		txtVAT.setOpaque(false);
+		txtVAT.setBorder(border);
+		txtVAT.setFont(new Font("Arial", Font.PLAIN, 17));
+		txtVAT.setEditable(false);
+
+		lblWyswietlVAT=new JLabel(new ImageIcon("images/tlo_vat.png"));
+		lblWyswietlVAT.setLayout(new BorderLayout());
+		lblWyswietlVAT.add(txtVAT);
+		
+		//Przycisk "Zatwierdź zamówienie"
+		btnZatwierdz=new JButton(new ImageIcon("images/zatwierdz.png"));
+		btnZatwierdz.addActionListener(this);
+		
+		//Przycisk "Anuluj zamówienie"
+		btnAnulujZ=new JButton(new ImageIcon("images/anuluj.png"));
+		btnAnulujZ.addActionListener(this);		
+		
+		//Pasek stanu
+		lblPasekStanuZatwierdzanie=new JLabel(new ImageIcon("images/pasek_stanu_zatwierdzanie.png"));
+		
+		ekranZatwierdzaniaZamowienia.add(lblZatwierdzenieNaglowek, cc.xywh(1,1,19,1));
+		ekranZatwierdzaniaZamowienia.add(lblPodgladParagonu, cc.xywh(4,3,1,2));
+		ekranZatwierdzaniaZamowienia.add(scrollPane4, cc.xywh(4,6,2,14));
+		ekranZatwierdzaniaZamowienia.add(lblDaneZamawiajacego, cc.xywh(7,6,6,1));
+		ekranZatwierdzaniaZamowienia.add(txtrDaneZamawiajacego, cc.xywh(14,4,5,4));
+		ekranZatwierdzaniaZamowienia.add(lblSposobDostawy, cc.xywh(8,9,5,1));
+		ekranZatwierdzaniaZamowienia.add(lblWyswietlSposobDostawy, cc.xywh(14,9,4,1));
+		ekranZatwierdzaniaZamowienia.add(lblKosztDostawy, cc.xywh(9,11,4,1));
+		ekranZatwierdzaniaZamowienia.add(lblWyswietlKosztDostawy, cc.xywh(14,11,2,1));		
+		ekranZatwierdzaniaZamowienia.add(lblLacznyKosztZ, cc.xywh(10,13,3,1));
+		ekranZatwierdzaniaZamowienia.add(lblWyswietlLacznyKosztZ, cc.xywh(14,13,2,1));	
+		ekranZatwierdzaniaZamowienia.add(lblVAT, cc.xy(12,15));
+		ekranZatwierdzaniaZamowienia.add(lblWyswietlVAT, cc.xy(14,15));
+		ekranZatwierdzaniaZamowienia.add(btnZatwierdz, cc.xyw(11,17,6));	
+		ekranZatwierdzaniaZamowienia.add(btnAnulujZ, cc.xyw(11,19,6));	
+		ekranZatwierdzaniaZamowienia.add(lblPasekStanuZatwierdzanie, cc.xywh(1,21,19,3));
+		
+		return ekranZatwierdzaniaZamowienia;
+	}
+	
+	/**
+	 * Metoda odpowiedzialna za czyszczenie zawartości kart
+	 */
+	private void czysc(){
+		txtSzukaj.setText("");
+		txtSzukaj.repaint();
+		txtWprowadzNumer.setText("");
+		txtWprowadzNumer.repaint();
+		txtWprowadzLiczbe.setText("");
+		txtWprowadzLiczbe.repaint();
+		txtrZamowienie.setText("");
+		txtrZamowienie.repaint();
+		textPane.setText("");
+		textPane.repaint();
+		txtNumerTelefonu.setText("");
+		txtNumerTelefonu.repaint();
+		txtMiejscowosc.setText("");
+		txtMiejscowosc.repaint();
+		txtUlica.setText("");
+		txtUlica.repaint();
+		txtNrBudynku.setText("");
+		txtNrBudynku.repaint();
+		txtNrMieszkania.setText("");
+		txtNrMieszkania.repaint();
+		txtLacznyKoszt.setText("");
+		txtLacznyKoszt.repaint();
+	}
+	
+	
 	/**
 	 * Metoda uruchomieniowa
 	 * @param args
@@ -667,46 +823,14 @@ public class GUI extends JFrame implements ActionListener{
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card5");
 		}
-		else if( arg0.getSource() == btnDodajDoZamowienia || arg0.getSource() == btnDrukuj)
-		{
+		else if( arg0.getSource() == btnDodajDoZamowienia || arg0.getSource() == btnDrukuj) {
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card1");
 
 		}
 		else if (arg0.getSource() == btnAnulujZamowienie || arg0.getSource()==btnAnuluj || arg0.getSource() == btnAnulujZamowienie2 || arg0.getSource() == btnAnulujZamowienie3 || 
-				arg0.getSource() == btnAnulujZamowienie4)
-		{
-			//czyszczenie zawartosci elementow w ekranach
-			txtSzukaj.setText("");
-			txtSzukaj.repaint();
-			txtWprowadzNumer.setText("");
-			txtWprowadzNumer.repaint();
-			txtWprowadzLiczbe.setText("");
-			txtWprowadzLiczbe.repaint();
-			txtaZamowienie.setText("");
-			txtaZamowienie.repaint();
-			textPane.setText("");
-			textPane.repaint();
-			txtNumerTelefonu.setText("");
-			txtNumerTelefonu.setValue(null);
-			txtNumerTelefonu.repaint();
-			customCombobox.getModel().setSelectedItem("30cm");
-			customCombobox2.getModel().setSelectedItem("Brak");
-			comboBoxDostawa.getModel().setSelectedItem("Na wynos");
-			customCombobox.repaint();
-			customCombobox2.repaint();
-			comboBoxDostawa.repaint();
-			txtMiejscowosc.setText("");
-			txtMiejscowosc.repaint();
-			txtUlica.setText("");
-			txtUlica.repaint();
-			txtNrBudynku.setText("");
-			txtNrBudynku.repaint();
-			txtNrMieszkania.setText("");
-			txtNrMieszkania.repaint();
-			txtLacznyKoszt.setText("");
-			txtLacznyKoszt.repaint();
-			
+				arg0.getSource() == btnAnulujZamowienie4 || arg0.getSource() == btnAnulujZ) {
+			czysc();
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card1");
 	     }
@@ -718,7 +842,7 @@ public class GUI extends JFrame implements ActionListener{
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card4");
 		}
-		else if(arg0.getSource() == btnMinimalizuj){
+		else if(arg0.getSource() == btnMinimalizuj) {
 			this.setState(JFrame.ICONIFIED);
 		}
 		else if(arg0.getSource() == btnZamknij) {

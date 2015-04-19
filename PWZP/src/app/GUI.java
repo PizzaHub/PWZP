@@ -46,31 +46,31 @@ public class GUI extends JFrame implements ActionListener{
 	Zamowienie zamowienie=new Zamowienie();
 	
 	/**
-	 * Zmienne definiujące panele: górny i dolny
+	 * Deklaracja górnego i dolnego panelu
 	 */
 
 	JPanel panelGorny, panelDolny;
 	
 	/**
-	 * Zmienne definiujące karty dla menadżera rozkładu
+	 * Deklaracja kart dla menadżera rozkładu
 	 */
 	private JPanel ekranStartowy, cennik, ekranDostawy, ekranZatwierdzaniaZamowienia;
 
 	
 	/**
-	 * Zmienne definiujące przyciski w kartach
+	 * Deklaracja przycisków
 	 */
 	private JButton btnZamknij, btnMinimalizuj, btnAnulujZamowienie, 
 	btnAnulujZamowienie3, btnAnulujZamowienie4, btnDostawa, btnDostawa2, btnDrukuj;
 	
 	/**
-	 * Zmienne definiujące komponenty ekranu startowego
+	 * Deklaracja komponentów ekranu startowego
 	 */
 	private JButton btnZamowzMenu, btnZamowWlasna, btnPomoc;
 	private JLabel lblStartowyLogo, lblMenuImage, lblWlasnaImage, lblPasekStanuEkranStartowy;
 	
 	/**
-	 * Zmienne definiujące komponenty cennika
+	 * Deklaracja komponentów cennika
 	 */
 	private JLabel lblPasek, lblPasekMin, lblCennik, lbl30cm, lbl40cm, lbl50cm, lblSzukaj, lblNumerPizzy, lblRozmiarPizzy, lblLiczbaPizz,
 			lblSos, lblWprowadzNumer, lblWprowadzLiczbe, lblPasekStanu;
@@ -86,7 +86,7 @@ public class GUI extends JFrame implements ActionListener{
 	JTable cennikTabela;
 	
 	/**
-	 * Zmienne definiujące komponenty ekranu dostawy
+	 * Deklaracja komponenetów ekranu dostawy
 	 */
 	private JButton btnAnulujZamowienie2, btnDodajDoZamowienia, btnPotwierdzenie, btnPotwierdzenie2, btnCennik;
 	private JLabel lblDostawaLogo, lblDostawaText1, lblDostawaText2, lblDostawaText3, 
@@ -100,7 +100,7 @@ public class GUI extends JFrame implements ActionListener{
 	JScrollPane scrollPane3;
 	
 	/**
-	 * Zmienne definiujące komponenty ekrany zatwierdzania zamówienia
+	 * Deklaracja komponentów ekranu zatwierdzania zamówienia
 	 */
 	private JLabel lblZatwierdzenieNaglowek, lblPodgladParagonu, lblDaneZamawiajacego, lblSposobDostawy, lblWyswietlSposobDostawy,
 		lblKosztDostawy, lblWyswietlKosztDostawy, lblLacznyKosztZ, lblWyswietlLacznyKosztZ, lblVAT, lblWyswietlVAT, lblPasekStanuZatwierdzanie;

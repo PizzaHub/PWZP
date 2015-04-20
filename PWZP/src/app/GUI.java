@@ -247,8 +247,8 @@ public class GUI extends JFrame implements ActionListener{
 		ekranStartowy.add(lblStartowyLogo, cc.xyw(1, 1, 11)); 
 		ekranStartowy.add(btnZamowzMenu, cc.xyw(3, 3, 4));
 		ekranStartowy.add(btnZamowWlasna, cc.xyw(8, 3, 3));
-		ekranStartowy.add(lblMenuImage, cc.xy(5, 5));
-		ekranStartowy.add(lblWlasnaImage, cc.xy(9, 5));
+		ekranStartowy.add(lblMenuImage, cc.xyw(3, 5, 4));
+		ekranStartowy.add(lblWlasnaImage, cc.xyw(8, 5, 3));
 		ekranStartowy.add(btnPomoc, cc.xyw(2, 8, 2));
 		ekranStartowy.add(lblPasekStanuEkranStartowy, cc.xywh(1, 7, 11, 3));
 		

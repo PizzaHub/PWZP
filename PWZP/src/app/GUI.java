@@ -99,7 +99,7 @@ public class GUI extends JFrame implements ActionListener{
 	private JScrollPane scrollPane, scrollPane2;
 	private TableRowSorter<TableModel> sorter;
 	private JTable cennikTabela;
-	private DecimalFormat dec = new DecimalFormat("###.00");
+	private DecimalFormat dec = new DecimalFormat("##0.00");
 	private JTextPane textPane2;
 	private StyledDocument document2;
     
@@ -126,7 +126,7 @@ public class GUI extends JFrame implements ActionListener{
 		lblKosztDostawy, lblWyswietlKosztDostawy, lblLacznyKosztZ, lblWyswietlLacznyKosztZ, lblVAT, lblWyswietlVAT, lblPasekStanuZatwierdzanie;
 	private JTextField txtDaneZamawiajacego, txtSposobDostawy, txtKosztDostawy, txtLacznyKosztZ, txtVAT;
 	private JTextArea txtrPodgladParagonu, txtrDaneZamawiajacego;
-	private JButton btnZatwierdz, btnAnulujZ, btnDostawa4;
+	private JButton btnZatwierdz, btnAnulujZ, btnDostawa4, btnDrukujParagon;
 	private JScrollPane scrollPane4;
 	
 	/**
@@ -576,7 +576,7 @@ public class GUI extends JFrame implements ActionListener{
 	 */
 	private JPanel utworzEkranDostawy(){
 		FormLayout layout4 = new FormLayout(                                                              
-				"27px, 46px, 135px, 136px, 9px, 199px, 135px, 182px, 49px, 97px, 14px, 35px, 30px, 32px, 29px, 134px, 44px, 33px", 
+				"27px, 46px, 135px, 136px, 9px, 199px, 135px, 182px, 49px, 97px, 14px, 35px, 22px, 40px, 29px, 134px, 44px, 33px", 
 				"115px, 67px, 25px, 25px, 28px, 25px, 3px, 25px, 3px, 25px, 3px, 25px, 3px, 25px, "
 				+ "60px, 25px, 30px, 27px, 41px, 27px, 27px, 63px, 17px, 30px, 5px");		
 		CellConstraints cc = new CellConstraints();
@@ -599,8 +599,8 @@ public class GUI extends JFrame implements ActionListener{
 		btnAnulujZamowienie2.addActionListener(this);
 		btnDodajDoZamowienia = new JButton(new ImageIcon("images/dodaj.png"));
 		btnDodajDoZamowienia.addActionListener(this);
-		btnPotwierdzenie = new JButton(new ImageIcon("images/potwierdz.png"));
-		btnPotwierdzenie.addActionListener(this);
+		//btnPotwierdzenie = new JButton(new ImageIcon("images/potwierdz.png"));
+		//btnPotwierdzenie.addActionListener(this);
 		
 		//Twoje zamówienie
 		document = new DefaultStyledDocument();
@@ -689,14 +689,18 @@ public class GUI extends JFrame implements ActionListener{
 		lblNrMieszkania.setLayout(new BorderLayout());
 		lblNrMieszkania.add(txtNrMieszkania);
 		
+		/*
 		txtLacznyKoszt = new JTextField();
 		txtLacznyKoszt.setOpaque(false);
 		txtLacznyKoszt.setBorder(border2);
 		txtLacznyKoszt.setFont(new Font("Arial", Font.PLAIN, 17));
+		*/
 		
-		lblLacznyKoszt=new JLabel(new ImageIcon("images/tlo_input2.png"));
-		lblLacznyKoszt.setLayout(new BorderLayout());
-		lblLacznyKoszt.add(txtLacznyKoszt);
+		lblLacznyKoszt=new JLabel();
+		lblLacznyKoszt.setFont(new Font("Arial", Font.BOLD, 17));
+		lblLacznyKoszt.setForeground(Color.black);
+		//lblLacznyKoszt.setLayout(new BorderLayout());
+		//lblLacznyKoszt.add(txtLacznyKoszt);
 		
 		comboBoxDostawa = new ComboBox();
 		comboBoxDostawa.setEditable(true);
@@ -729,14 +733,14 @@ public class GUI extends JFrame implements ActionListener{
 		ekranDostawy.add(lblDostawaText8, cc.xywh(9, 16, 5, 1));
 		ekranDostawy.add(btnAnulujZamowienie2, cc.xywh(10, 21, 5, 1));
 		ekranDostawy.add(btnDodajDoZamowienia, cc.xywh(5, 21, 2, 1));
-		ekranDostawy.add(btnPotwierdzenie, cc.xywh(10, 18, 5, 1));
+		//ekranDostawy.add(btnPotwierdzenie, cc.xywh(10, 18, 5, 1));
 		ekranDostawy.add(scrollPane3, cc.xywh(4, 4, 4, 16));
 		ekranDostawy.add(lblNumerTelefonu, cc.xywh(12, 6, 4, 1));
 		ekranDostawy.add(lblMiejscowosc, cc.xywh(12, 8, 4, 1));
 		ekranDostawy.add(lblUlica, cc.xywh(12, 10, 4, 1));
 		ekranDostawy.add(lblNrBudynku, cc.xywh(12, 12, 1, 1));
 		ekranDostawy.add(lblNrMieszkania, cc.xywh(12, 14, 1, 1));
-		ekranDostawy.add(lblLacznyKoszt, cc.xywh(14, 16, 2, 1));
+		ekranDostawy.add(lblLacznyKoszt, cc.xywh(14, 16, 2, 1, cc.LEFT, cc.DEFAULT));
 		ekranDostawy.add(comboBoxDostawa, cc.xywh(12, 4, 4, 1));		
 		ekranDostawy.add(btnPotwierdzenie2, cc.xy(17, 24));
 		ekranDostawy.add(btnCennik, cc.xy(2, 24));
@@ -752,11 +756,12 @@ public class GUI extends JFrame implements ActionListener{
 	private JPanel utworzEkranZatwierdzania(){
 		FormLayout layout = new FormLayout(                                                              
 				"27px, 46px, 166px, 147px, 153px, 143px, 32px, 14px, 12px, 11px, 65px, 32px, 14px, 39px, 20px, 38px, 29px, 140px, 238px", 
-				"115px, 71px, 13px, 3px, 4px, 15px, 22px, 28px, 25px, 7px, 25px, 28px, 25px, 7px, 25px, 28px, 27px, 83px, 27px, 119px, 17px, 30px, 5px");																 
+				"115px, 71px, 13px, 3px, 4px, 15px, 22px, 28px, 25px, 7px, 25px, 28px, 25px, 7px, 25px, 28px, 27px, 7px, 27px, 49px, 27px, 119px, 17px, 30px, 5px");																 
+		CellConstraints cc = new CellConstraints();	
+		
 		ekranZatwierdzaniaZamowienia = new JPanel(layout);
 		//ekranZatwierdzaniaZamowienia = new FormDebugPanel(layout);
-		ekranZatwierdzaniaZamowienia.setBackground(new Color(0xf2f2f3));
-		CellConstraints cc = new CellConstraints();		
+		ekranZatwierdzaniaZamowienia.setBackground(new Color(0xf2f2f3));	
 		
 		//Nagłówek ekranu zatwierdzania zamówienia
 		lblZatwierdzenieNaglowek=new JLabel(new ImageIcon("images/zatwierdzenie_naglowek.png"));
@@ -775,7 +780,7 @@ public class GUI extends JFrame implements ActionListener{
 		
 		//Utworzenie tabulatorów dla textPane2
 		TabStop[] tabStops = new TabStop[5];
-		tabStops[0] = new TabStop(185, TabStop.ALIGN_LEFT, TabStop.LEAD_DOTS);
+		tabStops[0] = new TabStop(180, TabStop.ALIGN_LEFT, TabStop.LEAD_DOTS);
 		tabStops[1] = new TabStop(200, TabStop.ALIGN_LEFT, TabStop.LEAD_DOTS);
 		tabStops[2] = new TabStop(205, TabStop.ALIGN_LEFT, TabStop.LEAD_DOTS);
 		tabStops[3] = new TabStop(220, TabStop.ALIGN_LEFT, TabStop.LEAD_DOTS);
@@ -789,8 +794,8 @@ public class GUI extends JFrame implements ActionListener{
 		scrollPane4 = new JScrollPane(textPane2);
 
 		//Obramowanie i marginesy dla komponentów
-		Border line = BorderFactory.createLineBorder(new Color(0x939393));
-		Border empty = new EmptyBorder(2, 7, 0, 0);
+		Border line = BorderFactory.createLineBorder(new Color(0xf2f2f3));
+		Border empty = new EmptyBorder(2, 0, 0, 0);
 		CompoundBorder border = new CompoundBorder(line, empty);
 		
 		//Dane zamawiającego
@@ -799,8 +804,9 @@ public class GUI extends JFrame implements ActionListener{
 		txtrDaneZamawiajacego=new JTextArea();
 		txtrDaneZamawiajacego.setEditable(false);
 		txtrDaneZamawiajacego.setBorder(border);
-		txtrDaneZamawiajacego.setMargin(new Insets(6,9,0,0));
-		txtrDaneZamawiajacego.setBackground(new Color(0xeaeaeb));	
+		txtrDaneZamawiajacego.setMargin(new Insets(6,2,0,0));
+		txtrDaneZamawiajacego.setForeground(Color.black);
+		txtrDaneZamawiajacego.setBackground(new Color(0xf2f2f3));	
 		txtrDaneZamawiajacego.setFont(new Font("Arial", Font.PLAIN, 17));
 		
 		//Sposób dostawy
@@ -809,12 +815,16 @@ public class GUI extends JFrame implements ActionListener{
 		txtSposobDostawy=new JTextField();
 		txtSposobDostawy.setOpaque(false);
 		txtSposobDostawy.setBorder(border);
+		txtSposobDostawy.setBackground(new Color(0xf2f2f3));
+		txtSposobDostawy.setForeground(Color.black);
 		txtSposobDostawy.setFont(new Font("Arial", Font.PLAIN, 17));
 		txtSposobDostawy.setEditable(false);
-
+		
+		/*
 		lblWyswietlSposobDostawy=new JLabel(new ImageIcon("images/tlo_sposob_dostawy.png"));
 		lblWyswietlSposobDostawy.setLayout(new BorderLayout());
 		lblWyswietlSposobDostawy.add(txtSposobDostawy);			
+		*/
 		
 		//Koszt dostawy
 		lblKosztDostawy=new JLabel(new ImageIcon("images/koszt_dostawy.png"));
@@ -822,12 +832,16 @@ public class GUI extends JFrame implements ActionListener{
 		txtKosztDostawy=new JTextField();
 		txtKosztDostawy.setOpaque(false);
 		txtKosztDostawy.setBorder(border);
+		txtKosztDostawy.setBackground(new Color(0xf2f2f3));
+		txtKosztDostawy.setForeground(Color.black);
 		txtKosztDostawy.setFont(new Font("Arial", Font.PLAIN, 17));
 		txtKosztDostawy.setEditable(false);
-
+		
+		/*
 		lblWyswietlKosztDostawy=new JLabel(new ImageIcon("images/tlo_koszt_dostawy.png"));
 		lblWyswietlKosztDostawy.setLayout(new BorderLayout());
 		lblWyswietlKosztDostawy.add(txtKosztDostawy);	
+		*/
 		
 		//Łączny koszt zamówienia
 		lblLacznyKosztZ=new JLabel(new ImageIcon("images/laczny_koszt.png"));
@@ -835,12 +849,16 @@ public class GUI extends JFrame implements ActionListener{
 		txtLacznyKosztZ=new JTextField();
 		txtLacznyKosztZ.setOpaque(false);
 		txtLacznyKosztZ.setBorder(border);
-		txtLacznyKosztZ.setFont(new Font("Arial", Font.PLAIN, 17));
+		txtLacznyKosztZ.setBackground(new Color(0xf2f2f3));
+		txtLacznyKosztZ.setForeground(Color.black);
+		txtLacznyKosztZ.setFont(new Font("Arial", Font.BOLD, 17));
 		txtLacznyKosztZ.setEditable(false);
-
+		
+		/*
 		lblWyswietlLacznyKosztZ=new JLabel(new ImageIcon("images/tlo_laczny_koszt.png"));
 		lblWyswietlLacznyKosztZ.setLayout(new BorderLayout());
 		lblWyswietlLacznyKosztZ.add(txtLacznyKosztZ);
+		*/
 		
 		//VAT
 		lblVAT=new JLabel(new ImageIcon("images/vat.png"));
@@ -848,16 +866,24 @@ public class GUI extends JFrame implements ActionListener{
 		txtVAT=new JTextField();
 		txtVAT.setOpaque(false);
 		txtVAT.setBorder(border);
-		txtVAT.setFont(new Font("Arial", Font.PLAIN, 17));
+		txtVAT.setBackground(new Color(0xf2f2f3));
+		txtVAT.setForeground(Color.black);
+		txtVAT.setFont(new Font("Arial", Font.BOLD, 17));
 		txtVAT.setEditable(false);
-
+		
+		/*
 		lblWyswietlVAT=new JLabel(new ImageIcon("images/tlo_vat.png"));
 		lblWyswietlVAT.setLayout(new BorderLayout());
 		lblWyswietlVAT.add(txtVAT);
+		*/
 		
 		//Przycisk "Zatwierdź zamówienie"
 		btnZatwierdz=new JButton(new ImageIcon("images/zatwierdz.png"));
 		btnZatwierdz.addActionListener(this);
+		
+		//Przycisk "Drukuj paragon"
+		btnDrukujParagon=new JButton(new ImageIcon("images/drukuj.png"));
+		btnDrukujParagon.addActionListener(this);
 		
 		//Przycisk "Anuluj zamówienie"
 		btnAnulujZ=new JButton(new ImageIcon("images/anuluj.png"));
@@ -873,21 +899,22 @@ public class GUI extends JFrame implements ActionListener{
 		
 		ekranZatwierdzaniaZamowienia.add(lblZatwierdzenieNaglowek, cc.xywh(1,1,19,1));
 		ekranZatwierdzaniaZamowienia.add(lblPodgladParagonu, cc.xywh(4,3,1,2));
-		ekranZatwierdzaniaZamowienia.add(scrollPane4, cc.xywh(4,6,2,14));
+		ekranZatwierdzaniaZamowienia.add(scrollPane4, cc.xywh(4,6,2,16));
 		ekranZatwierdzaniaZamowienia.add(lblDaneZamawiajacego, cc.xywh(7,6,6,1));
 		ekranZatwierdzaniaZamowienia.add(txtrDaneZamawiajacego, cc.xywh(14,4,5,4));
 		ekranZatwierdzaniaZamowienia.add(lblSposobDostawy, cc.xywh(8,9,5,1));
-		ekranZatwierdzaniaZamowienia.add(lblWyswietlSposobDostawy, cc.xywh(14,9,4,1));
+		ekranZatwierdzaniaZamowienia.add(txtSposobDostawy, cc.xywh(14,9,4,1));
 		ekranZatwierdzaniaZamowienia.add(lblKosztDostawy, cc.xywh(9,11,4,1));
-		ekranZatwierdzaniaZamowienia.add(lblWyswietlKosztDostawy, cc.xywh(14,11,2,1));		
+		ekranZatwierdzaniaZamowienia.add(txtKosztDostawy, cc.xywh(14,11,2,1));		
 		ekranZatwierdzaniaZamowienia.add(lblLacznyKosztZ, cc.xywh(10,13,3,1));
-		ekranZatwierdzaniaZamowienia.add(lblWyswietlLacznyKosztZ, cc.xywh(14,13,2,1));	
+		ekranZatwierdzaniaZamowienia.add(txtLacznyKosztZ, cc.xywh(14,13,3,1, cc.FILL, cc.DEFAULT));	
 		ekranZatwierdzaniaZamowienia.add(lblVAT, cc.xy(12,15));
-		ekranZatwierdzaniaZamowienia.add(lblWyswietlVAT, cc.xy(14,15));
+		ekranZatwierdzaniaZamowienia.add(txtVAT, cc.xyw(14,15,3, cc.FILL, cc.DEFAULT));
 		ekranZatwierdzaniaZamowienia.add(btnZatwierdz, cc.xyw(11,17,6));	
-		ekranZatwierdzaniaZamowienia.add(btnAnulujZ, cc.xyw(11,19,6));	
-		ekranZatwierdzaniaZamowienia.add(btnDostawa4, cc.xy(2,22));
-		ekranZatwierdzaniaZamowienia.add(lblPasekStanuZatwierdzanie, cc.xywh(1,21,19,3));
+		ekranZatwierdzaniaZamowienia.add(btnDrukujParagon, cc.xyw(11,19,6));
+		ekranZatwierdzaniaZamowienia.add(btnAnulujZ, cc.xyw(11,21,6));	
+		ekranZatwierdzaniaZamowienia.add(btnDostawa4, cc.xy(2,24));
+		ekranZatwierdzaniaZamowienia.add(lblPasekStanuZatwierdzanie, cc.xywh(1,23,19,3));
 		
 		return ekranZatwierdzaniaZamowienia;
 	}
@@ -977,6 +1004,9 @@ public class GUI extends JFrame implements ActionListener{
 		else {
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
 			c1.show(panelDolny,"card4");
+			
+			dialogBlad.dispose();
+			dialogBlad2.dispose();
 		}
 	}
 	/**
@@ -1018,6 +1048,9 @@ public class GUI extends JFrame implements ActionListener{
             txtKosztDostawy.setText(dec.format(kosztDostawy[comboBoxDostawa.getSelectedIndex()]));
             txtLacznyKosztZ.setText(dec.format(buffor.getKosztLaczny()));
             txtVAT.setText(dec.format(buffor.getKosztLaczny()*0.23));
+            
+			dialogBlad.dispose();
+			dialogBlad2.dispose();
 		}
 	}
 	/**
@@ -1048,6 +1081,9 @@ public class GUI extends JFrame implements ActionListener{
 		else {
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card1");
+            
+			dialogBlad.dispose();
+			dialogBlad2.dispose();
 		}
 		}
 	/**
@@ -1118,6 +1154,9 @@ public class GUI extends JFrame implements ActionListener{
 			        //Wyświetlenie wtępnych informacji na podglądzie paragonu: nazwa, adres firmy, data, godzina
 			        zamowienie.wyswietlNaglowekParagonu("PizzaHub sp.z.o.o."+"\n"+"75-453 Koszalin"+"\n"+"ul. Śniadeckich 2"+"\n\n", textPane2);
 			        zamowienie.wyswietlDateNaParagonie(textPane2);
+			        
+			        //Wyświetlenie kosztu zamówienia w cenniku
+			        zamowienie.wyswietlLacznyKoszt(lblWyswietlLacznyKosztZamowienia, buffor.getKosztLaczny(), dec);
 					
 					CardLayout c1 = (CardLayout)(panelDolny.getLayout());
 		            c1.show(panelDolny,"card2");
@@ -1127,8 +1166,6 @@ public class GUI extends JFrame implements ActionListener{
 		            c1.show(panelDolny,"card2");
 				}
 			}
-            
-		
 		if(arg0.getSource() == btnZamowWlasna) {
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card5");
@@ -1151,7 +1188,7 @@ public class GUI extends JFrame implements ActionListener{
 		else if(arg0.getSource() == btnDostawa3) {
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card3");
-            txtLacznyKoszt.setText((dec.format(buffor.getKosztLaczny())));
+            lblLacznyKoszt.setText((dec.format(buffor.getKosztLaczny())));
 		}
 		else if (arg0.getSource()== comboBoxDostawa){
 			blokujWprowadzanieDanych();
@@ -1168,7 +1205,24 @@ public class GUI extends JFrame implements ActionListener{
 		else if(arg0.getSource() == btnDostawa4) {
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card3");
+            
+    		//Czyszczenie danych zamawiającego
+    		txtrDaneZamawiajacego.setText("");
+    		txtrDaneZamawiajacego.repaint();
+    		
+    		//Czyszczenie sposobu i kosztu dostawy
+    		txtSposobDostawy.setText("");
+    		txtSposobDostawy.repaint();
+    		txtKosztDostawy.setText("");
+    		txtKosztDostawy.repaint();
+    		
+    		//Czyszczenie łącznego kosztu zamówienia i VAT
+    		txtLacznyKosztZ.setText("");
+    		txtLacznyKosztZ.repaint();
+    		txtVAT.setText("");
+    		txtVAT.repaint();
 		}
+		/*
 		else if(arg0.getSource() == btnPotwierdzenie) {
 			if 	(comboBoxDostawa.getSelectedItem() == "Na miejscu" || comboBoxDostawa.getSelectedItem()=="Na wynos"){
 				CardLayout c1 = (CardLayout)(panelDolny.getLayout());
@@ -1178,6 +1232,7 @@ public class GUI extends JFrame implements ActionListener{
 			utworzOknoBledu();
 			}
 		}
+		*/
 		else if(arg0.getSource() == btnPotwierdzenie2) {
 			if 	(comboBoxDostawa.getSelectedItem() == "Na miejscu" || comboBoxDostawa.getSelectedItem()=="Na wynos"){
 				CardLayout c1 = (CardLayout)(panelDolny.getLayout());

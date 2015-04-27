@@ -67,7 +67,7 @@ class Dialog extends JDialog implements ActionListener {
 	 */
 	public Dialog(){
 		this.setSize(322,235);
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);	
+		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);	
 		this.getContentPane().add(utworzPanelCentralny(), BorderLayout.CENTER);
 		setModal(true);
 		this.setLocationRelativeTo(null);
@@ -185,6 +185,7 @@ class Dialog extends JDialog implements ActionListener {
 			//System.out.println(buffor.getKosztLaczny());
 			
 			this.dispose();	
+			dialogBlad.dispose();
 		}
 	}
 	

@@ -133,6 +133,7 @@ public class GUI extends JFrame implements ActionListener{
 	 * Deklaracja zmiennych dla okna błędu wprowadzania znaków
 	 */
 	Pattern pattern, pattern2;
+	private static final String POLSKIE_ZNAKI = "^[\\p{L}*]+";
     Matcher matcherNrBudynku, matcherNrMieszkania, matcherMiejscowosc, matcherUlica;
     JOptionPane optionPane = new JOptionPane("Wprowadź poprawną wartość",0);
     JOptionPane optionPane2 = new JOptionPane("Wprowadź poprawną wartość",0);
@@ -981,7 +982,7 @@ public class GUI extends JFrame implements ActionListener{
 	 */
 	private void utworzOknoBledu(){
 		pattern = Pattern.compile(".*[^0-9].*");
-		pattern2 = Pattern.compile("^[A-Za-z]+$");
+		pattern2 = Pattern.compile(POLSKIE_ZNAKI, Pattern.CANON_EQ |Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 		matcherMiejscowosc = pattern2.matcher(txtMiejscowosc.getText());
 		matcherUlica = pattern2.matcher(txtUlica.getText());
         matcherNrMieszkania = pattern.matcher(txtNrMieszkania.getText());
@@ -1002,11 +1003,20 @@ public class GUI extends JFrame implements ActionListener{
 			txtUlica.setText("");
 		}
 		else {
-			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
-			c1.show(panelDolny,"card4");
-			
-			dialogBlad.dispose();
-			dialogBlad2.dispose();
+			/*Wyświetlenie informacji pobranych z ekranu wyboru stposobu dostawy: dane zamawiającego, sposób dostawy, koszt dostawy,
+            łączny koszt zamówienia, VAT na ekranie zatwierdzanie zamówienia*/
+          buffor.setKosztLaczny(buffor.getKosztLaczny()+kosztDostawy[comboBoxDostawa.getSelectedIndex()]);
+          txtrDaneZamawiajacego.setText("");
+          txtrDaneZamawiajacego.append(txtNumerTelefonu.getText()+"\n"+txtMiejscowosc.getText()+", ul. "+txtUlica.getText()+" "+
+          		txtNrBudynku.getText()+"/"+txtNrMieszkania.getText());
+          txtSposobDostawy.setText(listaDostawa[comboBoxDostawa.getSelectedIndex()]);
+          txtKosztDostawy.setText(dec.format(kosztDostawy[comboBoxDostawa.getSelectedIndex()]));
+          txtLacznyKosztZ.setText(dec.format(buffor.getKosztLaczny()));
+          txtVAT.setText(dec.format(buffor.getKosztLaczny()*0.23));
+          dialogBlad2.dispose();
+		  dialogBlad.dispose();
+		  CardLayout c1 = (CardLayout)(panelDolny.getLayout());
+		  c1.show(panelDolny,"card4");
 		}
 	}
 	/**
@@ -1014,7 +1024,7 @@ public class GUI extends JFrame implements ActionListener{
 	 */
 	private void utworzOknoBledu2(){
 		pattern = Pattern.compile(".*[^0-9].*");
-		pattern2 = Pattern.compile("^[A-Za-z]+$");
+		pattern2 = Pattern.compile(POLSKIE_ZNAKI, Pattern.CANON_EQ |Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 		matcherMiejscowosc = pattern2.matcher(txtMiejscowosc.getText());
 		matcherUlica = pattern2.matcher(txtUlica.getText());
         matcherNrMieszkania = pattern.matcher(txtNrMieszkania.getText());
@@ -1058,7 +1068,7 @@ public class GUI extends JFrame implements ActionListener{
 	 */
 	private void utworzOknoBledu3(){
 		pattern = Pattern.compile(".*[^0-9].*");
-		pattern2 = Pattern.compile("^.*[A-Za-z].*$");
+		pattern2 = Pattern.compile(POLSKIE_ZNAKI, Pattern.CANON_EQ |Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 		matcherMiejscowosc = pattern2.matcher(txtMiejscowosc.getText());
 		matcherUlica = pattern2.matcher(txtUlica.getText());
         matcherNrMieszkania = pattern.matcher(txtNrMieszkania.getText());
@@ -1079,11 +1089,10 @@ public class GUI extends JFrame implements ActionListener{
 			txtUlica.setText("");
 		}
 		else {
+			dialogBlad2.dispose();
+			dialogBlad.dispose();
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card1");
-            
-			dialogBlad.dispose();
-			dialogBlad2.dispose();
 		}
 		}
 	/**
@@ -1235,11 +1244,22 @@ public class GUI extends JFrame implements ActionListener{
 		*/
 		else if(arg0.getSource() == btnPotwierdzenie2) {
 			if 	(comboBoxDostawa.getSelectedItem() == "Na miejscu" || comboBoxDostawa.getSelectedItem()=="Na wynos"){
+				/*Wyświetlenie informacji pobranych z ekranu wyboru stposobu dostawy: dane zamawiającego, sposób dostawy, koszt dostawy,
+	            łączny koszt zamówienia, VAT na ekranie zatwierdzanie zamówienia*/
+	          buffor.setKosztLaczny(buffor.getKosztLaczny()+kosztDostawy[comboBoxDostawa.getSelectedIndex()]);
+	          txtrDaneZamawiajacego.setText("");
+	          txtrDaneZamawiajacego.append(txtNumerTelefonu.getText()+"\n"+txtMiejscowosc.getText()+", ul. "+txtUlica.getText()+" "+
+	          		txtNrBudynku.getText()+"/"+txtNrMieszkania.getText());
+	          txtSposobDostawy.setText(listaDostawa[comboBoxDostawa.getSelectedIndex()]);
+	          txtKosztDostawy.setText(dec.format(kosztDostawy[comboBoxDostawa.getSelectedIndex()]));
+	          txtLacznyKosztZ.setText(dec.format(buffor.getKosztLaczny()));
+	          txtVAT.setText(dec.format(buffor.getKosztLaczny()*0.23));
+	          
 				CardLayout c1 = (CardLayout)(panelDolny.getLayout());
 	            c1.show(panelDolny,"card4");
 			}
-			else if(comboBoxDostawa.getSelectedItem() == "Z dowozem"){
-			utworzOknoBledu2();
+			else if(comboBoxDostawa.getSelectedItem() == "Z dowozem") {
+			utworzOknoBledu();
 			}
 		}
 		else if(arg0.getSource() == btnMinimalizuj) {
@@ -1247,6 +1267,9 @@ public class GUI extends JFrame implements ActionListener{
 		}
 		else if(arg0.getSource() == btnZamknij) {
 			dispose();
+			dialog.dispose();
+			dialogBlad2.dispose();
+			dialogBlad.dispose();
 		}
 		else if(arg0.getSource() == btnOK) {
 			zamowienie.szukajPizzy(sorter, txtSzukaj);

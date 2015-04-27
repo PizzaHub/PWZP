@@ -17,6 +17,8 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -127,6 +129,15 @@ public class GUI extends JFrame implements ActionListener{
 	private JButton btnZatwierdz, btnAnulujZ, btnDostawa4;
 	private JScrollPane scrollPane4;
 	
+	/**
+	 * Deklaracja zmiennych dla okna błędu wprowadzania znaków
+	 */
+	Pattern pattern, pattern2;
+    Matcher matcherNrBudynku, matcherNrMieszkania, matcherMiejscowosc, matcherUlica;
+    JOptionPane optionPane = new JOptionPane("Wprowadź poprawną wartość",0);
+    JOptionPane optionPane2 = new JOptionPane("Wprowadź poprawną wartość",0);
+	JDialog dialogBlad = optionPane.createDialog("Błąd!");
+	JDialog dialogBlad2 = optionPane2.createDialog("Błąd!");
 	
 //*************************************************************************************************************************************
 	
@@ -692,6 +703,8 @@ public class GUI extends JFrame implements ActionListener{
 		comboBoxDostawa.addItem(listaDostawa);
 		comboBoxDostawa.setUI(ColorArrowUI.createUI(comboBoxDostawa));
 		comboBoxDostawa.setBorder(line);
+		comboBoxDostawa.addActionListener(this);
+		comboBoxDostawa.setSelectedItem("Na miejscu");
 		
 		btnPotwierdzenie2 = new JButton(new ImageIcon("images/dalej.png"));
 		btnPotwierdzenie2.setPreferredSize(new Dimension(44,30));
@@ -936,6 +949,143 @@ public class GUI extends JFrame implements ActionListener{
 		txtVAT.repaint();
 	}
 	
+	/**
+	 * Obsługa błędu wprowadzania danych w ekranie dostawy
+	 */
+	private void utworzOknoBledu(){
+		pattern = Pattern.compile(".*[^0-9].*");
+		pattern2 = Pattern.compile("^[A-Za-z]+$");
+		matcherMiejscowosc = pattern2.matcher(txtMiejscowosc.getText());
+		matcherUlica = pattern2.matcher(txtUlica.getText());
+        matcherNrMieszkania = pattern.matcher(txtNrMieszkania.getText());
+        matcherNrBudynku  = pattern.matcher(txtNrBudynku.getText());
+        dialogBlad.setAlwaysOnTop(true);
+        dialogBlad2.setAlwaysOnTop(true);
+
+		if (matcherNrMieszkania.matches()){
+			dialogBlad.setVisible(true);
+	        txtNrMieszkania.setText("");
+		}
+		else if (!matcherMiejscowosc.matches()){
+			dialogBlad2.setVisible(true);
+			txtMiejscowosc.setText("");
+		}
+		else if (!matcherUlica.matches()){
+			dialogBlad2.setVisible(true);
+			txtUlica.setText("");
+		}
+		else {
+			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
+			c1.show(panelDolny,"card4");
+		}
+	}
+	/**
+	 * Obsługa błędu wprowadzania danych w ekranie dostawy
+	 */
+	private void utworzOknoBledu2(){
+		pattern = Pattern.compile(".*[^0-9].*");
+		pattern2 = Pattern.compile("^[A-Za-z]+$");
+		matcherMiejscowosc = pattern2.matcher(txtMiejscowosc.getText());
+		matcherUlica = pattern2.matcher(txtUlica.getText());
+        matcherNrMieszkania = pattern.matcher(txtNrMieszkania.getText());
+        matcherNrBudynku  = pattern.matcher(txtNrBudynku.getText());
+        dialogBlad.setAlwaysOnTop(true);
+        dialogBlad2.setAlwaysOnTop(true);
+
+		if (matcherNrMieszkania.matches()){
+			dialogBlad.setVisible(true);
+	        txtNrMieszkania.setText("");
+		}
+		else if (!matcherMiejscowosc.matches()){
+			dialogBlad2.setVisible(true);
+			txtMiejscowosc.setText("");
+		}
+		else if (!matcherUlica.matches()){
+			dialogBlad2.setVisible(true);
+			txtUlica.setText("");
+		}
+		else {
+			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
+            c1.show(panelDolny,"card4");
+            
+            /*Wyświetlenie informacji pobranych z ekranu wyboru stposobu dostawy: dane zamawiającego, sposób dostawy, koszt dostawy,
+              łączny koszt zamówienia, VAT na ekranie zatwierdzanie zamówienia*/
+            buffor.setKosztLaczny(buffor.getKosztLaczny()+kosztDostawy[comboBoxDostawa.getSelectedIndex()]);
+            txtrDaneZamawiajacego.setText("");
+            txtrDaneZamawiajacego.append(txtNumerTelefonu.getText()+"\n"+txtMiejscowosc.getText()+", ul. "+txtUlica.getText()+" "+
+            		txtNrBudynku.getText()+"/"+txtNrMieszkania.getText());
+            txtSposobDostawy.setText(listaDostawa[comboBoxDostawa.getSelectedIndex()]);
+            txtKosztDostawy.setText(dec.format(kosztDostawy[comboBoxDostawa.getSelectedIndex()]));
+            txtLacznyKosztZ.setText(dec.format(buffor.getKosztLaczny()));
+            txtVAT.setText(dec.format(buffor.getKosztLaczny()*0.23));
+		}
+	}
+	/**
+	 * Obsługa błędu wprowadzania danych w ekranie dostawy
+	 */
+	private void utworzOknoBledu3(){
+		pattern = Pattern.compile(".*[^0-9].*");
+		pattern2 = Pattern.compile("^.*[A-Za-z].*$");
+		matcherMiejscowosc = pattern2.matcher(txtMiejscowosc.getText());
+		matcherUlica = pattern2.matcher(txtUlica.getText());
+        matcherNrMieszkania = pattern.matcher(txtNrMieszkania.getText());
+        matcherNrBudynku  = pattern.matcher(txtNrBudynku.getText());
+        dialogBlad.setAlwaysOnTop(true);
+        dialogBlad2.setAlwaysOnTop(true);
+        
+		if (matcherNrMieszkania.matches()){
+			dialogBlad.setVisible(true);
+	        txtNrMieszkania.setText("");
+		}
+		else if (!matcherMiejscowosc.matches()){
+			dialogBlad2.setVisible(true);
+			txtMiejscowosc.setText("");
+		}
+		else if (!matcherUlica.matches()){
+			dialogBlad2.setVisible(true);
+			txtUlica.setText("");
+		}
+		else {
+			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
+            c1.show(panelDolny,"card1");
+		}
+		}
+	/**
+	 * Blokada pól tekstowych przy wyborze 'Na miejscu' i 'Na wynos'
+	 */
+		private void blokujWprowadzanieDanych(){
+			if (comboBoxDostawa.getSelectedItem() == "Na miejscu" || comboBoxDostawa.getSelectedItem() == "Na wynos"){
+				txtNrMieszkania.setEnabled(false);
+				txtNrBudynku.setEnabled(false);
+				txtUlica.setEnabled(false);
+				txtMiejscowosc.setEnabled(false);
+				txtNumerTelefonu.setEnabled(false);
+				txtNumerTelefonu.setText("");
+				txtNumerTelefonu.setValue(null);
+				txtNumerTelefonu.repaint();
+				txtMiejscowosc.setText("");
+				txtMiejscowosc.repaint();		
+				txtUlica.setText("");
+				txtUlica.repaint();
+				txtNrBudynku.setText("");
+				txtNrBudynku.repaint();
+				txtNrMieszkania.setText("");
+				txtNrMieszkania.repaint();
+			}
+			else {
+				txtNrMieszkania.setEnabled(true);
+				txtNrBudynku.setEnabled(true);
+				txtUlica.setEnabled(true);
+				txtMiejscowosc.setEnabled(true);
+				txtNumerTelefonu.setEnabled(true);
+				txtMiejscowosc.repaint();		
+				txtNrMieszkania.repaint();
+				txtNrBudynku.repaint();
+				txtUlica.repaint();
+				txtNumerTelefonu.repaint();
+
+			}
+		}
 	
 //*************************************************************************************************************************************
 		
@@ -962,21 +1112,28 @@ public class GUI extends JFrame implements ActionListener{
             c1.show(panelDolny,"card2");
 		}
 		else if(arg0.getSource() == btnZamowzMenu) {
-	        paragon=1;
-	        
-	        //Wyświetlenie wtępnych informacji na podglądzie paragonu: nazwa, adres firmy, data, godzina
-	        zamowienie.wyswietlNaglowekParagonu("PizzaHub sp.z.o.o."+"\n"+"75-453 Koszalin"+"\n"+"ul. Śniadeckich 2"+"\n\n", textPane2);
-	        zamowienie.wyswietlDateNaParagonie(textPane2);
-			
-			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
-            c1.show(panelDolny,"card2");
+				if(paragon==0){
+					paragon=1;
+					
+			        //Wyświetlenie wtępnych informacji na podglądzie paragonu: nazwa, adres firmy, data, godzina
+			        zamowienie.wyswietlNaglowekParagonu("PizzaHub sp.z.o.o."+"\n"+"75-453 Koszalin"+"\n"+"ul. Śniadeckich 2"+"\n\n", textPane2);
+			        zamowienie.wyswietlDateNaParagonie(textPane2);
+					
+					CardLayout c1 = (CardLayout)(panelDolny.getLayout());
+		            c1.show(panelDolny,"card2");
+				}
+				else{
+					CardLayout c1 = (CardLayout)(panelDolny.getLayout());
+		            c1.show(panelDolny,"card2");
+				}
+			}
             
-		}
+		
 		if(arg0.getSource() == btnZamowWlasna) {
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card5");
 		}
-		else if( arg0.getSource() == btnDodajDoZamowienia || arg0.getSource() == btnDrukuj) {
+		else if(arg0.getSource() == btnDrukuj) {
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card1");
 		}
@@ -996,29 +1153,39 @@ public class GUI extends JFrame implements ActionListener{
             c1.show(panelDolny,"card3");
             txtLacznyKoszt.setText((dec.format(buffor.getKosztLaczny())));
 		}
+		else if (arg0.getSource()== comboBoxDostawa){
+			blokujWprowadzanieDanych();
+		}
+		else if (arg0.getSource() == btnDodajDoZamowienia){
+			if 	(comboBoxDostawa.getSelectedItem() == "Na miejscu" || comboBoxDostawa.getSelectedItem()=="Na wynos"){
+				CardLayout c1 = (CardLayout)(panelDolny.getLayout());
+	            c1.show(panelDolny,"card1");
+			}
+			else if(comboBoxDostawa.getSelectedItem() == "Z dowozem"){
+			utworzOknoBledu3();
+			}
+		}
 		else if(arg0.getSource() == btnDostawa4) {
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card3");
 		}
 		else if(arg0.getSource() == btnPotwierdzenie) {
-			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
-            c1.show(panelDolny,"card4");
+			if 	(comboBoxDostawa.getSelectedItem() == "Na miejscu" || comboBoxDostawa.getSelectedItem()=="Na wynos"){
+				CardLayout c1 = (CardLayout)(panelDolny.getLayout());
+	            c1.show(panelDolny,"card4");
+			}
+			else if(comboBoxDostawa.getSelectedItem() == "Z dowozem") {
+			utworzOknoBledu();
+			}
 		}
 		else if(arg0.getSource() == btnPotwierdzenie2) {
-			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
-            c1.show(panelDolny,"card4");
-            
-            /*Wyświetlenie informacji pobranych z ekranu wyboru stposobu dostawy: dane zamawiającego, sposób dostawy, koszt dostawy,
-              łączny koszt zamówienia, VAT na ekranie zatwierdzanie zamówienia*/
-            buffor.setKosztLaczny(buffor.getKosztLaczny()+kosztDostawy[comboBoxDostawa.getSelectedIndex()]);
-            txtrDaneZamawiajacego.setText("");
-            txtrDaneZamawiajacego.append(txtNumerTelefonu.getText()+"\n"+txtMiejscowosc.getText()+", ul. "+txtUlica.getText()+" "+
-            		txtNrBudynku.getText()+"/"+txtNrMieszkania.getText());
-            txtSposobDostawy.setText(listaDostawa[comboBoxDostawa.getSelectedIndex()]);
-            txtKosztDostawy.setText(dec.format(kosztDostawy[comboBoxDostawa.getSelectedIndex()]));
-            txtLacznyKosztZ.setText(dec.format(buffor.getKosztLaczny()));
-            txtVAT.setText(dec.format(buffor.getKosztLaczny()*0.23));
-            
+			if 	(comboBoxDostawa.getSelectedItem() == "Na miejscu" || comboBoxDostawa.getSelectedItem()=="Na wynos"){
+				CardLayout c1 = (CardLayout)(panelDolny.getLayout());
+	            c1.show(panelDolny,"card4");
+			}
+			else if(comboBoxDostawa.getSelectedItem() == "Z dowozem"){
+			utworzOknoBledu2();
+			}
 		}
 		else if(arg0.getSource() == btnMinimalizuj) {
 			this.setState(JFrame.ICONIFIED);

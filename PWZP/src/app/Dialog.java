@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -50,6 +52,13 @@ class Dialog extends JDialog implements ActionListener {
 	private String[] listaRozmiarow = {"30cm", "40cm", "50cm"};
 	private String[] listaSosow = {"Brak", "Czosnkowy", "Ostry"};
 	
+	/**
+	 * Deklaracja zmiennych dla okna błędu wprowadzania znaków 
+	 */
+	Pattern pattern;
+    Matcher matcherNumerPizzy;
+    JOptionPane optionPane = new JOptionPane("Wprowadź poprawną wartość",0);
+	JDialog dialogBlad = optionPane.createDialog("Błąd!");
 	
 //*************************************************************************************************************************************
 	
@@ -143,21 +152,19 @@ class Dialog extends JDialog implements ActionListener {
 		
 		return panelCentralny;
 	}
-	
-	
-//*************************************************************************************************************************************
 
-	
-	public static void main(String[] args) {
-		new Dialog();
-	}
-	
-	
-//*************************************************************************************************************************************
-
-	//Obsługa zdarzeń
-	public void actionPerformed(ActionEvent arg0) {
-		if(arg0.getSource()==btnDodaj){
+	/**
+	 * Obsługa błędu w ekranie cennik	
+	 */
+	private void utworzOknoBledu(){
+		pattern = Pattern.compile(".*[^0-9].*");
+		matcherNumerPizzy = pattern.matcher(txtWprowadzLiczbePizz.getText());
+        dialogBlad.setAlwaysOnTop(true);
+		if (matcherNumerPizzy.matches()){
+	        dialogBlad.setVisible(true);		
+	        txtWprowadzLiczbePizz.setText("");    
+        }
+		else {
 			buffor.setNazwaPizzy(buffor.dane[buffor.getNumerRzedu()][0]);
 			buffor.setRozmiarPizzy(listaRozmiarow[customCombobox.getSelectedIndex()]);
 			buffor.setLiczbaPizz(Integer.parseInt(txtWprowadzLiczbePizz.getText()));
@@ -177,7 +184,24 @@ class Dialog extends JDialog implements ActionListener {
 			System.out.println(buffor.getKosztElementu());
 			//System.out.println(buffor.getKosztLaczny());
 			
-			this.dispose();
+			this.dispose();	
+		}
+	}
+	
+//*************************************************************************************************************************************
+
+	
+	public static void main(String[] args) {
+		new Dialog();
+	}
+	
+	
+//*************************************************************************************************************************************
+
+	//Obsługa zdarzeń
+	public void actionPerformed(ActionEvent arg0) {
+		if(arg0.getSource()==btnDodaj){
+			utworzOknoBledu();
 		}
 		
 	}

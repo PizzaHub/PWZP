@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,8 +49,9 @@ class Dialog extends JDialog implements ActionListener {
 	 */
 	private JPanel panelCentralny;
 	
-	private JLabel lblNazwaPizzy, lblRozmiarPizzy, lblLiczbaPizz, lblWprowadzLiczbePizz, lblSos, lblKoszt, lblWyswietlKoszt;
-	private JButton btnDodaj;
+	private JLabel lblNaglowek, lblStopka, lblLewo, lblPrawo, lblNazwaPizzy, lblRozmiarPizzy, lblLiczbaPizz, lblWprowadzLiczbePizz, lblSos, 
+		lblKoszt, lblWyswietlKoszt;
+	private JButton btnDodaj, btnZamknij;
 	private JTextField txtWprowadzLiczbePizz;
 	private ComboBox customCombobox, customCombobox2;
 	
@@ -60,8 +63,7 @@ class Dialog extends JDialog implements ActionListener {
 	 */
 	Pattern pattern;
     Matcher matcherNumerPizzy;
-    JOptionPane optionPane = new JOptionPane("Wprowadź poprawną wartość");
-	JDialog dialogBlad = optionPane.createDialog("Błąd!");
+    private Blad blad1;
 	
 //*************************************************************************************************************************************
 	
@@ -69,6 +71,7 @@ class Dialog extends JDialog implements ActionListener {
 	 * Konstruktor bezparametrowy klasy Dialog
 	 */
 	public Dialog(){
+		this.setUndecorated(true);
 		this.setSize(322,235);
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);	
 		this.getContentPane().add(utworzPanelCentralny(), BorderLayout.CENTER);
@@ -76,6 +79,7 @@ class Dialog extends JDialog implements ActionListener {
 		this.setLocationRelativeTo(null);
 		this.setTitle("Pizza");
 		this.setVisible(true);		
+
 	}
 	
 	/**
@@ -86,13 +90,40 @@ class Dialog extends JDialog implements ActionListener {
 		buffor.setDodaj(0);
 		
 		FormLayout layout = new FormLayout(                                                              
-				"30px, 21px, 53px, 32px, 14px, 36px, 38px, 51px, 30px", 
-				"10px, 23px, 20px, 25px, 5px, 25px, 5px, 25px, 20px, 27px, 10px");	
+				"9px, 30px, 21px, 53px, 32px, 14px, 36px, 38px, 51px, 30px, 1px, 7px", 
+				"31px, 10px, 23px, 20px, 25px, 5px, 25px, 5px, 25px, 20px, 27px, 10px, 8px");	
 		CellConstraints cc = new CellConstraints();
 		
 		panelCentralny=new JPanel(layout);
 		//panelCentralny=new FormDebugPanel(layout);
 		panelCentralny.setBackground(new Color(0xf2f2f3));
+		
+		btnZamknij=new JButton(new ImageIcon("images/dialog_zamknij_normal.png"));
+		btnZamknij.addActionListener(this);
+		btnZamknij.addMouseListener(new MouseAdapter()
+        {
+            public void mouseEntered(MouseEvent evt){
+            	btnZamknij.setIcon(new ImageIcon("images/dialog_zamknij_enter.png"));
+            }
+            public void mouseExited(MouseEvent evt){
+            	btnZamknij.setIcon(new ImageIcon("images/dialog_zamknij_normal.png"));
+            }
+            public void mousePressed(MouseEvent evt){
+            	btnZamknij.setIcon(new ImageIcon("images/dialog_zamknij_pressed.png"));
+            }
+            public void mouseReleased(MouseEvent evt){
+            	btnZamknij.setIcon(new ImageIcon("images/dialog_zamknij_normal.png"));
+            }
+        });
+		btnZamknij.setOpaque(false);
+		btnZamknij.setContentAreaFilled(false);
+		btnZamknij.setBorderPainted(false);
+		btnZamknij.setBorder(null);
+		
+		lblNaglowek=new JLabel(new ImageIcon("images/dialog_naglowek.png"));
+		lblStopka=new JLabel(new ImageIcon("images/dialog_stopka.png"));
+		lblLewo=new JLabel(new ImageIcon("images/dialog_ramka_lewa.png"));
+		lblPrawo=new JLabel(new ImageIcon("images/dialog_ramka_prawa.png"));
 		
 		//Obramowanie dla txtWprowadzLiczbePizz
 		Border line = BorderFactory.createLineBorder(new Color(0x939393));
@@ -143,14 +174,20 @@ class Dialog extends JDialog implements ActionListener {
 		btnDodaj.addActionListener(this);
 		btnDodaj.setPreferredSize(new Dimension(208,27));
 		
-		panelCentralny.add(lblNazwaPizzy, cc.xyw(2, 2, 7, cc.CENTER, cc.TOP));
-		panelCentralny.add(lblRozmiarPizzy, cc.xywh(2, 4, 3, 1, cc.FILL, cc.FILL));
-		panelCentralny.add(customCombobox, cc.xyw(6, 4, 2, cc.LEFT, cc.FILL));
-		panelCentralny.add(lblLiczbaPizz, cc.xywh(3, 6, 2, 1, cc.LEFT, cc.CENTER));
-		panelCentralny.add(lblWprowadzLiczbePizz, cc.xyw(6, 6, 1, cc.FILL, cc.FILL));
-		panelCentralny.add(lblSos, cc.xywh(4, 8, 2, 1, cc.LEFT, cc.CENTER));
-		panelCentralny.add(customCombobox2, cc.xyw(6, 8, 3, cc.FILL, cc.FILL));
-		panelCentralny.add(btnDodaj, cc.xyw(2, 10, 7, cc.CENTER, cc.CENTER));
+		panelCentralny.add(btnZamknij, cc.xywh(10, 1, 2, 1, cc.FILL, cc.FILL));
+		panelCentralny.add(lblNaglowek, cc.xywh(1, 1, 12, 1, cc.FILL, cc.FILL));
+		panelCentralny.add(lblStopka, cc.xywh(1, 13, 12, 1, cc.FILL, cc.FILL));
+		panelCentralny.add(lblLewo, cc.xywh(1, 2, 1, 11, cc.FILL, cc.FILL));
+		panelCentralny.add(lblPrawo, cc.xywh(11, 2, 2, 11, cc.FILL, cc.FILL));
+		
+		panelCentralny.add(lblNazwaPizzy, cc.xyw(2, 3, 9, cc.CENTER, cc.TOP));
+		panelCentralny.add(lblRozmiarPizzy, cc.xywh(3, 5, 3, 1, cc.FILL, cc.FILL));
+		panelCentralny.add(customCombobox, cc.xyw(7, 5, 2, cc.LEFT, cc.FILL));
+		panelCentralny.add(lblLiczbaPizz, cc.xywh(4, 7, 2, 1, cc.LEFT, cc.CENTER));
+		panelCentralny.add(lblWprowadzLiczbePizz, cc.xyw(7, 7, 1, cc.FILL, cc.FILL));
+		panelCentralny.add(lblSos, cc.xywh(5, 9, 2, 1, cc.LEFT, cc.CENTER));
+		panelCentralny.add(customCombobox2, cc.xyw(7, 9, 3, cc.FILL, cc.FILL));
+		panelCentralny.add(btnDodaj, cc.xyw(2, 11, 9, cc.CENTER, cc.CENTER));
 		
 		return panelCentralny;
 	}
@@ -161,9 +198,8 @@ class Dialog extends JDialog implements ActionListener {
 	private void utworzOknoBledu(){
 		pattern = Pattern.compile(".*[^0-9].*");
 		matcherNumerPizzy = pattern.matcher(txtWprowadzLiczbePizz.getText());
-        dialogBlad.setAlwaysOnTop(true);
 		if (matcherNumerPizzy.matches()){
-	        dialogBlad.setVisible(true);		
+			blad1=new Blad();	
 	        txtWprowadzLiczbePizz.setText("");    
         }
 		else {
@@ -179,15 +215,7 @@ class Dialog extends JDialog implements ActionListener {
 			
 			buffor.setDodaj(1);
 			
-			//System.out.println(buffor.getNazwaPizzy());
-			//System.out.println(buffor.getRozmiarPizzy());
-			//System.out.println(buffor.getLiczbaPizz());
-			//System.out.println(buffor.getSos());
-			System.out.println(buffor.getKosztElementu());
-			//System.out.println(buffor.getKosztLaczny());
-			
 			this.dispose();	
-			dialogBlad.dispose();
 		}
 	}
 	
@@ -206,6 +234,9 @@ class Dialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource()==btnDodaj){
 			utworzOknoBledu();
+		}
+		else if(arg0.getSource()==btnZamknij){
+			this.dispose();	
 		}
 		
 	}

@@ -19,9 +19,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.ColorUIResource;
 
 import com.jgoodies.forms.debug.FormDebugPanel;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -57,7 +60,7 @@ class Dialog extends JDialog implements ActionListener {
 	 */
 	Pattern pattern;
     Matcher matcherNumerPizzy;
-    JOptionPane optionPane = new JOptionPane("Wprowadź poprawną wartość",0);
+    JOptionPane optionPane = new JOptionPane("Wprowadź poprawną wartość");
 	JDialog dialogBlad = optionPane.createDialog("Błąd!");
 	
 //*************************************************************************************************************************************
@@ -72,7 +75,6 @@ class Dialog extends JDialog implements ActionListener {
 		setModal(true);
 		this.setLocationRelativeTo(null);
 		this.setTitle("Pizza");
-		
 		this.setVisible(true);		
 	}
 	
@@ -193,6 +195,7 @@ class Dialog extends JDialog implements ActionListener {
 
 	
 	public static void main(String[] args) {
+		
 		new Dialog();
 	}
 	

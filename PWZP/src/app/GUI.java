@@ -135,10 +135,8 @@ public class GUI extends JFrame implements ActionListener{
 	Pattern pattern, pattern2;
 	private static final String POLSKIE_ZNAKI = "^[\\p{L}*]+";
     Matcher matcherNrBudynku, matcherNrMieszkania, matcherMiejscowosc, matcherUlica;
-    JOptionPane optionPane = new JOptionPane("Wprowadź poprawną wartość",0);
-    JOptionPane optionPane2 = new JOptionPane("Wprowadź poprawną wartość",0);
+    JOptionPane optionPane = new JOptionPane("Wprowadź poprawną wartość");
 	JDialog dialogBlad = optionPane.createDialog("Błąd!");
-	JDialog dialogBlad2 = optionPane2.createDialog("Błąd!");
 	
 //*************************************************************************************************************************************
 	
@@ -988,18 +986,16 @@ public class GUI extends JFrame implements ActionListener{
         matcherNrMieszkania = pattern.matcher(txtNrMieszkania.getText());
         matcherNrBudynku  = pattern.matcher(txtNrBudynku.getText());
         dialogBlad.setAlwaysOnTop(true);
-        dialogBlad2.setAlwaysOnTop(true);
-
 		if (matcherNrMieszkania.matches()){
 			dialogBlad.setVisible(true);
 	        txtNrMieszkania.setText("");
 		}
 		else if (!matcherMiejscowosc.matches()){
-			dialogBlad2.setVisible(true);
+			dialogBlad.setVisible(true);
 			txtMiejscowosc.setText("");
 		}
 		else if (!matcherUlica.matches()){
-			dialogBlad2.setVisible(true);
+			dialogBlad.setVisible(true);
 			txtUlica.setText("");
 		}
 		else {
@@ -1013,7 +1009,6 @@ public class GUI extends JFrame implements ActionListener{
           txtKosztDostawy.setText(dec.format(kosztDostawy[comboBoxDostawa.getSelectedIndex()]));
           txtLacznyKosztZ.setText(dec.format(buffor.getKosztLaczny()));
           txtVAT.setText(dec.format(buffor.getKosztLaczny()*0.23));
-          dialogBlad2.dispose();
 		  dialogBlad.dispose();
 		  CardLayout c1 = (CardLayout)(panelDolny.getLayout());
 		  c1.show(panelDolny,"card4");
@@ -1030,18 +1025,16 @@ public class GUI extends JFrame implements ActionListener{
         matcherNrMieszkania = pattern.matcher(txtNrMieszkania.getText());
         matcherNrBudynku  = pattern.matcher(txtNrBudynku.getText());
         dialogBlad.setAlwaysOnTop(true);
-        dialogBlad2.setAlwaysOnTop(true);
-
+        dialogBlad.getRootPane().setBackground(Color.GRAY);
 		if (matcherNrMieszkania.matches()){
 			dialogBlad.setVisible(true);
 	        txtNrMieszkania.setText("");
 		}
 		else if (!matcherMiejscowosc.matches()){
-			dialogBlad2.setVisible(true);
 			txtMiejscowosc.setText("");
 		}
 		else if (!matcherUlica.matches()){
-			dialogBlad2.setVisible(true);
+			dialogBlad.setVisible(true);
 			txtUlica.setText("");
 		}
 		else {
@@ -1060,7 +1053,6 @@ public class GUI extends JFrame implements ActionListener{
             txtVAT.setText(dec.format(buffor.getKosztLaczny()*0.23));
             
 			dialogBlad.dispose();
-			dialogBlad2.dispose();
 		}
 	}
 	/**
@@ -1074,22 +1066,19 @@ public class GUI extends JFrame implements ActionListener{
         matcherNrMieszkania = pattern.matcher(txtNrMieszkania.getText());
         matcherNrBudynku  = pattern.matcher(txtNrBudynku.getText());
         dialogBlad.setAlwaysOnTop(true);
-        dialogBlad2.setAlwaysOnTop(true);
-        
 		if (matcherNrMieszkania.matches()){
 			dialogBlad.setVisible(true);
 	        txtNrMieszkania.setText("");
 		}
 		else if (!matcherMiejscowosc.matches()){
-			dialogBlad2.setVisible(true);
+			dialogBlad.setVisible(true);
 			txtMiejscowosc.setText("");
 		}
 		else if (!matcherUlica.matches()){
-			dialogBlad2.setVisible(true);
+			dialogBlad.setVisible(true);
 			txtUlica.setText("");
 		}
 		else {
-			dialogBlad2.dispose();
 			dialogBlad.dispose();
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card1");
@@ -1116,6 +1105,11 @@ public class GUI extends JFrame implements ActionListener{
 				txtNrBudynku.repaint();
 				txtNrMieszkania.setText("");
 				txtNrMieszkania.repaint();
+				lblDostawaText3.setIcon(new ImageIcon("images/dostawa_text3-gray.png"));
+				lblDostawaText4.setIcon(new ImageIcon("images/dostawa_text4-gray.png"));
+				lblDostawaText5.setIcon(new ImageIcon("images/dostawa_text5-gray.png"));
+				lblDostawaText6.setIcon(new ImageIcon("images/dostawa_text6-gray.png"));
+		        lblDostawaText7.setIcon(new ImageIcon("images/dostawa_text7-gray.png"));
 			}
 			else {
 				txtNrMieszkania.setEnabled(true);
@@ -1128,7 +1122,11 @@ public class GUI extends JFrame implements ActionListener{
 				txtNrBudynku.repaint();
 				txtUlica.repaint();
 				txtNumerTelefonu.repaint();
-
+				lblDostawaText3.setIcon(new ImageIcon("images/dostawa_text3.png"));
+				lblDostawaText4.setIcon(new ImageIcon("images/dostawa_text4.png"));
+				lblDostawaText5.setIcon(new ImageIcon("images/dostawa_text5.png"));
+				lblDostawaText6.setIcon(new ImageIcon("images/dostawa_text6.png"));
+		        lblDostawaText7.setIcon(new ImageIcon("images/dostawa_text7.png"));
 			}
 		}
 	
@@ -1248,8 +1246,8 @@ public class GUI extends JFrame implements ActionListener{
 	            łączny koszt zamówienia, VAT na ekranie zatwierdzanie zamówienia*/
 	          buffor.setKosztLaczny(buffor.getKosztLaczny()+kosztDostawy[comboBoxDostawa.getSelectedIndex()]);
 	          txtrDaneZamawiajacego.setText("");
-	          txtrDaneZamawiajacego.append(txtNumerTelefonu.getText()+"\n"+txtMiejscowosc.getText()+", ul. "+txtUlica.getText()+" "+
-	          		txtNrBudynku.getText()+"/"+txtNrMieszkania.getText());
+	          //txtrDaneZamawiajacego.append(txtNumerTelefonu.getText()+"\n"+txtMiejscowosc.getText()+", ul. "+txtUlica.getText()+" "+
+	          //		txtNrBudynku.getText()+"/"+txtNrMieszkania.getText());  
 	          txtSposobDostawy.setText(listaDostawa[comboBoxDostawa.getSelectedIndex()]);
 	          txtKosztDostawy.setText(dec.format(kosztDostawy[comboBoxDostawa.getSelectedIndex()]));
 	          txtLacznyKosztZ.setText(dec.format(buffor.getKosztLaczny()));
@@ -1267,8 +1265,6 @@ public class GUI extends JFrame implements ActionListener{
 		}
 		else if(arg0.getSource() == btnZamknij) {
 			dispose();
-			dialog.dispose();
-			dialogBlad2.dispose();
 			dialogBlad.dispose();
 		}
 		else if(arg0.getSource() == btnOK) {
@@ -1283,6 +1279,20 @@ public class GUI extends JFrame implements ActionListener{
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card1");
             */
+		}
+		else if (arg0.getSource() == btnDrukujParagon){
+			/*
+			try {
+                boolean done = textPane2.print();
+                if (done) {
+                    JOptionPane.showMessageDialog(null, "Drukowanie zakończyło się pomyślnie!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Błąd podczas drukowania.");
+                }
+            } catch (Exception pex) {
+                JOptionPane.showMessageDialog(null, "Błąd podczas drukowania.");
+                pex.printStackTrace();
+            }*/
 		}
 	}
 }

@@ -44,12 +44,20 @@ class Buffor {
 	};
 	
 	private static int numerRzedu, liczbaPizz, dodaj;
-	private static float cena, kosztElementu, kosztLaczny;
+	private static float cena, kosztElementu, kosztLaczny, kosztLacznyBezDostawy;
 	
 	
 //*************************************************************************************************************************************	
 	
 	
+	static float getKosztLacznyBezDostawy() {
+		return kosztLacznyBezDostawy;
+	}
+
+	static void setKosztLacznyBezDostawy(float kosztLacznyBezDostawy) {
+		Buffor.kosztLacznyBezDostawy = kosztLacznyBezDostawy;
+	}
+
 	static int getDodaj() {
 		return dodaj;
 	}

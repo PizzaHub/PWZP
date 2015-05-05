@@ -389,8 +389,12 @@ public class GUI extends JFrame implements ActionListener{
 		cennikTabela = new JTable(model);
 		cennikTabela.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 1) {
+					
+				/*Podwójne kliknięcie uruchamia okno dialogowe
 	            if (e.getClickCount() == 2 && !e.isConsumed()) {
-                    e.consume();                    
+                    e.consume();
+                */                    
                     cennikTabela = (JTable) e.getSource();
                     Point p = e.getPoint();
                     
@@ -406,29 +410,28 @@ public class GUI extends JFrame implements ActionListener{
                     //Sprawdzam, czy użytkownik zamknął dialog czy użył przycisku "Dodaj do zamówienia"
                     if(buffor.getDodaj()==1){
                     	
-                        //Wyświetlenie podglądu zamówienia w cenniku
-                        zamowienie.wyswietlPodgladZamowienia(txtrZamowienie, buffor.getSos(), buffor.getNazwaPizzy(), buffor.getRozmiarPizzy(), 
-                        		buffor.getLiczbaPizz());
+                    //Wyświetlenie podglądu zamówienia w cenniku
+                    zamowienie.wyswietlPodgladZamowienia(txtrZamowienie, buffor.getSos(), buffor.getNazwaPizzy(), buffor.getRozmiarPizzy(), 
+                    buffor.getLiczbaPizz());
                         
-                        //Wyświetlenie łącznego kosztu zamówienia
-                        zamowienie.wyswietlLacznyKoszt(lblWyswietlLacznyKosztZamowienia, buffor.getKosztLaczny(), dec);   
+                    //Wyświetlenie łącznego kosztu zamówienia
+                    zamowienie.wyswietlLacznyKoszt(lblWyswietlLacznyKosztZamowienia, buffor.getKosztLaczny(), dec);   
                         
-                        //Wyświetlenie podglądu zamówienia na ekranie dostawy
+                    //Wyświetlenie podglądu zamówienia na ekranie dostawy
                         
-                        zamowienie.wyswietlPizze(buffor.getNazwaPizzy()+"\t\t"+buffor.getRozmiarPizzy()+"\t"+"x"+buffor.getLiczbaPizz()+"\t"+
-                        		dec.format(buffor.getKosztElementu())+"\n", textPane);
-                        zamowienie.wyswietlSkladniki(buffor.skladniki[buffor.getNumerRzedu()]+"\n", textPane);
-                        zamowienie.wyswietlSos(buffor.getSos(),"+ sos "+buffor.getSos()+"\n", textPane);
+                    zamowienie.wyswietlPizze(buffor.getNazwaPizzy()+"\t\t"+buffor.getRozmiarPizzy()+"\t"+"x"+buffor.getLiczbaPizz()+"\t"+
+                    		dec.format(buffor.getKosztElementu())+"\n", textPane);
+                    zamowienie.wyswietlSkladniki(buffor.skladniki[buffor.getNumerRzedu()]+"\n", textPane);
+                    zamowienie.wyswietlSos(buffor.getSos(),"+ sos "+buffor.getSos()+"\n", textPane);
                         
-                        //Wyświetlenie podglądu paragonu na ekranie zatwierdzania zamówienia
-                        zamowienie.wyswietlPizzeNaParagonie(buffor.getNazwaPizzy()+" "+buffor.getRozmiarPizzy()+"\t"+buffor.getLiczbaPizz()+"\t\tx\t"+
-                        		dec.format(buffor.getCena())+"\n", textPane2);
-                        zamowienie.wyswietlSos(buffor.getSos(), "Sos "+buffor.getSos().toLowerCase()+"\t"+"0\t\tx\t0,00"+"\n", textPane2);
-                        
+                    //Wyświetlenie podglądu paragonu na ekranie zatwierdzania zamówienia
+                    zamowienie.wyswietlPizzeNaParagonie(buffor.getNazwaPizzy()+" "+buffor.getRozmiarPizzy()+"\t"+buffor.getLiczbaPizz()+"\t\tx\t"+
+                    		dec.format(buffor.getCena())+"\n", textPane2);
+                    zamowienie.wyswietlSos(buffor.getSos(), "Sos "+buffor.getSos().toLowerCase()+"\t"+"0\t\tx\t0,00"+"\n", textPane2);    
                     }
                     else{
                     }
-            }
+	            }
 			}
 		});
 		
@@ -1637,18 +1640,18 @@ public class GUI extends JFrame implements ActionListener{
 		else {
 			/*Wyświetlenie informacji pobranych z ekranu wyboru stposobu dostawy: dane zamawiającego, sposób dostawy, koszt dostawy,
             łączny koszt zamówienia, VAT na ekranie zatwierdzanie zamówienia*/
-          buffor.setKosztLaczny(buffor.getKosztLaczny()+kosztDostawy[comboBoxDostawa.getSelectedIndex()]);
-          txtrDaneZamawiajacego.setText("");
-          txtrDaneZamawiajacego.append(txtNumerTelefonu.getText()+"\n"+txtMiejscowosc.getText()+", ul. "+txtUlica.getText()+" "+
-          		txtNrBudynku.getText()+"/"+txtNrMieszkania.getText());
-          txtSposobDostawy.setText(listaDostawa[comboBoxDostawa.getSelectedIndex()]);
-          txtKosztDostawy.setText(dec.format(kosztDostawy[comboBoxDostawa.getSelectedIndex()]));
-          txtLacznyKosztZ.setText(dec.format(buffor.getKosztLaczny()));
-          txtVAT.setText(dec.format(buffor.getKosztLaczny()*0.23));
-		  //dialogBlad.dispose();
-		  CardLayout c1 = (CardLayout)(panelDolny.getLayout());
-		  c1.show(panelDolny,"card4");
-		  dostawa=false;
+			//buffor.setKosztLaczny(buffor.getKosztLaczny()+kosztDostawy[comboBoxDostawa.getSelectedIndex()]);
+			txtrDaneZamawiajacego.setText("");
+			txtrDaneZamawiajacego.append(txtNumerTelefonu.getText()+"\n"+txtMiejscowosc.getText()+", ul. "+txtUlica.getText()+" "+
+          	txtNrBudynku.getText()+"/"+txtNrMieszkania.getText());
+			txtSposobDostawy.setText(listaDostawa[comboBoxDostawa.getSelectedIndex()]);
+			txtKosztDostawy.setText(dec.format(kosztDostawy[comboBoxDostawa.getSelectedIndex()]));
+			txtLacznyKosztZ.setText(dec.format(buffor.getKosztLaczny()));
+			txtVAT.setText(dec.format(buffor.getKosztLaczny()*0.23));
+			//dialogBlad.dispose();
+			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
+			c1.show(panelDolny,"card4");
+			dostawa=false;
 		}
 	}
 	/**
@@ -1717,6 +1720,7 @@ public class GUI extends JFrame implements ActionListener{
             c1.show(panelDolny,"card1");
 		}
 		}
+	
 	/**
 	 * Blokada pól tekstowych przy wyborze 'Na miejscu' i 'Na wynos'
 	 */
@@ -1840,6 +1844,12 @@ public class GUI extends JFrame implements ActionListener{
 		}
 		else if (arg0.getSource()== comboBoxDostawa){
 			blokujWprowadzanieDanych();
+			
+			//Zmiana łącznego kosztu zamówienia po wyborze sposobu zamówienia
+			Buffor.setKosztLaczny(Buffor.getKosztLacznyBezDostawy()+kosztDostawy[comboBoxDostawa.getSelectedIndex()]);
+			
+			//Uaktualnienie wyświetlanego łącznego kosztu zamówienia po wyborze sposobu dostawy
+			lblLacznyKoszt.setText((dec.format(Buffor.getKosztLaczny())));
 		}
 		else if (arg0.getSource() == btnDodajDoZamowienia){
 			if 	(comboBoxDostawa.getSelectedItem() == "Na miejscu" || comboBoxDostawa.getSelectedItem()=="Na wynos"){
@@ -1869,6 +1879,7 @@ public class GUI extends JFrame implements ActionListener{
     		txtLacznyKosztZ.repaint();
     		txtVAT.setText("");
     		txtVAT.repaint();
+    		
 		}
 		/*
 		else if(arg0.getSource() == btnPotwierdzenie) {
@@ -1883,16 +1894,19 @@ public class GUI extends JFrame implements ActionListener{
 		*/
 		else if(arg0.getSource() == btnPotwierdzenie2) {
 			if 	(comboBoxDostawa.getSelectedItem() == "Na miejscu" || comboBoxDostawa.getSelectedItem()=="Na wynos"){
+				
 				/*Wyświetlenie informacji pobranych z ekranu wyboru stposobu dostawy: dane zamawiającego, sposób dostawy, koszt dostawy,
 	            łączny koszt zamówienia, VAT na ekranie zatwierdzanie zamówienia*/
-	          buffor.setKosztLaczny(buffor.getKosztLaczny()+kosztDostawy[comboBoxDostawa.getSelectedIndex()]);
-	          txtrDaneZamawiajacego.setText("");
-	          //txtrDaneZamawiajacego.append(txtNumerTelefonu.getText()+"\n"+txtMiejscowosc.getText()+", ul. "+txtUlica.getText()+" "+
-	          //		txtNrBudynku.getText()+"/"+txtNrMieszkania.getText());  
-	          txtSposobDostawy.setText(listaDostawa[comboBoxDostawa.getSelectedIndex()]);
-	          txtKosztDostawy.setText(dec.format(kosztDostawy[comboBoxDostawa.getSelectedIndex()]));
-	          txtLacznyKosztZ.setText(dec.format(buffor.getKosztLaczny()));
-	          txtVAT.setText(dec.format(buffor.getKosztLaczny()*0.23));
+				
+				//buffor.setKosztLaczny(buffor.getKosztLaczny()+kosztDostawy[comboBoxDostawa.getSelectedIndex()]);
+				txtrDaneZamawiajacego.setText("");
+				
+				//txtrDaneZamawiajacego.append(txtNumerTelefonu.getText()+"\n"+txtMiejscowosc.getText()+", ul. "+txtUlica.getText()+" "+
+				//		txtNrBudynku.getText()+"/"+txtNrMieszkania.getText());  
+				txtSposobDostawy.setText(listaDostawa[comboBoxDostawa.getSelectedIndex()]);
+				txtKosztDostawy.setText(dec.format(kosztDostawy[comboBoxDostawa.getSelectedIndex()]));
+				txtLacznyKosztZ.setText(dec.format(buffor.getKosztLaczny()));
+				txtVAT.setText(dec.format(buffor.getKosztLaczny()*0.23));
 	          
 				CardLayout c1 = (CardLayout)(panelDolny.getLayout());
 	            c1.show(panelDolny,"card4");

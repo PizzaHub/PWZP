@@ -67,9 +67,10 @@ public class Zamowienie {
 	 * @param float1
 	 * @param dec
 	 */
-	void wyswietlLacznyKoszt(JLabel lbl, float float1, DecimalFormat dec){
+	void wyswietlLacznyKoszt(JLabel lbl, double float1, DecimalFormat dec){
 		lbl.setText((dec.format(float1)));
 	}
+
 	
 	/**
 	 * Metoda służąca do wyświetlania informacji: nazwa pizzy, rozmiar pizzy, liczba pizz na podglądzie zamówienia na ekranie dostawy
@@ -103,7 +104,6 @@ public class Zamowienie {
 		      exc.printStackTrace();
 		   }
 	}
-	
 	/**
 	 * Metoda służąca do wyświetlania wybranego sosu na podglądzie zamówienia na ekranie dostawy
 	 * @param s
@@ -236,5 +236,6 @@ public class Zamowienie {
 			exc.printStackTrace();
 		}
 	}
+	
 
 }

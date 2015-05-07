@@ -207,16 +207,11 @@ class Dialog extends JDialog implements ActionListener {
 			buffor.setRozmiarPizzy(listaRozmiarow[customCombobox.getSelectedIndex()]);
 			buffor.setLiczbaPizz(Integer.parseInt(txtWprowadzLiczbePizz.getText()));
 			buffor.setSos(listaSosow[customCombobox2.getSelectedIndex()]);
-			
-			buffor.setKosztElementu((Float.parseFloat(buffor.dane[buffor.getNumerRzedu()][customCombobox.getSelectedIndex()+1]))*
-					buffor.getLiczbaPizz());
+			buffor.setKosztElementu((Float.parseFloat(buffor.dane[buffor.getNumerRzedu()][customCombobox.getSelectedIndex()+1]))*buffor.getLiczbaPizz());
 			buffor.setCena(Float.parseFloat(buffor.dane[buffor.getNumerRzedu()][customCombobox.getSelectedIndex()+1]));
-			
 			buffor.setKosztLaczny(buffor.getKosztLaczny()+buffor.getKosztElementu());
 			Buffor.setKosztLacznyBezDostawy(Buffor.getKosztLaczny());
-			
 			buffor.setDodaj(1);
-			
 			this.dispose();	
 		}
 	}

@@ -44,11 +44,11 @@ class Buffor {
 	};
 	
 	private static int numerRzedu, liczbaPizz, dodaj;
-	private static float cena, kosztElementu, kosztLaczny, kosztLacznyBezDostawy;
+	private static float cena, kosztElementu, kosztLaczny, kosztLacznyBezDostawy;	
+	private static double kosztWlasnej,  kosztLacznyWlasnej;
 	
 	
 //*************************************************************************************************************************************	
-	
 	
 	static float getKosztLacznyBezDostawy() {
 		return kosztLacznyBezDostawy;
@@ -57,7 +57,7 @@ class Buffor {
 	static void setKosztLacznyBezDostawy(float kosztLacznyBezDostawy) {
 		Buffor.kosztLacznyBezDostawy = kosztLacznyBezDostawy;
 	}
-
+	
 	static int getDodaj() {
 		return dodaj;
 	}
@@ -91,16 +91,32 @@ class Buffor {
 		return kosztElementu;
 	}
 
+	static double getKosztElementu2() {
+		return kosztWlasnej;
+	}
+	
 	static void setKosztElementu(float kosztElementu) {
 		Buffor.kosztElementu = kosztElementu;
 	}
-
+	
+	static void setKosztElementu2(double kosztWlasnej) {
+		Buffor.kosztWlasnej = kosztWlasnej;
+	}
+	
 	static float getKosztLaczny() {
 		return kosztLaczny;
 	}
 
 	static void setKosztLaczny(float kosztLaczny) {
 		Buffor.kosztLaczny = kosztLaczny;
+	}
+	
+	static double getKosztLaczny2() {
+		return kosztLacznyWlasnej;
+	}
+
+	static void setKosztLaczny2(double kosztLacznyWlasnej) {
+		Buffor.kosztLacznyWlasnej = kosztLacznyWlasnej;
 	}
 
 	static void setSos(String sos) {

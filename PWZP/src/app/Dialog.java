@@ -172,7 +172,23 @@ class Dialog extends JDialog implements ActionListener {
 		//Przycisk "Dodaj do zamówienia"
 		btnDodaj=new JButton(new ImageIcon("images/dodaj.png"));
 		btnDodaj.addActionListener(this);
-		btnDodaj.setPreferredSize(new Dimension(208,27));
+		btnDodaj.setPreferredSize(new Dimension(211,27));
+		btnDodaj.setBorder(null);
+		btnDodaj.addMouseListener(new MouseAdapter()
+        {
+            public void mouseEntered(MouseEvent evt){
+            	btnDodaj.setIcon(new ImageIcon("images/dodaj_over.png"));
+            }
+            public void mouseExited(MouseEvent evt){
+            	btnDodaj.setIcon(new ImageIcon("images/dodaj.png"));
+            }
+            public void mousePressed(MouseEvent evt){
+            	btnDodaj.setIcon(new ImageIcon("images/dodaj_over.png"));
+            }
+            public void mouseReleased(MouseEvent evt){
+            	btnDodaj.setIcon(new ImageIcon("images/dodaj.png"));
+            }
+        });
 		
 		panelCentralny.add(btnZamknij, cc.xywh(10, 1, 2, 1, cc.FILL, cc.FILL));
 		panelCentralny.add(lblNaglowek, cc.xywh(1, 1, 12, 1, cc.FILL, cc.FILL));

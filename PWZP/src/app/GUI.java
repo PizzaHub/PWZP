@@ -40,6 +40,8 @@ import javax.swing.text.TabSet;
 import javax.swing.text.TabStop;
 
 
+
+
 import com.jgoodies.forms.debug.FormDebugPanel;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.CellConstraints.Alignment;
@@ -619,9 +621,25 @@ public class GUI extends JFrame implements ActionListener{
 		*/
 		
 		//Przycisk umożliwiający powiększenie zamówienia o dodatkowe pozycje
-		btnDodajDoZamowienia = new JButton(new ImageIcon("images/powieksz_zamowienie.png"));
+		btnDodajDoZamowienia=new JButton(new ImageIcon("images/powieksz_zamowienie.png"));
 		btnDodajDoZamowienia.addActionListener(this);
-		btnDodajDoZamowienia.setPreferredSize(new Dimension(209,27));
+		btnDodajDoZamowienia.setPreferredSize(new Dimension(211,27));
+		btnDodajDoZamowienia.setBorder(null);
+		btnDodajDoZamowienia.addMouseListener(new MouseAdapter()
+        {
+            public void mouseEntered(MouseEvent evt){
+            	btnDodajDoZamowienia.setIcon(new ImageIcon("images/powieksz_zamowienie_over.png"));
+            }
+            public void mouseExited(MouseEvent evt){
+            	btnDodajDoZamowienia.setIcon(new ImageIcon("images/powieksz_zamowienie.png"));
+            }
+            public void mousePressed(MouseEvent evt){
+            	btnDodajDoZamowienia.setIcon(new ImageIcon("images/powieksz_zamowienie_over.png"));
+            }
+            public void mouseReleased(MouseEvent evt){
+            	btnDodajDoZamowienia.setIcon(new ImageIcon("images/powieksz_zamowienie.png"));
+            }
+        });
 		
 		//btnPotwierdzenie = new JButton(new ImageIcon("images/potwierdz.png"));
 		//btnPotwierdzenie.addActionListener(this);
@@ -868,17 +886,69 @@ public class GUI extends JFrame implements ActionListener{
 		txtVAT.setFont(new Font("Arial", Font.BOLD, 17));
 		txtVAT.setEditable(false);
 		
-		//Przycisk "Zatwierdź zamówienie"
+		//Przycisk "Zatwierdź zamówienie"	
 		btnZatwierdz=new JButton(new ImageIcon("images/zatwierdz.png"));
 		btnZatwierdz.addActionListener(this);
+		btnZatwierdz.setPreferredSize(new Dimension(211,27));
+		btnZatwierdz.setBorder(null);
+		btnZatwierdz.addMouseListener(new MouseAdapter()
+        {
+            public void mouseEntered(MouseEvent evt){
+            	btnZatwierdz.setIcon(new ImageIcon("images/zatwierdz_over.png"));
+            }
+            public void mouseExited(MouseEvent evt){
+            	btnZatwierdz.setIcon(new ImageIcon("images/zatwierdz.png"));
+            }
+            public void mousePressed(MouseEvent evt){
+            	btnZatwierdz.setIcon(new ImageIcon("images/zatwierdz_over.png"));
+            }
+            public void mouseReleased(MouseEvent evt){
+            	btnZatwierdz.setIcon(new ImageIcon("images/zatwierdz.png"));
+            }
+        });
+		
 		
 		//Przycisk "Drukuj paragon"
 		btnDrukujParagon=new JButton(new ImageIcon("images/drukuj.png"));
 		btnDrukujParagon.addActionListener(this);
+		btnDrukujParagon.setPreferredSize(new Dimension(211,27));
+		btnDrukujParagon.setBorder(null);
+		btnDrukujParagon.addMouseListener(new MouseAdapter()
+        {
+            public void mouseEntered(MouseEvent evt){
+            	btnDrukujParagon.setIcon(new ImageIcon("images/drukuj_over.png"));
+            }
+            public void mouseExited(MouseEvent evt){
+            	btnDrukujParagon.setIcon(new ImageIcon("images/drukuj.png"));
+            }
+            public void mousePressed(MouseEvent evt){
+            	btnDrukujParagon.setIcon(new ImageIcon("images/drukuj_over.png"));
+            }
+            public void mouseReleased(MouseEvent evt){
+            	btnDrukujParagon.setIcon(new ImageIcon("images/drukuj.png"));
+            }
+        });
 		
 		//Przycisk "Anuluj zamówienie"
 		btnAnulujZ=new JButton(new ImageIcon("images/anuluj.png"));
-		btnAnulujZ.addActionListener(this);		
+		btnAnulujZ.addActionListener(this);
+		btnAnulujZ.setPreferredSize(new Dimension(211,27));
+		btnAnulujZ.setBorder(null);
+		btnAnulujZ.addMouseListener(new MouseAdapter()
+        {
+            public void mouseEntered(MouseEvent evt){
+            	btnAnulujZ.setIcon(new ImageIcon("images/anuluj_over.png"));
+            }
+            public void mouseExited(MouseEvent evt){
+            	btnAnulujZ.setIcon(new ImageIcon("images/anuluj.png"));
+            }
+            public void mousePressed(MouseEvent evt){
+            	btnAnulujZ.setIcon(new ImageIcon("images/anuluj_over.png"));
+            }
+            public void mouseReleased(MouseEvent evt){
+            	btnAnulujZ.setIcon(new ImageIcon("images/anuluj.png"));
+            }
+        });
 		
 		//Przycisk umożliwiający powrót do okna dostawy
 		btnDostawa4=new JButton(new ImageIcon("images/wstecz.png"));

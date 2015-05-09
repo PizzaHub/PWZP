@@ -398,13 +398,8 @@ public class GUI extends JFrame implements ActionListener{
 		cennikTabela.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 1) {
-					
-					/*Podwójne kliknięcie uruchamia okno dialogowe
-		            if (e.getClickCount() == 2 && !e.isConsumed()) {
-	                    e.consume();
-	                */                    
-	                    cennikTabela = (JTable) e.getSource();
-	                    Point p = e.getPoint();
+	                cennikTabela = (JTable) e.getSource();
+	                Point p = e.getPoint();
                     
 	                //Pobranie i zapisanie wybranego numeru rzędu z tablicy
 	                int row = cennikTabela.rowAtPoint(e.getPoint());
@@ -433,14 +428,14 @@ public class GUI extends JFrame implements ActionListener{
                         zamowienie.wyswietlSkladniki(buffor.skladniki[buffor.getNumerRzedu()]+"\n", textPane);
                         zamowienie.wyswietlSos(buffor.getSos(),"+ sos "+buffor.getSos()+"\n", textPane);
                         
-                      //Wyświetlenie podglądu paragonu na ekranie zatwierdzania zamówienia
+                        //Wyświetlenie podglądu paragonu na ekranie zatwierdzania zamówienia
                         zamowienie.wyswietlPizzeNaParagonie(buffor.getNazwaPizzy()+" "+buffor.getRozmiarPizzy()+"\t"+buffor.getLiczbaPizz()+"\t\tx\t"+
                         		dec.format(buffor.getCena())+"\n", textPane2);
                         zamowienie.wyswietlSos(buffor.getSos(), "Sos "+buffor.getSos().toLowerCase()+"\t"+"0\t\tx\t0,00"+"\n", textPane2);     
                     }
                     else{
                     }
-            }
+				}
 			}
 		});
 		
@@ -663,7 +658,6 @@ public class GUI extends JFrame implements ActionListener{
 		CompoundBorder border2 = new CompoundBorder(line, empty2);
 		
 		//Utworzenie maski dla pola tekstowego numer telefonu
-		
 		MaskFormatter mask = null;
         try {
             // # ten symbol oznacza miejsce na liczbe
@@ -728,7 +722,7 @@ public class GUI extends JFrame implements ActionListener{
 		comboBoxDostawa.setUI(ColorArrowUI.createUI(comboBoxDostawa));
 		comboBoxDostawa.setBorder(line);
 		comboBoxDostawa.addActionListener(this);
-		comboBoxDostawa.setSelectedItem("Na wynos");
+		comboBoxDostawa.setSelectedItem("Na miejscu");
 		
 		//Przycisk umożliwiający przejście do ekranu zatwierdzania zamówienia
 		btnPotwierdzenie2 = new JButton(new ImageIcon("images/dalej.png"));
@@ -1065,213 +1059,213 @@ public class GUI extends JFrame implements ActionListener{
 		Font arial15 = new Font("Arial",Font.PLAIN, 15);
 			    
 		lblCheckBox1 = new JLabel("ananas");
-			    lblCheckBox1.setFont(arial15);
-			    lblCheckBox1.setForeground(Color.BLACK);
-			    lblCheckBox2 = new JLabel("boczek wędzony");
-			    lblCheckBox2.setFont(arial15);
-			    lblCheckBox2.setForeground(Color.BLACK);
-			    lblCheckBox3 = new JLabel("brokuły");
-			    lblCheckBox3.setFont(arial15);
-			    lblCheckBox3.setForeground(Color.BLACK);
-			    lblCheckBox4 = new JLabel("camembert");
-			    lblCheckBox4.setFont(arial15);
-			    lblCheckBox4.setForeground(Color.BLACK);
-			    lblCheckBox5 = new JLabel("cebula biała");
-			    lblCheckBox5.setFont(arial15);
-			    lblCheckBox5.setForeground(Color.BLACK);
-			    lblCheckBox6 = new JLabel("cebula czerwona");
-			    lblCheckBox6.setFont(arial15);
-			    lblCheckBox6.setForeground(Color.BLACK);
-			    lblCheckBox7 = new JLabel("chili");
-			    lblCheckBox7.setFont(arial15);
-			    lblCheckBox7.setForeground(Color.BLACK);
-			    lblCheckBox8 = new JLabel("czosnek");
-			    lblCheckBox8.setFont(arial15);
-			    lblCheckBox8.setForeground(Color.BLACK);
-			    lblCheckBox9 = new JLabel("fasola");
-			    lblCheckBox9.setFont(arial15);
-			    lblCheckBox9.setForeground(Color.BLACK);
-			    lblCheckBox10 = new JLabel("feta");
-			    lblCheckBox10.setFont(arial15);
-			    lblCheckBox10.setForeground(Color.BLACK);
+		lblCheckBox1.setFont(arial15);
+		lblCheckBox1.setForeground(Color.BLACK);
+		lblCheckBox2 = new JLabel("boczek wędzony");
+		lblCheckBox2.setFont(arial15);
+		lblCheckBox2.setForeground(Color.BLACK);
+		lblCheckBox3 = new JLabel("brokuły");
+		lblCheckBox3.setFont(arial15);
+		lblCheckBox3.setForeground(Color.BLACK);
+		lblCheckBox4 = new JLabel("camembert");
+		lblCheckBox4.setFont(arial15);
+		lblCheckBox4.setForeground(Color.BLACK);
+		lblCheckBox5 = new JLabel("cebula biała");
+		lblCheckBox5.setFont(arial15);
+		lblCheckBox5.setForeground(Color.BLACK);
+		lblCheckBox6 = new JLabel("cebula czerwona");
+		lblCheckBox6.setFont(arial15);
+		lblCheckBox6.setForeground(Color.BLACK);
+		lblCheckBox7 = new JLabel("chili");
+		lblCheckBox7.setFont(arial15);
+		lblCheckBox7.setForeground(Color.BLACK);
+		lblCheckBox8 = new JLabel("czosnek");
+		lblCheckBox8.setFont(arial15);
+		lblCheckBox8.setForeground(Color.BLACK);
+		lblCheckBox9 = new JLabel("fasola");
+		lblCheckBox9.setFont(arial15);
+		lblCheckBox9.setForeground(Color.BLACK);
+		lblCheckBox10 = new JLabel("feta");
+		lblCheckBox10.setFont(arial15);
+		lblCheckBox10.setForeground(Color.BLACK);
 			    
-			    //Druga kolumna składników (check boxy)
-			  	checkBox11 = new JCheckBox();
-			  	checkBox11.setBorder(null);
-			    checkBox11.setIcon(new ImageIcon("images/icon.png"));
-			    checkBox11.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox11.setPressedIcon(new ImageIcon("images/icon.png"));
-			    checkBox11.setRolloverIcon(new ImageIcon("images/icon.png"));
-			    checkBox11.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox11.setMargin(new Insets(0,0,0,27));
+	    //Druga kolumna składników (check boxy)
+	  	checkBox11 = new JCheckBox();
+	  	checkBox11.setBorder(null);
+	    checkBox11.setIcon(new ImageIcon("images/icon.png"));
+	    checkBox11.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox11.setPressedIcon(new ImageIcon("images/icon.png"));
+	    checkBox11.setRolloverIcon(new ImageIcon("images/icon.png"));
+	    checkBox11.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox11.setMargin(new Insets(0,0,0,27));
 
-			    checkBox12 = new JCheckBox();
-			    checkBox12.setBorder(null);
-			    checkBox12.setIcon(new ImageIcon("images/icon.png"));
-			    checkBox12.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox12.setPressedIcon(new ImageIcon("images/icon.png"));
-			    checkBox12.setRolloverIcon(new ImageIcon("images/icon.png"));
-			    checkBox12.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox12.setMargin(new Insets(0,0,0,27));
-			    
-			    checkBox13 = new JCheckBox();
-			    checkBox13.setBorder(null);
-			    checkBox13.setIcon(new ImageIcon("images/icon.png"));
-			    checkBox13.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox13.setPressedIcon(new ImageIcon("images/icon.png"));
-			    checkBox13.setRolloverIcon(new ImageIcon("images/icon.png"));
-			    checkBox13.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox13.setMargin(new Insets(0,0,0,27));
-			    
-			    checkBox14 = new JCheckBox();
-			    checkBox14.setBorder(null);
-			    checkBox14.setIcon(new ImageIcon("images/icon.png"));
-			    checkBox14.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox14.setPressedIcon(new ImageIcon("images/icon.png"));
-			    checkBox14.setRolloverIcon(new ImageIcon("images/icon.png"));
-			    checkBox14.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox14.setMargin(new Insets(0,0,0,27));
-			    
-			    checkBox15 = new JCheckBox();
-			    checkBox15.setBorder(null);
-			    checkBox15.setIcon(new ImageIcon("images/icon.png"));
-			    checkBox15.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox15.setPressedIcon(new ImageIcon("images/icon.png"));
-			    checkBox15.setRolloverIcon(new ImageIcon("images/icon.png"));
-			    checkBox15.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox15.setMargin(new Insets(0,0,0,27));
+	    checkBox12 = new JCheckBox();
+	    checkBox12.setBorder(null);
+	    checkBox12.setIcon(new ImageIcon("images/icon.png"));
+	    checkBox12.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox12.setPressedIcon(new ImageIcon("images/icon.png"));
+	    checkBox12.setRolloverIcon(new ImageIcon("images/icon.png"));
+	    checkBox12.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox12.setMargin(new Insets(0,0,0,27));
+	    
+	    checkBox13 = new JCheckBox();
+	    checkBox13.setBorder(null);
+	    checkBox13.setIcon(new ImageIcon("images/icon.png"));
+	    checkBox13.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox13.setPressedIcon(new ImageIcon("images/icon.png"));
+	    checkBox13.setRolloverIcon(new ImageIcon("images/icon.png"));
+	    checkBox13.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox13.setMargin(new Insets(0,0,0,27));
+	    
+	    checkBox14 = new JCheckBox();
+	    checkBox14.setBorder(null);
+	    checkBox14.setIcon(new ImageIcon("images/icon.png"));
+	    checkBox14.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox14.setPressedIcon(new ImageIcon("images/icon.png"));
+	    checkBox14.setRolloverIcon(new ImageIcon("images/icon.png"));
+	    checkBox14.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox14.setMargin(new Insets(0,0,0,27));
+	    
+	    checkBox15 = new JCheckBox();
+	    checkBox15.setBorder(null);
+	    checkBox15.setIcon(new ImageIcon("images/icon.png"));
+	    checkBox15.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox15.setPressedIcon(new ImageIcon("images/icon.png"));
+	    checkBox15.setRolloverIcon(new ImageIcon("images/icon.png"));
+	    checkBox15.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox15.setMargin(new Insets(0,0,0,27));
+	  	    
+	    checkBox16 = new JCheckBox();
+	    checkBox16.setBorder(null);
+	    checkBox16.setIcon(new ImageIcon("images/icon.png"));
+	    checkBox16.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox16.setPressedIcon(new ImageIcon("images/icon.png"));
+	    checkBox16.setRolloverIcon(new ImageIcon("images/icon.png"));
+	    checkBox16.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox16.setMargin(new Insets(0,0,0,27));
+	  	    
+	    checkBox17 = new JCheckBox();
+	    checkBox17.setBorder(null);
+	    checkBox17.setIcon(new ImageIcon("images/icon.png"));
+	    checkBox17.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox17.setPressedIcon(new ImageIcon("images/icon.png"));
+	    checkBox17.setRolloverIcon(new ImageIcon("images/icon.png"));
+	    checkBox17.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox17.setMargin(new Insets(0,0,0,27));
+	  	    
+	    checkBox18 = new JCheckBox();
+	    checkBox18.setBorder(null);
+	    checkBox18.setIcon(new ImageIcon("images/icon.png"));
+	    checkBox18.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox18.setPressedIcon(new ImageIcon("images/icon.png"));
+	    checkBox18.setRolloverIcon(new ImageIcon("images/icon.png"));
+	    checkBox18.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox18.setMargin(new Insets(0,0,0,27));
+	    
+	    checkBox19 = new JCheckBox();
+	    checkBox19.setBorder(null);
+	    checkBox19.setIcon(new ImageIcon("images/icon.png"));
+	    checkBox19.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox19.setPressedIcon(new ImageIcon("images/icon.png"));
+	    checkBox19.setRolloverIcon(new ImageIcon("images/icon.png"));
+	    checkBox19.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox19.setMargin(new Insets(0,0,0,27));
+	  	    
+	    checkBox20 = new JCheckBox();
+	    checkBox20.setBorder(null);
+	    checkBox20.setIcon(new ImageIcon("images/icon.png"));
+	    checkBox20.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox20.setPressedIcon(new ImageIcon("images/icon.png"));
+	    checkBox20.setRolloverIcon(new ImageIcon("images/icon.png"));
+	    checkBox20.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+	    checkBox20.setMargin(new Insets(0,0,0,27));
+	  	    
+	    //Etykiety dla drugiej kolumny check boxów
+	    lblCheckBox11 = new JLabel("kabanosy");
+	    lblCheckBox11.setFont(arial15);
+	    lblCheckBox11.setForeground(Color.BLACK);
+	    lblCheckBox12 = new JLabel("kapary");
+	    lblCheckBox12.setFont(arial15);
+	    lblCheckBox12.setForeground(Color.BLACK);
+	    lblCheckBox13 = new JLabel("kiełki sojowe");
+	    lblCheckBox13.setFont(arial15);
+	    lblCheckBox13.setForeground(Color.BLACK);
+	    lblCheckBox14 = new JLabel("krewetki");
+	    lblCheckBox14.setFont(arial15);
+	    lblCheckBox14.setForeground(Color.BLACK);
+	    lblCheckBox15 = new JLabel("kukurydza");
+	    lblCheckBox15.setFont(arial15);
+	    lblCheckBox15.setForeground(Color.BLACK);
+	    lblCheckBox16 = new JLabel("kurczak");
+	    lblCheckBox16.setFont(arial15);
+	    lblCheckBox16.setForeground(Color.BLACK);
+	    lblCheckBox17 = new JLabel("małże");
+	    lblCheckBox17.setFont(arial15);
+	    lblCheckBox17.setForeground(Color.BLACK);
+	    lblCheckBox18 = new JLabel("mozzarella");
+	    lblCheckBox18.setFont(arial15);
+	    lblCheckBox18.setForeground(Color.BLACK);
+	    lblCheckBox19 = new JLabel("ogórek kiszony");
+	    lblCheckBox19.setFont(arial15);
+	    lblCheckBox19.setForeground(Color.BLACK);
+	    lblCheckBox20 = new JLabel("ogórek konserwowy");
+	    lblCheckBox20.setFont(arial15);
+	    lblCheckBox20.setForeground(Color.BLACK);
 			  	    
-			    checkBox16 = new JCheckBox();
-			    checkBox16.setBorder(null);
-			    checkBox16.setIcon(new ImageIcon("images/icon.png"));
-			    checkBox16.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox16.setPressedIcon(new ImageIcon("images/icon.png"));
-			    checkBox16.setRolloverIcon(new ImageIcon("images/icon.png"));
-			    checkBox16.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox16.setMargin(new Insets(0,0,0,27));
-			  	    
-			    checkBox17 = new JCheckBox();
-			    checkBox17.setBorder(null);
-			    checkBox17.setIcon(new ImageIcon("images/icon.png"));
-			    checkBox17.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox17.setPressedIcon(new ImageIcon("images/icon.png"));
-			    checkBox17.setRolloverIcon(new ImageIcon("images/icon.png"));
-			    checkBox17.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox17.setMargin(new Insets(0,0,0,27));
-			  	    
-			    checkBox18 = new JCheckBox();
-			    checkBox18.setBorder(null);
-			    checkBox18.setIcon(new ImageIcon("images/icon.png"));
-			    checkBox18.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox18.setPressedIcon(new ImageIcon("images/icon.png"));
-			    checkBox18.setRolloverIcon(new ImageIcon("images/icon.png"));
-			    checkBox18.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox18.setMargin(new Insets(0,0,0,27));
-			    
-			    checkBox19 = new JCheckBox();
-			    checkBox19.setBorder(null);
-			    checkBox19.setIcon(new ImageIcon("images/icon.png"));
-			    checkBox19.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox19.setPressedIcon(new ImageIcon("images/icon.png"));
-			    checkBox19.setRolloverIcon(new ImageIcon("images/icon.png"));
-			    checkBox19.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox19.setMargin(new Insets(0,0,0,27));
-			  	    
-			    checkBox20 = new JCheckBox();
-			    checkBox20.setBorder(null);
-			    checkBox20.setIcon(new ImageIcon("images/icon.png"));
-			    checkBox20.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox20.setPressedIcon(new ImageIcon("images/icon.png"));
-			    checkBox20.setRolloverIcon(new ImageIcon("images/icon.png"));
-			    checkBox20.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox20.setMargin(new Insets(0,0,0,27));
-			  	    
-			    //Etykiety dla drugiej kolumny check boxów
-			    lblCheckBox11 = new JLabel("kabanosy");
-			    lblCheckBox11.setFont(arial15);
-			    lblCheckBox11.setForeground(Color.BLACK);
-			    lblCheckBox12 = new JLabel("kapary");
-			    lblCheckBox12.setFont(arial15);
-			    lblCheckBox12.setForeground(Color.BLACK);
-			    lblCheckBox13 = new JLabel("kiełki sojowe");
-			    lblCheckBox13.setFont(arial15);
-			    lblCheckBox13.setForeground(Color.BLACK);
-			    lblCheckBox14 = new JLabel("krewetki");
-			    lblCheckBox14.setFont(arial15);
-			    lblCheckBox14.setForeground(Color.BLACK);
-			    lblCheckBox15 = new JLabel("kukurydza");
-			    lblCheckBox15.setFont(arial15);
-			    lblCheckBox15.setForeground(Color.BLACK);
-			    lblCheckBox16 = new JLabel("kurczak");
-			    lblCheckBox16.setFont(arial15);
-			    lblCheckBox16.setForeground(Color.BLACK);
-			    lblCheckBox17 = new JLabel("małże");
-			    lblCheckBox17.setFont(arial15);
-			    lblCheckBox17.setForeground(Color.BLACK);
-			    lblCheckBox18 = new JLabel("mozzarella");
-			    lblCheckBox18.setFont(arial15);
-			    lblCheckBox18.setForeground(Color.BLACK);
-			    lblCheckBox19 = new JLabel("ogórek kiszony");
-			    lblCheckBox19.setFont(arial15);
-			    lblCheckBox19.setForeground(Color.BLACK);
-			    lblCheckBox20 = new JLabel("ogórek konserwowy");
-			    lblCheckBox20.setFont(arial15);
-			    lblCheckBox20.setForeground(Color.BLACK);
-			  	    
-			  	//Trzecia kolumna składników (check boxy)
-			    checkBox21 = new JCheckBox();
-			    checkBox21.setBorder(null);
-			    checkBox21.setIcon(new ImageIcon("images/icon.png"));
-			    checkBox21.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox21.setPressedIcon(new ImageIcon("images/icon.png"));
-			    checkBox21.setRolloverIcon(new ImageIcon("images/icon.png"));
-			    checkBox21.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox21.setMargin(new Insets(0,0,0,27)); //        // top,left,bottom.right respectively
+		//Trzecia kolumna składników (check boxy)
+		checkBox21 = new JCheckBox();
+		checkBox21.setBorder(null);
+		checkBox21.setIcon(new ImageIcon("images/icon.png"));
+		checkBox21.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+		checkBox21.setPressedIcon(new ImageIcon("images/icon.png"));
+		checkBox21.setRolloverIcon(new ImageIcon("images/icon.png"));
+		checkBox21.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+		checkBox21.setMargin(new Insets(0,0,0,27)); //        // top,left,bottom.right respectively
 
-			    checkBox22 = new JCheckBox();
-			    checkBox22.setBorder(null);
-			    checkBox22.setIcon(new ImageIcon("images/icon.png"));
-			    checkBox22.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox22.setPressedIcon(new ImageIcon("images/icon.png"));
-			    checkBox22.setRolloverIcon(new ImageIcon("images/icon.png"));
-			    checkBox22.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox22.setMargin(new Insets(0,0,0,27));
+		checkBox22 = new JCheckBox();
+		checkBox22.setBorder(null);
+		checkBox22.setIcon(new ImageIcon("images/icon.png"));
+		checkBox22.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+		checkBox22.setPressedIcon(new ImageIcon("images/icon.png"));
+		checkBox22.setRolloverIcon(new ImageIcon("images/icon.png"));
+		checkBox22.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+		checkBox22.setMargin(new Insets(0,0,0,27));
 				    
-			    checkBox23 = new JCheckBox();
-			    checkBox23.setBorder(null);
-			    checkBox23.setIcon(new ImageIcon("images/icon.png"));
-			    checkBox23.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox23.setPressedIcon(new ImageIcon("images/icon.png"));
-			    checkBox23.setRolloverIcon(new ImageIcon("images/icon.png"));
-			    checkBox23.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox23.setMargin(new Insets(0,0,0,27));
+		checkBox23 = new JCheckBox();
+		checkBox23.setBorder(null);
+		checkBox23.setIcon(new ImageIcon("images/icon.png"));
+		checkBox23.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+		checkBox23.setPressedIcon(new ImageIcon("images/icon.png"));
+		checkBox23.setRolloverIcon(new ImageIcon("images/icon.png"));
+		checkBox23.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+		checkBox23.setMargin(new Insets(0,0,0,27));
 					
-			    checkBox24 = new JCheckBox();
-			    checkBox24.setBorder(null);
-			    checkBox24.setIcon(new ImageIcon("images/icon.png"));
-			    checkBox24.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox24.setPressedIcon(new ImageIcon("images/icon.png"));
-			    checkBox24.setRolloverIcon(new ImageIcon("images/icon.png"));
-			    checkBox24.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox24.setMargin(new Insets(0,0,0,27));
+		checkBox24 = new JCheckBox();
+		checkBox24.setBorder(null);
+		checkBox24.setIcon(new ImageIcon("images/icon.png"));
+		checkBox24.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+		checkBox24.setPressedIcon(new ImageIcon("images/icon.png"));
+		checkBox24.setRolloverIcon(new ImageIcon("images/icon.png"));
+		checkBox24.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+		checkBox24.setMargin(new Insets(0,0,0,27));
 				    
-			    checkBox25 = new JCheckBox();
-			    checkBox25.setBorder(null);
-			    checkBox25.setIcon(new ImageIcon("images/icon.png"));
-			    checkBox25.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox25.setPressedIcon(new ImageIcon("images/icon.png"));
-			    checkBox25.setRolloverIcon(new ImageIcon("images/icon.png"));
-			    checkBox25.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox25.setMargin(new Insets(0,0,0,27));
+		checkBox25 = new JCheckBox();
+		checkBox25.setBorder(null);
+		checkBox25.setIcon(new ImageIcon("images/icon.png"));
+		checkBox25.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+		checkBox25.setPressedIcon(new ImageIcon("images/icon.png"));
+		checkBox25.setRolloverIcon(new ImageIcon("images/icon.png"));
+		checkBox25.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+		checkBox25.setMargin(new Insets(0,0,0,27));
 				    
-			    checkBox26 = new JCheckBox();
-			    checkBox26.setBorder(null);
-			    checkBox26.setIcon(new ImageIcon("images/icon.png"));
-			    checkBox26.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox26.setPressedIcon(new ImageIcon("images/icon.png"));
-			    checkBox26.setRolloverIcon(new ImageIcon("images/icon.png"));
-			    checkBox26.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-			    checkBox26.setMargin(new Insets(0,0,0,27));
+		checkBox26 = new JCheckBox();
+		checkBox26.setBorder(null);
+		checkBox26.setIcon(new ImageIcon("images/icon.png"));
+		checkBox26.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+		checkBox26.setPressedIcon(new ImageIcon("images/icon.png"));
+		checkBox26.setRolloverIcon(new ImageIcon("images/icon.png"));
+		checkBox26.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+		checkBox26.setMargin(new Insets(0,0,0,27));
 				    
 		checkBox27 = new JCheckBox();
 		checkBox27.setBorder(null);
@@ -1516,7 +1510,6 @@ public class GUI extends JFrame implements ActionListener{
 		checkBox38.addActionListener(this);	
 		checkBox39.addActionListener(this);	
 		checkBox40.addActionListener(this);	
-
 
 		ekranWlasnaPizza.add(lblWlasnaPizzaNaglowek, cc.xyw(1, 1, 35));
 		ekranWlasnaPizza.add(lblWlasnaPizzaText1, cc.xyw(4,3, 3));
@@ -1887,10 +1880,6 @@ public class GUI extends JFrame implements ActionListener{
 		else if(customCombobox.getSelectedItem()=="50cm"){
 			cenaWlasnejPizzy=33.00;
 		}
-		if(customCombobox2.getSelectedItem()=="Czosnkowy" || customCombobox2.getSelectedItem()=="Ostry")
-		{
-			cenaWlasnejPizzy+=1;
-		}
 		return cenaWlasnejPizzy;
 	}
 	
@@ -1950,7 +1939,6 @@ public class GUI extends JFrame implements ActionListener{
 				checkBox40.setSelected(false);
 				liczbaZaznaczonych=0;
 		    }
-	
 	}
    
 	//Metoda drukująca paragon 
@@ -2040,7 +2028,9 @@ public class GUI extends JFrame implements ActionListener{
 			checkBox38.setSelected(false);
 			checkBox39.setSelected(false);
 			checkBox40.setSelected(false);
+			
 			liczbaZaznaczonych=2;
+			
 			if(dostawa==true){	
 				CardLayout c1 = (CardLayout)(panelDolny.getLayout());
 	            c1.show(panelDolny,"card5");
@@ -2057,6 +2047,7 @@ public class GUI extends JFrame implements ActionListener{
 			        //Wyświetlenie wtępnych informacji na podglądzie paragonu: nazwa, adres firmy, data, godzina
 			        zamowienie.wyswietlNaglowekParagonu("PizzaHub sp.z.o.o."+"\n"+"75-453 Koszalin"+"\n"+"ul. Śniadeckich 2"+"\n\n", textPane2);
 			        zamowienie.wyswietlDateNaParagonie(textPane2);
+			        
 			        //zamiana na float
 			        double d = buffor.getKosztLaczny2();
 					float f = (float) d; 
@@ -2189,7 +2180,6 @@ public class GUI extends JFrame implements ActionListener{
 	          
 	          CardLayout c1 = (CardLayout)(panelDolny.getLayout());
 	          c1.show(panelDolny,"card4");
-	          dostawa=false;
 			}
 			else if(comboBoxDostawa.getSelectedItem() == "Z dowozem") {
 			utworzOknoBledu();
@@ -2207,7 +2197,8 @@ public class GUI extends JFrame implements ActionListener{
 		}
 		else if(arg0.getSource() == btnZatwierdz) {
 			//Wyświetlenie łącznego kosztu zamówienia na podglądzie paragonu
-			zamowienie.wyswietlPodsumowanieParagonu("SUMA:",dec.format(buffor.getKosztLaczny()+buffor.getKosztLaczny2()+buffor.getKosztLacznyBezDostawy()), textPane2);
+			zamowienie.wyswietlPodsumowanieParagonu("SUMA:",dec.format(buffor.getKosztLaczny()+buffor.getKosztLaczny2()), textPane2);
+			System.out.println(Buffor.getKosztLaczny()+" "+Buffor.getKosztLaczny2()+" "+Buffor.getKosztLacznyBezDostawy());
 			/*
 			paragon=0;
 			czysc();

@@ -62,6 +62,24 @@ public class Zamowienie {
 	}
 	
 	/**
+	 * Metoda służąca do wyświetlania podglądu zamówienia w cenniku wraz z pizzą własną
+	 * @param textArea
+	 * @param string1
+	 * @param string2
+	 * @param string3
+	 * @param integer
+	 */	
+	void wyswietlPodgladZamowieniaWlasna(JTextArea textArea, String string1, String string2, String string3, int integer){
+		if(string2.equals("Brak")){
+			textArea.append(string1+"\t\t       "+string3+"\t             "+"x"+integer+"\n");	
+		}
+		else {
+			textArea.append(string1+"\t\t       "+string3+"\t             "+"x"+integer+"\n");	
+			textArea.append("+ sos "+string2.toLowerCase()+"\n");
+		}
+			
+	}
+	/**
 	 * Metoda służąca do wyświetlania łącznego kosztu zamówienia
 	 * @param lbl
 	 * @param float1

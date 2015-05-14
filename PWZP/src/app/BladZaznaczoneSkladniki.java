@@ -21,7 +21,7 @@ import com.jgoodies.forms.layout.FormLayout;
  * Odpowiedzialna za budowę okna z komunikatem o błędzie.
  *
  */
-class BladSkladniki extends JDialog implements ActionListener {
+class BladZaznaczoneSkladniki extends JDialog implements ActionListener {
 	
 	private JPanel panelCentralny;
 	private JButton btnOK;
@@ -30,8 +30,8 @@ class BladSkladniki extends JDialog implements ActionListener {
 	/**
 	 * Bezparametrowy konstruktor klasy Blad
 	 */
-	public BladSkladniki(){
-		this.setSize(314,125);
+	public BladZaznaczoneSkladniki(){
+		this.setSize(185,125);
 		this.getContentPane().add(utworzPanelCentralny(), BorderLayout.CENTER);
 		setModal(true);
 		this.setLocationRelativeTo(null);
@@ -46,7 +46,7 @@ class BladSkladniki extends JDialog implements ActionListener {
 	 */
 	private JPanel utworzPanelCentralny(){
 		FormLayout layout = new FormLayout(                                                              
-				"8px, 298px, 8px", 
+				"8px, 169px, 8px", 
 				"31px, 39px, 12px, 22px, 13px, 8px");	
 		CellConstraints cc = new CellConstraints();
 		
@@ -54,15 +54,15 @@ class BladSkladniki extends JDialog implements ActionListener {
 		//panelCentralny=new FormDebugPanel(layout);
 		panelCentralny.setBackground(new Color(0xeeeeee));
 		
-		lblNaglowek=new JLabel(new ImageIcon("images/naglowek_blad2.png"));
+		lblNaglowek=new JLabel(new ImageIcon("images/naglowek_blad3.png"));
 		
-		lblTresc=new JLabel(new ImageIcon("images/tresc_blad2.png"));
+		lblTresc=new JLabel(new ImageIcon("images/tresc_blad3.png"));
 		
 		lblLewo=new JLabel(new ImageIcon("images/blad_ramka_lewa.png"));
 		
 		lblPrawo=new JLabel(new ImageIcon("images/blad_ramka_prawa.png"));
 		
-		lblStopka=new JLabel(new ImageIcon("images/blad_ramka_dolna2.png"));
+		lblStopka=new JLabel(new ImageIcon("images/blad_ramka_dolna3.png"));
 		
 		btnOK=new JButton("OK");
 		btnOK.addActionListener(this);
@@ -78,7 +78,7 @@ class BladSkladniki extends JDialog implements ActionListener {
 	}
 	
 	public static void main(String[] args) {
-		new BladSkladniki();
+		new BladZaznaczoneSkladniki();
 	}
 	
 	/**

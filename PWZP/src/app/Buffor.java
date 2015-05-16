@@ -43,11 +43,29 @@ class Buffor {
 			"ser, sos pomidorowy, oregano",
 	};
 	
-	private static int numerRzedu, liczbaPizz, dodaj;
+	private static int numerRzedu, liczbaPizz, dodaj, rozmiarZamowienia;
 	private static float cena, kosztElementu, kosztLaczny, kosztLacznyBezDostawy;	
 	private static float kosztWlasnej, kosztLacznyWlasnej;
+	private static boolean dostawa=false;
 	
 //*************************************************************************************************************************************	
+	
+	
+	static boolean isDostawa() {
+		return dostawa;
+	}
+
+	static void setDostawa(boolean dostawa) {
+		Buffor.dostawa = dostawa;
+	}
+
+	static int getRozmiarZamowienia() {
+		return rozmiarZamowienia;
+	}
+
+	static void setRozmiarZamowienia(int rozmiarZamowienia) {
+		Buffor.rozmiarZamowienia = rozmiarZamowienia;
+	}
 	
 	static float getKosztLacznyBezDostawy() {
 		return kosztLacznyBezDostawy;

@@ -2,11 +2,22 @@ package app;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Insets;
+import java.awt.event.ActionListener;
+import java.awt.print.PageFormat;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.standard.Chromaticity;
+import javax.print.attribute.standard.MediaPrintableArea;
+import javax.print.attribute.standard.OrientationRequested;
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -255,5 +266,72 @@ public class Zamowienie {
 		}
 	}
 	
-
+	/**
+	 * Metoda sprawdzająca czy limit rozmiaru zamówienia nie został przekroczony
+	 * @return boolean
+	 */
+	boolean sprawdzRozmiarZamowienia(int i){
+		//Przypadek kiedy limit zamówienia nie został przekroczony
+		if(Buffor.getRozmiarZamowienia()+i<=25){
+			return true;
+		}
+		//Przypadek kiedy limit zamówienia został przekroczony
+		else{
+			return false;
+		}
+	}
+	
+	/**
+	 * Metoda tworząca checkBox dla kreatora własnej pizzy
+	 * @param checkBox
+	 * @param s
+	 * @return checkBox
+	 */
+	JCheckBox dodajCheckBox(JCheckBox checkBox, String s){
+		checkBox = new JCheckBox();
+		checkBox.setName(s);
+		checkBox.setBorder(null);
+		checkBox.setIcon(new ImageIcon("images/icon.png"));
+		checkBox.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+		checkBox.setPressedIcon(new ImageIcon("images/icon.png"));
+		checkBox.setRolloverIcon(new ImageIcon("images/icon.png"));
+		checkBox.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
+		checkBox.setMargin(new Insets(0,0,0,27));
+		
+		return checkBox;
+	}
+	
+	/**
+	 * Metoda tworząca label dla checkboxa
+	 * @param lbl
+	 * @param s
+	 * @return lbl
+	 */
+	JLabel dodajLabel(JLabel lbl, String s){
+		Font arial15 = new Font("Arial",Font.PLAIN, 15);
+		
+		lbl = new JLabel(s);
+		lbl.setFont(arial15);
+		lbl.setForeground(Color.BLACK);
+		
+		return lbl;
+	}
+	
+	/**
+	 * Metoda drukująca paragon
+	 * @param textPane
+	 */
+	public void drukujParagon(JTextPane textPane){
+		  final PrinterJob printJob=PrinterJob.getPrinterJob();
+          PageFormat pf = printJob.defaultPage();
+		  final HashPrintRequestAttributeSet attrs=new HashPrintRequestAttributeSet();
+		  attrs.add(OrientationRequested.PORTRAIT);
+		  attrs.add(Chromaticity.MONOCHROME);
+		  attrs.add(new MediaPrintableArea(0,0,200,150,MediaPrintableArea.MM));	
+		  try {
+			  textPane.print(null, null, true, null, attrs, false);
+		} catch (PrinterException e) {
+			e.printStackTrace();
+		}
+	}
 }

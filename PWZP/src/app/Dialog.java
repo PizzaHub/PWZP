@@ -15,12 +15,15 @@ import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
@@ -40,9 +43,10 @@ import com.jgoodies.forms.layout.FormLayout;
 class Dialog extends JDialog implements ActionListener {
 	
 	/**
-	 * Utworzenie obiektu klasy Buffor
+	 * Utworzenie obiektów innych klas
 	 */
 	private Buffor buffor=new Buffor();
+	private Zamowienie zamowienie=new Zamowienie();
 	
 	/**
 	 * Deklaracja komponentów 
@@ -52,7 +56,7 @@ class Dialog extends JDialog implements ActionListener {
 	private JLabel lblNaglowek, lblStopka, lblLewo, lblPrawo, lblNazwaPizzy, lblRozmiarPizzy, lblLiczbaPizz, lblWprowadzLiczbePizz, lblSos, 
 		lblKoszt, lblWyswietlKoszt;
 	private JButton btnDodaj, btnZamknij;
-	private JTextField txtWprowadzLiczbePizz;
+	private JSpinner spinLiczbaPizz;
 	private ComboBox customCombobox, customCombobox2;
 	
 	private String[] listaRozmiarow = {"30cm", "40cm", "50cm"};
@@ -148,16 +152,16 @@ class Dialog extends JDialog implements ActionListener {
 		//Napis "Liczba pizz"
 		lblLiczbaPizz=new JLabel(new ImageIcon("images/liczba_dialog.png"));
 		
-		//Pole do wprowadzania liczby pizz
-		txtWprowadzLiczbePizz=new JTextField();
-		txtWprowadzLiczbePizz.setOpaque(false);
-		txtWprowadzLiczbePizz.setBorder(border2);
-		txtWprowadzLiczbePizz.setFont(new Font("Arial", Font.PLAIN, 17));
-		txtWprowadzLiczbePizz.setForeground(Color.BLACK);
-		
-		lblWprowadzLiczbePizz=new JLabel(new ImageIcon("images/liczba.png"));
-		lblWprowadzLiczbePizz.setLayout(new BorderLayout());
-		lblWprowadzLiczbePizz.add(txtWprowadzLiczbePizz);
+		//Wprowadzanie liczby pizz
+		spinLiczbaPizz=new JSpinner();
+		spinLiczbaPizz.setModel(new SpinnerNumberModel(1, 1, 25, 1));
+		JComponent editor = spinLiczbaPizz.getEditor();
+		JSpinner.DefaultEditor spinnerEditor = (JSpinner.DefaultEditor)editor;
+		spinnerEditor.getTextField().setHorizontalAlignment(JTextField.CENTER);
+		spinnerEditor.getTextField().setFont(new Font("Arial", Font.PLAIN, 17));
+		spinnerEditor.getTextField().setBorder(new EmptyBorder(0, 0, 1, 0));
+		spinnerEditor.getTextField().setForeground(Color.black);
+		spinLiczbaPizz.setPreferredSize(new Dimension(45,25));
 		
 		//Napis "Sos"
 		lblSos=new JLabel(new ImageIcon("images/sos_dialog.png"));
@@ -200,7 +204,7 @@ class Dialog extends JDialog implements ActionListener {
 		panelCentralny.add(lblRozmiarPizzy, cc.xywh(3, 5, 3, 1, cc.FILL, cc.FILL));
 		panelCentralny.add(customCombobox, cc.xyw(7, 5, 2, cc.LEFT, cc.FILL));
 		panelCentralny.add(lblLiczbaPizz, cc.xywh(4, 7, 2, 1, cc.LEFT, cc.CENTER));
-		panelCentralny.add(lblWprowadzLiczbePizz, cc.xyw(7, 7, 1, cc.FILL, cc.FILL));
+		panelCentralny.add(spinLiczbaPizz, cc.xyw(7, 7, 2, cc.LEFT , cc.FILL));
 		panelCentralny.add(lblSos, cc.xywh(5, 9, 2, 1, cc.LEFT, cc.CENTER));
 		panelCentralny.add(customCombobox2, cc.xyw(7, 9, 3, cc.FILL, cc.FILL));
 		panelCentralny.add(btnDodaj, cc.xyw(2, 11, 9, cc.CENTER, cc.CENTER));
@@ -208,29 +212,6 @@ class Dialog extends JDialog implements ActionListener {
 		return panelCentralny;
 	}
 
-	/**
-	 * Obsługa błędu w ekranie cennik	
-	 */
-	private void utworzOknoBledu(){
-		pattern = Pattern.compile(".*[^0-9].*");
-		matcherNumerPizzy = pattern.matcher(txtWprowadzLiczbePizz.getText());
-		if (matcherNumerPizzy.matches()){
-			blad1=new Blad();	
-	        txtWprowadzLiczbePizz.setText("");    
-        }
-		else {
-			buffor.setNazwaPizzy(buffor.dane[buffor.getNumerRzedu()][0]);
-			buffor.setRozmiarPizzy(listaRozmiarow[customCombobox.getSelectedIndex()]);
-			buffor.setLiczbaPizz(Integer.parseInt(txtWprowadzLiczbePizz.getText()));
-			buffor.setSos(listaSosow[customCombobox2.getSelectedIndex()]);
-			buffor.setKosztElementu((Float.parseFloat(buffor.dane[buffor.getNumerRzedu()][customCombobox.getSelectedIndex()+1]))*buffor.getLiczbaPizz());
-			buffor.setCena(Float.parseFloat(buffor.dane[buffor.getNumerRzedu()][customCombobox.getSelectedIndex()+1]));
-			buffor.setKosztLaczny(buffor.getKosztLaczny()+buffor.getKosztElementu());
-			Buffor.setKosztLacznyBezDostawy(Buffor.getKosztLaczny());
-			buffor.setDodaj(1);
-			this.dispose();	
-		}
-	}
 	
 //*************************************************************************************************************************************
 
@@ -246,7 +227,30 @@ class Dialog extends JDialog implements ActionListener {
 	//Obsługa zdarzeń
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource()==btnDodaj){
-			utworzOknoBledu();
+			//Jeśli rozmiar zamówienia mieści się w limicie:
+			if(zamowienie.sprawdzRozmiarZamowienia((int) spinLiczbaPizz.getValue())==true){
+				Buffor.setLiczbaPizz((int) spinLiczbaPizz.getValue());
+				Buffor.setNazwaPizzy(buffor.dane[Buffor.getNumerRzedu()][0]);
+				Buffor.setRozmiarPizzy(listaRozmiarow[customCombobox.getSelectedIndex()]);
+				Buffor.setSos(listaSosow[customCombobox2.getSelectedIndex()]);
+				Buffor.setKosztElementu((Float.parseFloat(buffor.dane[Buffor.getNumerRzedu()][customCombobox.getSelectedIndex()+1]))*Buffor.getLiczbaPizz());
+				Buffor.setCena(Float.parseFloat(buffor.dane[Buffor.getNumerRzedu()][customCombobox.getSelectedIndex()+1]));
+				Buffor.setKosztLaczny(Buffor.getKosztLaczny()+Buffor.getKosztElementu());
+				Buffor.setKosztLacznyBezDostawy(Buffor.getKosztLaczny());
+				Buffor.setDodaj(1);
+				Buffor.setRozmiarZamowienia(Buffor.getRozmiarZamowienia()+Buffor.getLiczbaPizz());
+				this.dispose();	
+			}
+			else if(zamowienie.sprawdzRozmiarZamowienia((int) spinLiczbaPizz.getValue())==false){
+				int wynik=25-Buffor.getRozmiarZamowienia()-((int) spinLiczbaPizz.getValue());
+				
+				//Wyświetlenie komunikatu o błędzie
+				BladPrzekroczeniaLimitu blad=new BladPrzekroczeniaLimitu();
+				
+				spinLiczbaPizz.setValue((int) spinLiczbaPizz.getValue()+wynik);
+			}
+			
+			
 		}
 		else if(arg0.getSource()==btnZamknij){
 			this.dispose();	

@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.print.attribute.HashAttributeSet;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.standard.Chromaticity;
 import javax.print.attribute.standard.MediaPrintableArea;
@@ -38,6 +39,11 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import javax.swing.text.TabSet;
 import javax.swing.text.TabStop;
+
+
+
+
+
 
 
 
@@ -79,14 +85,14 @@ public class GUI extends JFrame implements ActionListener{
 	 * Deklaracja przycisków
 	 */
 	private JButton btnZamknij, btnMinimalizuj, btnAnulujZamowienie, 
-	btnAnulujZamowienie3, btnAnulujZamowienie4, btnDostawa, btnDostawa2, btnDrukuj;
+	btnAnulujZamowienie3, btnAnulujZamowienie4;
 	
 	/**
 	 * Deklaracja komponentów ekranu startowego
 	 */
 	private int paragon; //Zmienna, której wartość wskazuje, czy w polu Podgląd paragonu wyświetlić informacje wstępne
 	private JButton btnZamowzMenu, btnZamowzMenu2, btnZamowWlasna, btnZamowWlasna2, btnPomoc;
-	private JLabel lblStartowyLogo, lblMenuImage, lblWlasnaImage, lblPasekStanuEkranStartowy;
+	private JLabel lblStartowyLogo, lblPasekStanuEkranStartowy;
 	
 	/**
 	 * Deklaracja komponentów cennika
@@ -107,7 +113,7 @@ public class GUI extends JFrame implements ActionListener{
 	/**
 	 * Deklaracja komponenetów ekranu dostawy
 	 */
-	private JButton btnAnulujZamowienie2, btnDodajDoZamowienia, btnPotwierdzenie, btnPotwierdzenie2, btnCennik;
+	private JButton btnAnulujZamowienie2, btnDodajDoZamowienia, btnPotwierdzenie2, btnCennik;
 	private JLabel lblDostawaLogo, lblDostawaText1, lblDostawaText2, lblDostawaText3, 
 	lblDostawaText4, lblDostawaText5, lblDostawaText6,lblDostawaText7, lblDostawaText8, lblPasekStanuEkranDostawy, lblNumerTelefonu
 	,lblMiejscowosc, lblUlica, lblNrBudynku, lblNrMieszkania, lblLacznyKoszt;
@@ -124,10 +130,10 @@ public class GUI extends JFrame implements ActionListener{
 	/**
 	 * Deklaracja komponentów ekranu zatwierdzania zamówienia
 	 */
-	private JLabel lblZatwierdzenieNaglowek, lblPodgladParagonu, lblDaneZamawiajacego, lblSposobDostawy, lblWyswietlSposobDostawy,
-		lblKosztDostawy, lblWyswietlKosztDostawy, lblLacznyKosztZ, lblWyswietlLacznyKosztZ, lblVAT, lblWyswietlVAT, lblPasekStanuZatwierdzanie;
-	private JTextField txtDlblZatwierdzenieNaglowekaneZamawiajacego, txtSposobDostawy, txtKosztDostawy, txtLacznyKosztZ, txtVAT;
-	private JTextArea txtrPodgladParagonu, txtrDaneZamawiajacego;
+	private JLabel lblZatwierdzenieNaglowek, lblPodgladParagonu, lblDaneZamawiajacego, lblSposobDostawy,
+		lblKosztDostawy, lblLacznyKosztZ, lblVAT, lblPasekStanuZatwierdzanie;
+	private JTextField txtSposobDostawy, txtKosztDostawy, txtLacznyKosztZ, txtVAT;
+	private JTextArea txtrDaneZamawiajacego;
 	private JButton btnZatwierdz, btnAnulujZ, btnDostawa4, btnDrukujParagon;
 	private JScrollPane scrollPane4;
 	
@@ -135,7 +141,7 @@ public class GUI extends JFrame implements ActionListener{
 	 * Deklaracja komponentów ekranu własnej pizzy
 	 */
 	private JLabel lblWlasnaPizzaText1,lblWlasnaPizzaText2, lblWlasnaPizzaText3, lblWlasnaPizzaText4, 
-	lblWlasnaPizzaNaglowek, lblPasekStanuWlasnaPizza,lblWprowadzLiczbePizzWlasna, 
+	lblWlasnaPizzaNaglowek, lblPasekStanuWlasnaPizza,
 	lblCheckBox1, lblCheckBox2, lblCheckBox3,lblCheckBox4, lblCheckBox5, lblCheckBox6, lblCheckBox7, lblCheckBox8, lblCheckBox9, lblCheckBox10,
 	lblCheckBox11, lblCheckBox12, lblCheckBox13, lblCheckBox14, lblCheckBox15, lblCheckBox16, lblCheckBox17, lblCheckBox18, lblCheckBox19, lblCheckBox20,
 	lblCheckBox21, lblCheckBox22, lblCheckBox23, lblCheckBox24, lblCheckBox25, lblCheckBox26, lblCheckBox27, lblCheckBox28, lblCheckBox29, lblCheckBox30,
@@ -143,7 +149,7 @@ public class GUI extends JFrame implements ActionListener{
 	lblPasekWlasnaPizza;
 	private JButton btnStartowyZWlasnaPizza, btnDostawa5;
 	private ComboBox customCombobox, customCombobox2;
-	private JTextField txtWprowadzLiczbePizzWlasna;
+	private JSpinner spinLiczbaPizz;
 	private String[] listaRozmiarow = {"30cm", "40cm", "50cm"};
 	private String[] listaSosow = {"Brak", "Czosnkowy", "Ostry"};
 	private JCheckBox checkBox1,checkBox2, checkBox3, checkBox4, checkBox5, checkBox6, checkBox7, checkBox8, checkBox9, checkBox10,
@@ -181,7 +187,7 @@ public class GUI extends JFrame implements ActionListener{
 	Pattern pattern, pattern2;
 	private static final String POLSKIE_ZNAKI = "^[\\p{L}*]+";
     Matcher matcherNrBudynku, matcherNrMieszkania, matcherMiejscowosc, matcherUlica, matcherLiczba, matcherWybor;
-    private Blad blad1, blad2, blad3, blad4, blad5;
+    private Blad blad1;
     private BladSkladniki blad6;
     private BladZaznaczoneSkladniki blad7;
 
@@ -192,18 +198,12 @@ public class GUI extends JFrame implements ActionListener{
 	 * Konstruktor bezparametrowy klasy GUI
 	 */
 	public GUI(){
-		/*
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Calendar cal = Calendar.getInstance();
-		System.out.println(dateFormat.format(cal.getTime()));
-		*/
 		this.getContentPane().add(utworzPanelDolny(), BorderLayout.CENTER);
 		this.getContentPane().add(utworzPanelGorny(), BorderLayout.NORTH);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		ImageIcon icon = new ImageIcon("images/ico.png");
 		this.setIconImage(icon.getImage());
 		this.setUndecorated(true);
-		//this.setAlwaysOnTop(true);
 		this.setResizable(false);  
 		this.setVisible(true);
 	}
@@ -424,35 +424,41 @@ public class GUI extends JFrame implements ActionListener{
 	                //Pobranie i zapisanie wybranego numeru rzędu z tablicy
 	                int row = cennikTabela.rowAtPoint(e.getPoint());
 	                String mychar = String.valueOf(cennikTabela.getValueAt(row, 0).toString().charAt(14)+""+cennikTabela.getValueAt(row, 0).toString().charAt(15)).split("\\.")[0];
-	                buffor.setNumerRzedu(Integer.parseInt(mychar)-1);
-	                System.out.println(buffor.getNumerRzedu());
-                    
-                    //Utworzenie obiektu klasu Dialog
-                    dialog=new Dialog();
-                    
-                    //Sprawdzam, czy użytkownik zamknął dialog czy użył przycisku "Dodaj do zamówienia"
-                    if(buffor.getDodaj()==1){
-                    	//Wyświetlenie podglądu zamówienia w cenniku
-                        zamowienie.wyswietlPodgladZamowienia(txtrZamowienie, buffor.getSos(), buffor.getNazwaPizzy(), buffor.getRozmiarPizzy(), 
-                        buffor.getLiczbaPizz());
-                        
-                        //Wyświetlenie łącznego kosztu zamówienia (z cennika i własnej pizzy)
-            			buffor.setKosztLacznyWlasnej(buffor.getKosztLacznyWlasnej());
-                        zamowienie.wyswietlLacznyKoszt(lblWyswietlLacznyKosztZamowienia, buffor.getKosztLaczny()+buffor.getKosztLacznyWlasnej(), dec);   
-                        
-                        //Wyświetlenie podglądu zamówienia na ekranie dostawy
-                        zamowienie.wyswietlPizze(buffor.getNazwaPizzy()+"\t\t"+buffor.getRozmiarPizzy()+"\t"+"x"+buffor.getLiczbaPizz()+"\t"+
-                        		dec.format(buffor.getKosztElementu())+"\n", textPane);
-                        zamowienie.wyswietlSkladniki(buffor.skladniki[buffor.getNumerRzedu()]+"\n", textPane);
-                        zamowienie.wyswietlSos(buffor.getSos(),"+ sos "+buffor.getSos()+"\n", textPane);
-                        
-                        //Wyświetlenie podglądu paragonu na ekranie zatwierdzania zamówienia
-                        zamowienie.wyswietlPizzeNaParagonie(buffor.getNazwaPizzy()+" "+buffor.getRozmiarPizzy()+"\t"+buffor.getLiczbaPizz()+"\t\tx\t"+
-                        		dec.format(buffor.getCena())+"\n", textPane2);
-                        zamowienie.wyswietlSos(buffor.getSos(), "Sos "+buffor.getSos().toLowerCase()+"\t"+"0\t\tx\t0,00"+"\n", textPane2);     
-                    }
-                    else{
-                    }
+	                Buffor.setNumerRzedu(Integer.parseInt(mychar)-1);
+	                
+	                //Sprawdzenie, czy limit rozmiaru zamówienia został osiągnięty
+	                if(Buffor.getRozmiarZamowienia()==25){
+	                	BladOsiagnieciaLimitu blad=new BladOsiagnieciaLimitu();
+	                }
+	                else{
+	                    //Utworzenie obiektu klasu Dialog
+	                    dialog=new Dialog();
+	                    
+	                    //Sprawdzam, czy użytkownik zamknął dialog czy użył przycisku "Dodaj do zamówienia"
+	                    if(Buffor.getDodaj()==1){
+	                    	//Wyświetlenie podglądu zamówienia w cenniku
+	                        zamowienie.wyswietlPodgladZamowienia(txtrZamowienie, Buffor.getSos(), Buffor.getNazwaPizzy(), Buffor.getRozmiarPizzy(), 
+	                        Buffor.getLiczbaPizz());
+	                        
+	                        //Wyświetlenie łącznego kosztu zamówienia (z cennika i własnej pizzy)
+	                        Buffor.setKosztLacznyWlasnej(Buffor.getKosztLacznyWlasnej());
+	                        zamowienie.wyswietlLacznyKoszt(lblWyswietlLacznyKosztZamowienia, Buffor.getKosztLaczny()+Buffor.getKosztLacznyWlasnej(), dec);   
+	                        
+	                        //Wyświetlenie podglądu zamówienia na ekranie dostawy
+	                        zamowienie.wyswietlPizze(Buffor.getNazwaPizzy()+"\t\t"+Buffor.getRozmiarPizzy()+"\t"+"x"+Buffor.getLiczbaPizz()+"\t"+
+	                        		dec.format(Buffor.getKosztElementu())+"\n", textPane);
+	                        zamowienie.wyswietlSkladniki(buffor.skladniki[Buffor.getNumerRzedu()]+"\n", textPane);
+	                        zamowienie.wyswietlSos(Buffor.getSos(),"+ sos "+Buffor.getSos()+"\n", textPane);
+	                        
+	                        //Wyświetlenie podglądu paragonu na ekranie zatwierdzania zamówienia
+	                        zamowienie.wyswietlPizzeNaParagonie(Buffor.getNazwaPizzy()+" "+Buffor.getRozmiarPizzy()+"\t"+Buffor.getLiczbaPizz()+"\t\tx\t"+
+	                        		dec.format(Buffor.getCena())+"\n", textPane2);
+	                        zamowienie.wyswietlSos(Buffor.getSos(), "Sos "+Buffor.getSos().toLowerCase()+"\t"+"0\t\tx\t0,00"+"\n", textPane2);     
+	                    }
+	                    else{
+	                    	
+	                    }	                	
+	                }
 				}
 			}
 		});
@@ -565,13 +571,6 @@ public class GUI extends JFrame implements ActionListener{
 		lblWyswietlLacznyKosztZamowienia.setFont(new Font("Arial", Font.BOLD, 17));
 		lblWyswietlLacznyKosztZamowienia.setForeground(Color.black);
 		
-		/*
-		//Przycisk 'Anuluj zamówienie'
-		btnAnuluj=new JButton(new ImageIcon("images/anuluj.png"));
-		btnAnuluj.setPreferredSize(new Dimension(208,27));
-		btnAnuluj.addActionListener(this);
-		*/
-		
 		//Przycisk umożliwiający przejście do ekranu dostawy
 		btnDostawa3=new JButton(new ImageIcon("images/dalej.png"));
 		btnDostawa3.setPreferredSize(new Dimension(44,30));
@@ -595,7 +594,6 @@ public class GUI extends JFrame implements ActionListener{
 		cennik.add(lblPodgladZamowienia, cc.xy(13,7, cc.LEFT, cc.FILL));
 		cennik.add(lblLacznyKosztZamowienia, cc.xy(13,11, cc.LEFT, cc.BOTTOM));
 		cennik.add(lblWyswietlLacznyKosztZamowienia, cc.xy(14,11, cc.LEFT, cc.BOTTOM));
-		//cennik.add(btnAnuluj, cc.xyw(13,11,4, cc.CENTER, cc.FILL));
 		cennik.add(scrollPane, cc.xywh(13,8,4,3, cc.FILL, cc.FILL)); 
 		cennik.add(scrollPane2,cc.xywh(3, 5, 8, 7)); 
 		cennik.add(btnStartowyZCennika,cc.xyw(2, 14, 2, cc.FILL, cc.FILL));
@@ -630,12 +628,6 @@ public class GUI extends JFrame implements ActionListener{
 		lblDostawaText7 = new JLabel(new ImageIcon("images/dostawa_text7.png"));
 		lblDostawaText8 = new JLabel(new ImageIcon("images/dostawa_text8.png"));
 		
-		/*
-		//Przycisk "Anuluj zamówienie"
-		btnAnulujZamowienie2 = new JButton(new ImageIcon("images/anuluj.png"));
-		btnAnulujZamowienie2.addActionListener(this);
-		*/
-		
 		//Przycisk umożliwiający powiększenie zamówienia o dodatkowe pozycje
 		btnDodajDoZamowienia=new JButton(new ImageIcon("images/powieksz_zamowienie.png"));
 		btnDodajDoZamowienia.addActionListener(this);
@@ -656,9 +648,6 @@ public class GUI extends JFrame implements ActionListener{
             	btnDodajDoZamowienia.setIcon(new ImageIcon("images/powieksz_zamowienie.png"));
             }
         });
-		
-		//btnPotwierdzenie = new JButton(new ImageIcon("images/potwierdz.png"));
-		//btnPotwierdzenie.addActionListener(this);
 		
 		//Twoje zamówienie
 		document = new DefaultStyledDocument();
@@ -780,9 +769,7 @@ public class GUI extends JFrame implements ActionListener{
 		ekranDostawy.add(lblDostawaText6, cc.xywh(9, 12, 2, 1));
 		ekranDostawy.add(lblDostawaText7, cc.xywh(9, 14, 2, 1));
 		ekranDostawy.add(lblDostawaText8, cc.xywh(9, 16, 5, 1));
-		//ekranDostawy.add(btnAnulujZamowienie2, cc.xywh(10, 21, 5, 1));
 		ekranDostawy.add(btnDodajDoZamowienia, cc.xywh(4, 21, 4, 1, cc.CENTER, cc.FILL));
-		//ekranDostawy.add(btnPotwierdzenie, cc.xywh(10, 18, 5, 1));
 		ekranDostawy.add(scrollPane3, cc.xywh(4, 4, 4, 16));
 		ekranDostawy.add(lblNumerTelefonu, cc.xywh(12, 6, 4, 1));
 		ekranDostawy.add(lblMiejscowosc, cc.xywh(12, 8, 4, 1));
@@ -1022,22 +1009,17 @@ public class GUI extends JFrame implements ActionListener{
 		customCombobox.setBorder(BorderFactory.createLineBorder(new Color(0x939393)));
 		customCombobox.setForeground(Color.BLACK);
 		
-		//Obramowanie dla txtWprowadzLiczbePizzWlasna
-		Border line = BorderFactory.createLineBorder(new Color(0x939393));
-		Border empty2 = new EmptyBorder(2, 7, 0, 0);
-		CompoundBorder border2 = new CompoundBorder(line, empty2);
-				
-		//Pole do wprowadzania liczby pizz ekranu własna pizza
-		txtWprowadzLiczbePizzWlasna=new JTextField();
-		txtWprowadzLiczbePizzWlasna.setOpaque(false);
-		txtWprowadzLiczbePizzWlasna.setBorder(border2);
-		txtWprowadzLiczbePizzWlasna.setFont(new Font("Arial", Font.PLAIN, 17));
-		txtWprowadzLiczbePizzWlasna.setForeground(Color.BLACK);
-						
-		lblWprowadzLiczbePizzWlasna=new JLabel(new ImageIcon("images/liczba.png"));
-		lblWprowadzLiczbePizzWlasna.setLayout(new BorderLayout());
-		lblWprowadzLiczbePizzWlasna.add(txtWprowadzLiczbePizzWlasna);
-						
+		//Wprowadzanie liczby pizz
+		spinLiczbaPizz=new JSpinner();
+		spinLiczbaPizz.setModel(new SpinnerNumberModel(1, 1, 25, 1));
+		JComponent editor = spinLiczbaPizz.getEditor();
+		JSpinner.DefaultEditor spinnerEditor = (JSpinner.DefaultEditor)editor;
+		spinnerEditor.getTextField().setHorizontalAlignment(JTextField.CENTER);
+		spinnerEditor.getTextField().setFont(new Font("Arial", Font.PLAIN, 17));
+		spinnerEditor.getTextField().setBorder(new EmptyBorder(1, 0, 1, 0));
+		spinnerEditor.getTextField().setForeground(Color.black);
+		spinLiczbaPizz.setPreferredSize(new Dimension(45,25));
+		
 		//Pole wyboru rodzaju sosu
 		customCombobox2 = new ComboBox();
 		customCombobox2.setEditable(true);
@@ -1049,538 +1031,101 @@ public class GUI extends JFrame implements ActionListener{
 		lblPasekWlasnaPizza = new JLabel(new ImageIcon("images/pasek_wlasna_pizza.png"));
 				
 		//Pierwsza kolumna składników (check boxy)
-		checkBox1 = new JCheckBox();
-		checkBox1.setName("checkBox1");
-		checkBox1.setBorder(null);
-		checkBox1.setIcon(new ImageIcon("images/icon.png"));
-		checkBox1.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox1.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox1.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox1.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox1.setMargin(new Insets(0,0,0,27)); //        // top,left,bottom.right respectively
-
-		checkBox2 = new JCheckBox();
-		checkBox2.setName("checkBox2");
-		checkBox2.setBorder(null);
-		checkBox2.setIcon(new ImageIcon("images/icon.png"));
-		checkBox2.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox2.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox2.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox2.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox2.setMargin(new Insets(0,0,0,27));
-				    
-		checkBox3 = new JCheckBox();
-		checkBox3.setName("checkBox3");
-		checkBox3.setBorder(null);
-		checkBox3.setIcon(new ImageIcon("images/icon.png"));
-		checkBox3.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox3.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox3.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox3.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox3.setMargin(new Insets(0,0,0,27));
-				
-		checkBox4 = new JCheckBox();
-		checkBox4.setName("checkBox4");
-		checkBox4.setBorder(null);
-		checkBox4.setIcon(new ImageIcon("images/icon.png"));
-		checkBox4.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox4.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox4.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox4.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox4.setMargin(new Insets(0,0,0,27));
-			    
-		checkBox5 = new JCheckBox();
-		checkBox5.setName("checkBox5");
-		checkBox5.setBorder(null);
-		checkBox5.setIcon(new ImageIcon("images/icon.png"));
-		checkBox5.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox5.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox5.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox5.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox5.setMargin(new Insets(0,0,0,27));
-			    
-		checkBox6 = new JCheckBox();
-		checkBox6.setName("checkBox6");
-		checkBox6.setBorder(null);
-		checkBox6.setIcon(new ImageIcon("images/icon.png"));
-		checkBox6.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox6.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox6.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox6.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox6.setMargin(new Insets(0,0,0,27));
-			    
-		checkBox7 = new JCheckBox();
-		checkBox7.setName("checkBox7");
-		checkBox7.setBorder(null);
-		checkBox7.setIcon(new ImageIcon("images/icon.png"));
-		checkBox7.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox7.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox7.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox7.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox7.setMargin(new Insets(0,0,0,27));
-			    
-		checkBox8 = new JCheckBox();
-		checkBox8.setName("checkBox8");
-		checkBox8.setBorder(null);
-		checkBox8.setIcon(new ImageIcon("images/icon.png"));
-		checkBox8.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox8.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox8.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox8.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox8.setMargin(new Insets(0,0,0,27));
-			    
-		checkBox9 = new JCheckBox();
-		checkBox9.setName("checkBox9");
-		checkBox9.setBorder(null);
-		checkBox9.setIcon(new ImageIcon("images/icon.png"));
-		checkBox9.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox9.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox9.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox9.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox9.setMargin(new Insets(0,0,0,27));
-			    
-		checkBox10 = new JCheckBox();
-		checkBox10.setName("checkBox10");
-		checkBox10.setBorder(null);
-		checkBox10.setIcon(new ImageIcon("images/icon.png"));
-		checkBox10.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox10.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox10.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox10.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox10.setMargin(new Insets(0,0,0,27));
-			    
+		checkBox1=zamowienie.dodajCheckBox(checkBox1, "checkBox1");
+		checkBox2=zamowienie.dodajCheckBox(checkBox2, "checkBox2");
+		checkBox3=zamowienie.dodajCheckBox(checkBox3, "checkBox3");
+		checkBox4=zamowienie.dodajCheckBox(checkBox4, "checkBox4");
+		checkBox5=zamowienie.dodajCheckBox(checkBox5, "checkBox5");
+		checkBox6=zamowienie.dodajCheckBox(checkBox6, "checkBox6");
+		checkBox7=zamowienie.dodajCheckBox(checkBox7, "checkBox7");
+		checkBox8=zamowienie.dodajCheckBox(checkBox8, "checkBox8");
+		checkBox9=zamowienie.dodajCheckBox(checkBox9, "checkBox9");
+		checkBox10=zamowienie.dodajCheckBox(checkBox10, "checkBox10");
+    
 		//Etykiety dla pierwszej kolumny check boxów
-		Font arial15 = new Font("Arial",Font.PLAIN, 15);
-			    
-		lblCheckBox1 = new JLabel("ananas");
-		lblCheckBox1.setFont(arial15);
-		lblCheckBox1.setForeground(Color.BLACK);
-		lblCheckBox2 = new JLabel("boczek wędzony");
-		lblCheckBox2.setFont(arial15);
-		lblCheckBox2.setForeground(Color.BLACK);
-		lblCheckBox3 = new JLabel("brokuły");
-		lblCheckBox3.setFont(arial15);
-		lblCheckBox3.setForeground(Color.BLACK);
-		lblCheckBox4 = new JLabel("camembert");
-		lblCheckBox4.setFont(arial15);
-		lblCheckBox4.setForeground(Color.BLACK);
-		lblCheckBox5 = new JLabel("cebula biała");
-		lblCheckBox5.setFont(arial15);
-		lblCheckBox5.setForeground(Color.BLACK);
-		lblCheckBox6 = new JLabel("cebula czerwona");
-		lblCheckBox6.setFont(arial15);
-		lblCheckBox6.setForeground(Color.BLACK);
-		lblCheckBox7 = new JLabel("chili");
-		lblCheckBox7.setFont(arial15);
-		lblCheckBox7.setForeground(Color.BLACK);
-		lblCheckBox8 = new JLabel("czosnek");
-		lblCheckBox8.setFont(arial15);
-		lblCheckBox8.setForeground(Color.BLACK);
-		lblCheckBox9 = new JLabel("fasola");
-		lblCheckBox9.setFont(arial15);
-		lblCheckBox9.setForeground(Color.BLACK);
-		lblCheckBox10 = new JLabel("feta");
-		lblCheckBox10.setFont(arial15);
-		lblCheckBox10.setForeground(Color.BLACK);
+		lblCheckBox1 = zamowienie.dodajLabel(lblCheckBox1, "ananas");
+		lblCheckBox2 = zamowienie.dodajLabel(lblCheckBox2, "boczek wędzony");
+		lblCheckBox3 = zamowienie.dodajLabel(lblCheckBox3, "brokuły");
+		lblCheckBox4 = zamowienie.dodajLabel(lblCheckBox4, "camembert");
+		lblCheckBox5 = zamowienie.dodajLabel(lblCheckBox5, "cebula biała");
+		lblCheckBox6 = zamowienie.dodajLabel(lblCheckBox6, "cebula czerwona");
+		lblCheckBox7 = zamowienie.dodajLabel(lblCheckBox7, "chili");
+		lblCheckBox8 = zamowienie.dodajLabel(lblCheckBox8, "czosnek");
+		lblCheckBox9 = zamowienie.dodajLabel(lblCheckBox9, "fasola");
+		lblCheckBox10 = zamowienie.dodajLabel(lblCheckBox10, "feta");
+
 			    
 	    //Druga kolumna składników (check boxy)
-	  	checkBox11 = new JCheckBox();
-	  	checkBox11.setName("checkBox11");
-	  	checkBox11.setBorder(null);
-	    checkBox11.setIcon(new ImageIcon("images/icon.png"));
-	    checkBox11.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox11.setPressedIcon(new ImageIcon("images/icon.png"));
-	    checkBox11.setRolloverIcon(new ImageIcon("images/icon.png"));
-	    checkBox11.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox11.setMargin(new Insets(0,0,0,27));
-
-	    checkBox12 = new JCheckBox();
-	    checkBox12.setName("checkBox12");
-	    checkBox12.setBorder(null);
-	    checkBox12.setIcon(new ImageIcon("images/icon.png"));
-	    checkBox12.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox12.setPressedIcon(new ImageIcon("images/icon.png"));
-	    checkBox12.setRolloverIcon(new ImageIcon("images/icon.png"));
-	    checkBox12.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox12.setMargin(new Insets(0,0,0,27));
-	    
-	    checkBox13 = new JCheckBox();
-	    checkBox13.setName("checkBox13");
-	    checkBox13.setBorder(null);
-	    checkBox13.setIcon(new ImageIcon("images/icon.png"));
-	    checkBox13.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox13.setPressedIcon(new ImageIcon("images/icon.png"));
-	    checkBox13.setRolloverIcon(new ImageIcon("images/icon.png"));
-	    checkBox13.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox13.setMargin(new Insets(0,0,0,27));
-	    
-	    checkBox14 = new JCheckBox();
-	    checkBox14.setName("checkBox14");
-	    checkBox14.setBorder(null);
-	    checkBox14.setIcon(new ImageIcon("images/icon.png"));
-	    checkBox14.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox14.setPressedIcon(new ImageIcon("images/icon.png"));
-	    checkBox14.setRolloverIcon(new ImageIcon("images/icon.png"));
-	    checkBox14.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox14.setMargin(new Insets(0,0,0,27));
-	    
-	    checkBox15 = new JCheckBox();
-	    checkBox15.setName("checkBox15");
-	    checkBox15.setBorder(null);
-	    checkBox15.setIcon(new ImageIcon("images/icon.png"));
-	    checkBox15.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox15.setPressedIcon(new ImageIcon("images/icon.png"));
-	    checkBox15.setRolloverIcon(new ImageIcon("images/icon.png"));
-	    checkBox15.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox15.setMargin(new Insets(0,0,0,27));
-	  	    
-	    checkBox16 = new JCheckBox();
-	    checkBox16.setName("checkBox16");
-	    checkBox16.setBorder(null);
-	    checkBox16.setIcon(new ImageIcon("images/icon.png"));
-	    checkBox16.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox16.setPressedIcon(new ImageIcon("images/icon.png"));
-	    checkBox16.setRolloverIcon(new ImageIcon("images/icon.png"));
-	    checkBox16.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox16.setMargin(new Insets(0,0,0,27));
-	  	    
-	    checkBox17 = new JCheckBox();
-	    checkBox17.setName("checkBox17");
-	    checkBox17.setBorder(null);
-	    checkBox17.setIcon(new ImageIcon("images/icon.png"));
-	    checkBox17.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox17.setPressedIcon(new ImageIcon("images/icon.png"));
-	    checkBox17.setRolloverIcon(new ImageIcon("images/icon.png"));
-	    checkBox17.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox17.setMargin(new Insets(0,0,0,27));
-	  	    
-	    checkBox18 = new JCheckBox();
-	    checkBox18.setName("checkBox18");
-	    checkBox18.setBorder(null);
-	    checkBox18.setIcon(new ImageIcon("images/icon.png"));
-	    checkBox18.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox18.setPressedIcon(new ImageIcon("images/icon.png"));
-	    checkBox18.setRolloverIcon(new ImageIcon("images/icon.png"));
-	    checkBox18.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox18.setMargin(new Insets(0,0,0,27));
-	    
-	    checkBox19 = new JCheckBox();
-	    checkBox19.setName("checkBox19");
-	    checkBox19.setBorder(null);
-	    checkBox19.setIcon(new ImageIcon("images/icon.png"));
-	    checkBox19.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox19.setPressedIcon(new ImageIcon("images/icon.png"));
-	    checkBox19.setRolloverIcon(new ImageIcon("images/icon.png"));
-	    checkBox19.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox19.setMargin(new Insets(0,0,0,27));
-	  	    
-	    checkBox20 = new JCheckBox();
-	    checkBox20.setName("checkBox20");
-	    checkBox20.setBorder(null);
-	    checkBox20.setIcon(new ImageIcon("images/icon.png"));
-	    checkBox20.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox20.setPressedIcon(new ImageIcon("images/icon.png"));
-	    checkBox20.setRolloverIcon(new ImageIcon("images/icon.png"));
-	    checkBox20.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox20.setMargin(new Insets(0,0,0,27));
+		checkBox11=zamowienie.dodajCheckBox(checkBox11, "checkBox11");
+		checkBox12=zamowienie.dodajCheckBox(checkBox12, "checkBox12");
+		checkBox13=zamowienie.dodajCheckBox(checkBox13, "checkBox13");
+		checkBox14=zamowienie.dodajCheckBox(checkBox14, "checkBox14");
+		checkBox15=zamowienie.dodajCheckBox(checkBox15, "checkBox15");
+		checkBox16=zamowienie.dodajCheckBox(checkBox16, "checkBox16");
+		checkBox17=zamowienie.dodajCheckBox(checkBox17, "checkBox17");
+		checkBox18=zamowienie.dodajCheckBox(checkBox18, "checkBox18");
+		checkBox19=zamowienie.dodajCheckBox(checkBox19, "checkBox19");
+		checkBox20=zamowienie.dodajCheckBox(checkBox20, "checkBox20");
 	  	    
 	    //Etykiety dla drugiej kolumny check boxów
-	    lblCheckBox11 = new JLabel("kabanosy");
-	    lblCheckBox11.setFont(arial15);
-	    lblCheckBox11.setForeground(Color.BLACK);
-	    lblCheckBox12 = new JLabel("kapary");
-	    lblCheckBox12.setFont(arial15);
-	    lblCheckBox12.setForeground(Color.BLACK);
-	    lblCheckBox13 = new JLabel("kiełki sojowe");
-	    lblCheckBox13.setFont(arial15);
-	    lblCheckBox13.setForeground(Color.BLACK);
-	    lblCheckBox14 = new JLabel("krewetki");
-	    lblCheckBox14.setFont(arial15);
-	    lblCheckBox14.setForeground(Color.BLACK);
-	    lblCheckBox15 = new JLabel("kukurydza");
-	    lblCheckBox15.setFont(arial15);
-	    lblCheckBox15.setForeground(Color.BLACK);
-	    lblCheckBox16 = new JLabel("kurczak");
-	    lblCheckBox16.setFont(arial15);
-	    lblCheckBox16.setForeground(Color.BLACK);
-	    lblCheckBox17 = new JLabel("małże");
-	    lblCheckBox17.setFont(arial15);
-	    lblCheckBox17.setForeground(Color.BLACK);
-	    lblCheckBox18 = new JLabel("mozzarella");
-	    lblCheckBox18.setFont(arial15);
-	    lblCheckBox18.setForeground(Color.BLACK);
-	    lblCheckBox19 = new JLabel("ogórek kiszony");
-	    lblCheckBox19.setFont(arial15);
-	    lblCheckBox19.setForeground(Color.BLACK);
-	    lblCheckBox20 = new JLabel("ogórek konserwowy");
-	    lblCheckBox20.setFont(arial15);
-	    lblCheckBox20.setForeground(Color.BLACK);
+		lblCheckBox11 = zamowienie.dodajLabel(lblCheckBox11, "kabanosy");
+		lblCheckBox12 = zamowienie.dodajLabel(lblCheckBox12, "kapary");
+		lblCheckBox13 = zamowienie.dodajLabel(lblCheckBox13, "kiełki sojowe");
+		lblCheckBox14 = zamowienie.dodajLabel(lblCheckBox14, "krewetki");
+		lblCheckBox15 = zamowienie.dodajLabel(lblCheckBox15, "kukurydza");
+		lblCheckBox16 = zamowienie.dodajLabel(lblCheckBox16, "kurczak");
+		lblCheckBox17 = zamowienie.dodajLabel(lblCheckBox17, "małże");
+		lblCheckBox18 = zamowienie.dodajLabel(lblCheckBox18, "mozzarella");
+		lblCheckBox19 = zamowienie.dodajLabel(lblCheckBox19, "ogórek kiszony");
+		lblCheckBox20 = zamowienie.dodajLabel(lblCheckBox20, "ogórek konserwowy");
 			  	    
 		//Trzecia kolumna składników (check boxy)
-		checkBox21 = new JCheckBox();
-		checkBox21.setName("checkBox21");
-		checkBox21.setBorder(null);
-		checkBox21.setIcon(new ImageIcon("images/icon.png"));
-		checkBox21.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox21.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox21.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox21.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox21.setMargin(new Insets(0,0,0,27)); //        // top,left,bottom.right respectively
-
-		checkBox22 = new JCheckBox();
-		checkBox22.setName("checkBox22");
-		checkBox22.setBorder(null);
-		checkBox22.setIcon(new ImageIcon("images/icon.png"));
-		checkBox22.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox22.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox22.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox22.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox22.setMargin(new Insets(0,0,0,27));
-				    
-		checkBox23 = new JCheckBox();
-		checkBox23.setName("checkBox23");
-		checkBox23.setBorder(null);
-		checkBox23.setIcon(new ImageIcon("images/icon.png"));
-		checkBox23.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox23.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox23.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox23.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox23.setMargin(new Insets(0,0,0,27));
-					
-		checkBox24 = new JCheckBox();
-		checkBox24.setName("checkBox24");
-		checkBox24.setBorder(null);
-		checkBox24.setIcon(new ImageIcon("images/icon.png"));
-		checkBox24.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox24.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox24.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox24.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox24.setMargin(new Insets(0,0,0,27));
-				    
-		checkBox25 = new JCheckBox();
-		checkBox25.setName("checkBox25");
-		checkBox25.setBorder(null);
-		checkBox25.setIcon(new ImageIcon("images/icon.png"));
-		checkBox25.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox25.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox25.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox25.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox25.setMargin(new Insets(0,0,0,27));
-				    
-		checkBox26 = new JCheckBox();
-		checkBox26.setName("checkBox26");
-		checkBox26.setBorder(null);
-		checkBox26.setIcon(new ImageIcon("images/icon.png"));
-		checkBox26.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox26.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox26.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox26.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox26.setMargin(new Insets(0,0,0,27));
-				    
-		checkBox27 = new JCheckBox();
-		checkBox27.setName("checkBox27");
-		checkBox27.setBorder(null);
-		checkBox27.setIcon(new ImageIcon("images/icon.png"));
-		checkBox27.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox27.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox27.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox27.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox27.setMargin(new Insets(0,0,0,27));
-			    
-		checkBox28 = new JCheckBox();
-		checkBox28.setName("checkBox28");
-		checkBox28.setBorder(null);
-		checkBox28.setIcon(new ImageIcon("images/icon.png"));
-		checkBox28.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox28.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox28.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox28.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox28.setMargin(new Insets(0,0,0,27));
-				    
-		checkBox29 = new JCheckBox();
-		checkBox29.setName("checkBox29");
-		checkBox29.setBorder(null);
-		checkBox29.setIcon(new ImageIcon("images/icon.png"));
-		checkBox29.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox29.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox29.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox29.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox29.setMargin(new Insets(0,0,0,27));
-			    
-		checkBox30 = new JCheckBox();
-		checkBox30.setName("checkBox30");
-		checkBox30.setBorder(null);
-		checkBox30.setIcon(new ImageIcon("images/icon.png"));
-		checkBox30.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox30.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox30.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox30.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox30.setMargin(new Insets(0,0,0,27));
+		checkBox21=zamowienie.dodajCheckBox(checkBox21, "checkBox21");
+		checkBox22=zamowienie.dodajCheckBox(checkBox22, "checkBox22");
+		checkBox23=zamowienie.dodajCheckBox(checkBox23, "checkBox23");
+		checkBox24=zamowienie.dodajCheckBox(checkBox24, "checkBox24");
+		checkBox25=zamowienie.dodajCheckBox(checkBox25, "checkBox25");
+		checkBox26=zamowienie.dodajCheckBox(checkBox26, "checkBox26");
+		checkBox27=zamowienie.dodajCheckBox(checkBox27, "checkBox27");
+		checkBox28=zamowienie.dodajCheckBox(checkBox28, "checkBox28");
+		checkBox29=zamowienie.dodajCheckBox(checkBox29, "checkBox29");
+		checkBox30=zamowienie.dodajCheckBox(checkBox30, "checkBox30");
 				    
 		//Etykiety dla trzeciej kolumny check boxów
-		lblCheckBox21 = new JLabel("oliwki czarne");
-		lblCheckBox21.setFont(arial15);
-		lblCheckBox21.setForeground(Color.BLACK);
-		lblCheckBox22 = new JLabel("oliwki zielone");
-		lblCheckBox22.setFont(arial15);
-		lblCheckBox22.setForeground(Color.BLACK);
-		lblCheckBox23 = new JLabel("oregano");
-		lblCheckBox23.setFont(arial15);
-		lblCheckBox23.setForeground(Color.BLACK);
-		lblCheckBox24 = new JLabel("papryka konserwowa");
-		lblCheckBox24.setFont(arial15);
-		lblCheckBox24.setForeground(Color.BLACK);
-		lblCheckBox25 = new JLabel("peperoni");
-		lblCheckBox25.setFont(arial15);
-		lblCheckBox25.setForeground(Color.BLACK);
-		lblCheckBox26 = new JLabel("pieczarki");
-	    lblCheckBox26.setFont(arial15);
-		lblCheckBox26.setForeground(Color.BLACK);
-		lblCheckBox27 = new JLabel("pomidor");
-		lblCheckBox27.setFont(arial15);
-		lblCheckBox27.setForeground(Color.BLACK);
-		lblCheckBox28 = new JLabel("por");
-		lblCheckBox28.setFont(arial15);
-		lblCheckBox28.setForeground(Color.BLACK);
-		lblCheckBox29 = new JLabel("salami");
-		lblCheckBox29.setFont(arial15);
-		lblCheckBox29.setForeground(Color.BLACK);
-		lblCheckBox30 = new JLabel("ser");
-		lblCheckBox30.setFont(arial15);
-		lblCheckBox30.setForeground(Color.BLACK);
+		lblCheckBox21 = zamowienie.dodajLabel(lblCheckBox21, "oliwki czarne");
+		lblCheckBox22 = zamowienie.dodajLabel(lblCheckBox22, "oliwki zielone");
+		lblCheckBox23 = zamowienie.dodajLabel(lblCheckBox23, "oregano");
+		lblCheckBox24 = zamowienie.dodajLabel(lblCheckBox24, "papryka konserwowa");
+		lblCheckBox25 = zamowienie.dodajLabel(lblCheckBox25, "peperoni");
+		lblCheckBox26 = zamowienie.dodajLabel(lblCheckBox26, "pieczarki");
+		lblCheckBox27 = zamowienie.dodajLabel(lblCheckBox27, "pomidor");
+		lblCheckBox28 = zamowienie.dodajLabel(lblCheckBox28, "por");
+		lblCheckBox29 = zamowienie.dodajLabel(lblCheckBox29, "salami");
+		lblCheckBox30 = zamowienie.dodajLabel(lblCheckBox30, "ser");
 				    
 		//Czwarta kolumna składników (check boxy)
-		checkBox31 = new JCheckBox();
-		checkBox31.setName("checkBox31");
-		checkBox31.setBorder(null);
-		checkBox31.setIcon(new ImageIcon("images/icon.png"));
-		checkBox31.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox31.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox31.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox31.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox31.setMargin(new Insets(0,0,0,27));
-
-		checkBox32 = new JCheckBox();
-		checkBox32.setName("checkBox32");
-		checkBox32.setBorder(null);
-		checkBox32.setIcon(new ImageIcon("images/icon.png"));
-		checkBox32.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox32.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox32.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox32.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox32.setMargin(new Insets(0,0,0,27));
-				    
-		checkBox33 = new JCheckBox();
-		checkBox33.setName("checkBox33");
-		checkBox33.setBorder(null);
-		checkBox33.setIcon(new ImageIcon("images/icon.png"));
-		checkBox33.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox33.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox33.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox33.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox33.setMargin(new Insets(0,0,0,27));
-					
-		checkBox34 = new JCheckBox();
-		checkBox34.setName("checkBox34");
-		checkBox34.setBorder(null);
-		checkBox34.setIcon(new ImageIcon("images/icon.png"));
-		checkBox34.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox34.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox34.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox34.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox34.setMargin(new Insets(0,0,0,27));
-				    
-		checkBox35 = new JCheckBox();
-		checkBox35.setName("checkBox35");
-		checkBox35.setBorder(null);
-		checkBox35.setIcon(new ImageIcon("images/icon.png"));
-		checkBox35.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox35.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox35.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox35.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox35.setMargin(new Insets(0,0,0,27));
-				    
-		checkBox36 = new JCheckBox();
-		checkBox36.setName("checkBox36");
-		checkBox36.setBorder(null);
-		checkBox36.setIcon(new ImageIcon("images/icon.png"));
-		checkBox36.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox36.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox36.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox36.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox36.setMargin(new Insets(0,0,0,27));
-				    
-		checkBox37 = new JCheckBox();
-		checkBox37.setName("checkBox37");
-		checkBox37.setBorder(null);
-		checkBox37.setIcon(new ImageIcon("images/icon.png"));
-		checkBox37.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox37.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox37.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox37.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox37.setMargin(new Insets(0,0,0,27));
-				    
-		checkBox38 = new JCheckBox();
-		checkBox38.setName("checkBox38");
-		checkBox38.setBorder(null);
-		checkBox38.setIcon(new ImageIcon("images/icon.png"));
-		checkBox38.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox38.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox38.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox38.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox38.setMargin(new Insets(0,0,0,27));
-				    
-		checkBox39 = new JCheckBox();
-		checkBox39.setName("checkBox39");
-		checkBox39.setBorder(null);
-		checkBox39.setIcon(new ImageIcon("images/icon.png"));
-		checkBox39.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox39.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox39.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox39.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-	    checkBox39.setMargin(new Insets(0,0,0,27));
-				    
-		checkBox40 = new JCheckBox();
-		checkBox40.setName("checkBox40");
-		checkBox40.setBorder(null);
-		checkBox40.setIcon(new ImageIcon("images/icon.png"));
-		checkBox40.setSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox40.setPressedIcon(new ImageIcon("images/icon.png"));
-		checkBox40.setRolloverIcon(new ImageIcon("images/icon.png"));
-		checkBox40.setRolloverSelectedIcon(new ImageIcon("images/selectedIcon.png"));
-		checkBox40.setMargin(new Insets(0,0,0,27));
+		checkBox31=zamowienie.dodajCheckBox(checkBox31, "checkBox31");
+		checkBox32=zamowienie.dodajCheckBox(checkBox32, "checkBox32");
+		checkBox33=zamowienie.dodajCheckBox(checkBox33, "checkBox33");
+		checkBox34=zamowienie.dodajCheckBox(checkBox34, "checkBox34");
+		checkBox35=zamowienie.dodajCheckBox(checkBox35, "checkBox35");
+		checkBox36=zamowienie.dodajCheckBox(checkBox36, "checkBox36");
+		checkBox37=zamowienie.dodajCheckBox(checkBox37, "checkBox37");
+		checkBox38=zamowienie.dodajCheckBox(checkBox38, "checkBox38");
+		checkBox39=zamowienie.dodajCheckBox(checkBox39, "checkBox39");
+		checkBox40=zamowienie.dodajCheckBox(checkBox40, "checkBox40");
 			    
 		//Etykiety dla czwartej kolumny check boxów
-		lblCheckBox31 = new JLabel("sos boloński");
-		lblCheckBox31.setFont(arial15);
-		lblCheckBox31.setForeground(Color.BLACK);
-	    lblCheckBox32 = new JLabel("sos pomidorowy");
-		lblCheckBox32.setFont(arial15);
-		lblCheckBox32.setForeground(Color.BLACK);
-		lblCheckBox33 = new JLabel("suszone pomidory");
-		lblCheckBox33.setFont(arial15);
-		lblCheckBox33.setForeground(Color.BLACK);
-		lblCheckBox34 = new JLabel("szparagi");
-		lblCheckBox34.setFont(arial15);
-	    lblCheckBox34.setForeground(Color.BLACK);
-		lblCheckBox35 = new JLabel("szpinak");
-		lblCheckBox35.setFont(arial15);
-		lblCheckBox35.setForeground(Color.BLACK);
-		lblCheckBox36 = new JLabel("szynka");
-		lblCheckBox36.setFont(arial15);
-		lblCheckBox36.setForeground(Color.BLACK);
-		lblCheckBox37 = new JLabel("świeża bazylia");
-		lblCheckBox37.setFont(arial15);
-		lblCheckBox37.setForeground(Color.BLACK);
-		lblCheckBox38 = new JLabel("świeża papryka");
-		lblCheckBox38.setFont(arial15);
-		lblCheckBox38.setForeground(Color.BLACK);
-		lblCheckBox39 = new JLabel("tabasco");
-		lblCheckBox39.setFont(arial15);
-	    lblCheckBox39.setForeground(Color.BLACK);
-		lblCheckBox40 = new JLabel("tuńczyk");
-		lblCheckBox40.setFont(arial15);
-		lblCheckBox40.setForeground(Color.BLACK);
+		lblCheckBox31 = zamowienie.dodajLabel(lblCheckBox31, "sos boloński");
+		lblCheckBox32 = zamowienie.dodajLabel(lblCheckBox32, "sos pomidorowy");
+		lblCheckBox33 = zamowienie.dodajLabel(lblCheckBox33, "suszone pomidory");
+		lblCheckBox34 = zamowienie.dodajLabel(lblCheckBox34, "szparagi");
+		lblCheckBox35 = zamowienie.dodajLabel(lblCheckBox35, "szpinak");
+		lblCheckBox36 = zamowienie.dodajLabel(lblCheckBox36, "szynka");
+		lblCheckBox37 = zamowienie.dodajLabel(lblCheckBox37, "świeża bazylia");
+		lblCheckBox38 = zamowienie.dodajLabel(lblCheckBox38, "świeża papryka");
+		lblCheckBox39 = zamowienie.dodajLabel(lblCheckBox39, "tabasco");
+		lblCheckBox40 = zamowienie.dodajLabel(lblCheckBox40, "tuńczyk");
 
 	    lblPasekStanuWlasnaPizza = new JLabel(new ImageIcon("images/pasek_stanu_wlasna_pizza.png"));
 				
@@ -1641,7 +1186,7 @@ public class GUI extends JFrame implements ActionListener{
 		ekranWlasnaPizza.add(lblWlasnaPizzaText3, cc.xy(19, 3));
 		ekranWlasnaPizza.add(lblWlasnaPizzaText4, cc.xyw(4, 7, 5));
 		ekranWlasnaPizza.add(customCombobox, cc.xyw(8, 3, 3));
-		ekranWlasnaPizza.add(lblWprowadzLiczbePizzWlasna, cc.xy(17,3));
+		ekranWlasnaPizza.add(spinLiczbaPizz, cc.xyw(17,3, 2, cc.LEFT, cc.FILL));
 		ekranWlasnaPizza.add(customCombobox2, cc.xy(22, 3));
 		ekranWlasnaPizza.add(lblPasekWlasnaPizza, cc.xyw(4, 5, 20));
 		ekranWlasnaPizza.add(checkBox1, cc.xy(4, 9));
@@ -1786,13 +1331,11 @@ public class GUI extends JFrame implements ActionListener{
 		txtVAT.repaint();
 		
 		//Czyszczenie ekran własna pizza
-		//comboBoxbox.getModel().setSelectedItem("Na wynos");
 		customCombobox.getModel().setSelectedItem("30cm");
 		customCombobox.repaint();
 		customCombobox2.getModel().setSelectedItem("Brak");
 		customCombobox2.repaint();
-		txtWprowadzLiczbePizzWlasna.setText("");
-		txtWprowadzLiczbePizzWlasna.repaint();
+		spinLiczbaPizz.setValue(1);
 		
 		//Wyłączenie zaznaczenia dla check boxów
 		checkBox1.setSelected(false);
@@ -1862,63 +1405,23 @@ public class GUI extends JFrame implements ActionListener{
 		else {
 		  /*Wyświetlenie informacji pobranych z ekranu wyboru stposobu dostawy: dane zamawiającego, sposób dostawy, koszt dostawy,
 	      łączny koszt zamówienia, VAT na ekranie zatwierdzanie zamówienia*/
-		  //buffor.setKosztLaczny(buffor.getKosztLaczny()+kosztDostawy[comboBoxDostawa.getSelectedIndex()]);
 		  txtrDaneZamawiajacego.setText("");
           txtrDaneZamawiajacego.append(txtNumerTelefonu.getText()+"\n"+txtMiejscowosc.getText()+", ul. "+txtUlica.getText()+" "+
           txtNrBudynku.getText()+"/"+txtNrMieszkania.getText());
           txtSposobDostawy.setText(listaDostawa[comboBoxDostawa.getSelectedIndex()]);
           txtKosztDostawy.setText(dec.format(kosztDostawy[comboBoxDostawa.getSelectedIndex()]));
-          //System.out.println(dec.format(buffor.getKosztLaczny()+buffor.getKosztLaczny2()));
-          txtLacznyKosztZ.setText(dec.format(buffor.getKosztLaczny()+buffor.getKosztLacznyWlasnej()));
-          txtVAT.setText(dec.format((buffor.getKosztLaczny()+buffor.getKosztLacznyWlasnej())*0.23));
-		  //dialogBlad.dispose();
+          txtLacznyKosztZ.setText(dec.format(Buffor.getKosztLaczny()+Buffor.getKosztLacznyWlasnej()));
+          txtVAT.setText(dec.format((Buffor.getKosztLaczny()+Buffor.getKosztLacznyWlasnej())*0.23));
 		  CardLayout c1 = (CardLayout)(panelDolny.getLayout());
 		  c1.show(panelDolny,"card4");
 		  dostawa=false;
 		}
 	}
+
 	/**
 	 * Obsługa błędu wprowadzania danych w ekranie dostawy
 	 */
 	private void utworzOknoBledu2(){
-		pattern = Pattern.compile(".*[^0-9].*");
-		pattern2 = Pattern.compile(POLSKIE_ZNAKI, Pattern.CANON_EQ |Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-		matcherMiejscowosc = pattern2.matcher(txtMiejscowosc.getText());
-		matcherUlica = pattern2.matcher(txtUlica.getText());
-        matcherNrMieszkania = pattern.matcher(txtNrMieszkania.getText());
-        matcherNrBudynku  = pattern.matcher(txtNrBudynku.getText());
-		if (matcherNrMieszkania.matches()){
-			blad1=new Blad();
-	        txtNrMieszkania.setText("");
-		}
-		else if (!matcherMiejscowosc.matches()){
-			txtMiejscowosc.setText("");
-		}
-		else if (!matcherUlica.matches()){
-			blad1=new Blad();
-			txtUlica.setText("");
-		}
-		else {
-			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
-            c1.show(panelDolny,"card4");
-            
-            /*Wyświetlenie informacji pobranych z ekranu wyboru stposobu dostawy: dane zamawiającego, sposób dostawy, koszt dostawy,
-              łączny koszt zamówienia, VAT na ekranie zatwierdzanie zamówienia*/
-            buffor.setKosztLaczny(buffor.getKosztLaczny()+buffor.getKosztLacznyWlasnej()+kosztDostawy[comboBoxDostawa.getSelectedIndex()]);
-            txtrDaneZamawiajacego.setText("");
-            txtrDaneZamawiajacego.append(txtNumerTelefonu.getText()+"\n"+txtMiejscowosc.getText()+", ul. "+txtUlica.getText()+" "+
-            		txtNrBudynku.getText()+"/"+txtNrMieszkania.getText());
-            txtSposobDostawy.setText(listaDostawa[comboBoxDostawa.getSelectedIndex()]);
-            txtKosztDostawy.setText(dec.format(kosztDostawy[comboBoxDostawa.getSelectedIndex()]));
-            txtLacznyKosztZ.setText(dec.format(buffor.getKosztLaczny()+buffor.getKosztLacznyWlasnej()));
-            txtVAT.setText(dec.format((buffor.getKosztLaczny()+buffor.getKosztLacznyWlasnej())*0.23)); 
-			//dialogBlad.dispose();
-		}
-	}
-	/**
-	 * Obsługa błędu wprowadzania danych w ekranie dostawy
-	 */
-	private void utworzOknoBledu3(){
 		pattern = Pattern.compile(".*[^0-9].*");
 		pattern2 = Pattern.compile(POLSKIE_ZNAKI, Pattern.CANON_EQ |Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 		matcherMiejscowosc = pattern2.matcher(txtMiejscowosc.getText());
@@ -2019,227 +1522,170 @@ public class GUI extends JFrame implements ActionListener{
 						    if (ostatniSkladnik.equals("checkBox1")){
 						    	checkBox1.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if ( ostatniSkladnik.equals("checkBox2")){
 						    	checkBox2.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if ( ostatniSkladnik.equals("checkBox3")){
 						    	checkBox3.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else  if ( ostatniSkladnik.equals("checkBox4")){
 						    	checkBox4.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else  if ( ostatniSkladnik.equals("checkBox5")){
 						    	checkBox5.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else   if (ostatniSkladnik.equals("checkBox6")){
 						    	checkBox6.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else  if (ostatniSkladnik.equals("checkBox7")){
 						    	checkBox7.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else   if (ostatniSkladnik.equals("checkBox8")){
 						    	checkBox8.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox9")){
 						    	checkBox9.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox10")){
 						    	checkBox10.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox11")){
 						    	checkBox11.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox12")){
 						    	checkBox12.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else  if (ostatniSkladnik.equals("checkBox13")){
 						    	checkBox13.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else  if (ostatniSkladnik.equals("checkBox14")){
 						    	checkBox14.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox15")){
 						    	checkBox15.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox16")){
 						    	checkBox16.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox17")){
 						    	checkBox17.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox18")){
 						    	checkBox18.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox19")){
 						    	checkBox19.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox20")){
 						    	checkBox20.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox21")){
 						    	checkBox21.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox22")){
 						    	checkBox22.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox23")){
 						    	checkBox23.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox24")){
 						    	checkBox24.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox25")){
 						    	checkBox25.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox26")){
 						    	checkBox26.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox27")){
 						    	checkBox27.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox28")){
 						    	checkBox28.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox29")){
 						    	checkBox29.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else  if (ostatniSkladnik.equals("checkBox30")){
 						    	checkBox30.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else  if (ostatniSkladnik.equals("checkBox31")){
 						    	checkBox31.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else  if (ostatniSkladnik.equals("checkBox32")){
 						    	checkBox32.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else  if (ostatniSkladnik.equals("checkBox33")){
 						    	checkBox33.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox34")){
 						    	checkBox34.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox35")){
 						    	checkBox35.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox36")){
 						    	checkBox36.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox37")){
 						    	checkBox37.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox38")){
 						    	checkBox38.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox39")){
 						    	checkBox39.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else if (ostatniSkladnik.equals("checkBox40")){
 						    	checkBox40.setSelected(false);
 						    	liczbaZaznaczonych--;
-						    	System.out.println(liczbaZaznaczonych);
 						    }
 						    else {
-						    	//checkBox1.setSelected(false);
-						    	//liczbaZaznaczonych--;
-						    	//System.out.println(liczbaZaznaczonych);
-						    	//System.out.println("wyszlo z pierwszego ifa");
+						    	
 						    }
 		    }
 	}
    
-	//Metoda drukująca paragon 
-	public void print(){
-		  final PrinterJob printJob=PrinterJob.getPrinterJob();
-          PageFormat pf = printJob.defaultPage();
-		  final HashPrintRequestAttributeSet attrs=new HashPrintRequestAttributeSet();
-		  attrs.add(OrientationRequested.PORTRAIT);
-		  attrs.add(Chromaticity.MONOCHROME);
-		  attrs.add(new MediaPrintableArea(0,0,200,150,MediaPrintableArea.MM));	
-		  try {
-			  textPane2.print(null, null, true, null, attrs, false);
-		} catch (PrinterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		}
+
 //*************************************************************************************************************************************
 		
 	
@@ -2262,14 +1708,12 @@ public class GUI extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		if(arg0.getSource() == btnCennik) {
 
-			//Czyszczenie ekran własna pizza
-			//comboBoxbox.getModel().setSelectedItem("Na wynos");
+			//Czyszczenie ekranu własna pizza
 			customCombobox.getModel().setSelectedItem("30cm");
 			customCombobox.repaint();
 			customCombobox2.getModel().setSelectedItem("Brak");
 			customCombobox2.repaint();
-			txtWprowadzLiczbePizzWlasna.setText("");
-			txtWprowadzLiczbePizzWlasna.repaint();
+			spinLiczbaPizz.setValue(1);
 			
 			//Wyłączenie zaznaczenia dla check boxów
 			checkBox1.setSelected(false);
@@ -2373,15 +1817,15 @@ public class GUI extends JFrame implements ActionListener{
 					paragon=1;
 					
 			        //Wyświetlenie wtępnych informacji na podglądzie paragonu: nazwa, adres firmy, data, godzina
-			        //zamowienie.wyswietlNaglowekParagonu(/*"PizzaHub sp.z.o.o."+"\n"+"75-453 Koszalin"+"\n"+*/"ul. Śniadeckich 2"+"\n\n", textPane2);
 			        zamowienie.wyswietlPizzeNaParagonie("                   PizzaHub sp.z.o.o.\n", textPane2);
 			        zamowienie.wyswietlPizzeNaParagonie("                     75-453 Koszalin\n", textPane2);
 			        zamowienie.wyswietlPizzeNaParagonie("                    ul. Śniadeckich 2\n\n", textPane2);
 			        zamowienie.wyswietlDateNaParagonie(textPane2);
 			        
-					buffor.setKosztLacznyWlasnej(buffor.getKosztWlasnej()+buffor.getKosztLacznyWlasnej());
+					Buffor.setKosztLacznyWlasnej(Buffor.getKosztWlasnej()+Buffor.getKosztLacznyWlasnej());
+					
 			        //Wyświetlenie kosztu zamówienia w cenniku
-			        zamowienie.wyswietlLacznyKoszt(lblWyswietlLacznyKosztZamowienia, buffor.getKosztLaczny()+buffor.getKosztLacznyWlasnej(), dec);
+			        zamowienie.wyswietlLacznyKoszt(lblWyswietlLacznyKosztZamowienia, Buffor.getKosztLaczny()+Buffor.getKosztLacznyWlasnej(), dec);
 					
 					CardLayout c1 = (CardLayout)(panelDolny.getLayout());
 		            c1.show(panelDolny,"card2");
@@ -2395,18 +1839,16 @@ public class GUI extends JFrame implements ActionListener{
 			if(paragon==0){
 				paragon=1;
 				
-		        //Wyświetlenie wtępnych informacji na podglądzie paragonu: nazwa, adres firmy, data, godzina
-		        //zamowienie.wyswietlNaglowekParagonu("PizzaHub sp.z.o.o."+"\n"+"75-453 Koszalin"+"\n"+"ul. Śniadeckich 2"+"\n\n", textPane2);
-		        
+		        //Wyświetlenie wtępnych informacji na podglądzie paragonu: nazwa, adres firmy, data, godzina		        
 		        zamowienie.wyswietlPizzeNaParagonie("                   PizzaHub sp.z.o.o.\n", textPane2);
 		        zamowienie.wyswietlPizzeNaParagonie("                     75-453 Koszalin\n", textPane2);
 		        zamowienie.wyswietlPizzeNaParagonie("                    ul. Śniadeckich 2\n\n", textPane2);
 		        
 		        zamowienie.wyswietlDateNaParagonie(textPane2);
-				buffor.setKosztLacznyWlasnej((buffor.getKosztWlasnej()+buffor.getKosztLacznyWlasnej()));
+				Buffor.setKosztLacznyWlasnej((Buffor.getKosztWlasnej()+Buffor.getKosztLacznyWlasnej()));
 				
 		        //Wyświetlenie kosztu zamówienia w cenniku
-		        zamowienie.wyswietlLacznyKoszt(lblWyswietlLacznyKosztZamowienia, buffor.getKosztLaczny()+buffor.getKosztLacznyWlasnej(), dec);
+		        zamowienie.wyswietlLacznyKoszt(lblWyswietlLacznyKosztZamowienia, Buffor.getKosztLaczny()+Buffor.getKosztLacznyWlasnej(), dec);
 				
 				CardLayout c1 = (CardLayout)(panelDolny.getLayout());
 	            c1.show(panelDolny,"card5");
@@ -2416,34 +1858,27 @@ public class GUI extends JFrame implements ActionListener{
 	            c1.show(panelDolny,"card5");
 			}
 		}
-		else if(arg0.getSource() == btnDrukuj) {
-			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
-            c1.show(panelDolny,"card1");
-		}
 		else if (arg0.getSource() == btnAnulujZamowienie || arg0.getSource()==btnAnuluj || arg0.getSource() == btnAnulujZamowienie2 || 
 				arg0.getSource() == btnAnulujZamowienie3 || arg0.getSource() == btnAnulujZamowienie4 || arg0.getSource() == btnAnulujZ) {
 			czysc();
 			paragon=0;
-			buffor.setKosztLaczny(0);
-			buffor.setKosztLacznyWlasnej(0);
-			buffor.setKosztLacznyBezDostawy(0);
-			buffor.setKosztWlasnej(0);
+			Buffor.setKosztLaczny(0);
+			Buffor.setKosztLacznyWlasnej(0);
+			Buffor.setKosztLacznyBezDostawy(0);
+			Buffor.setKosztWlasnej(0);
+			Buffor.setRozmiarZamowienia(0);
 			lblLacznyKoszt.setText("");
 			lblLacznyKoszt.repaint();
 			liczydlo=0;
 			liczbaZaznaczonych=0;
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card1");
-	     }
-		else if(arg0.getSource() == btnDostawa || arg0.getSource() == btnDostawa2) {
-			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
-            c1.show(panelDolny,"card3");
-		}
+	    }
 		else if(arg0.getSource() == btnDostawa3) {
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card3");
-			buffor.setKosztLacznyWlasnej(buffor.getKosztLacznyWlasnej()); //zmiana1
-            lblLacznyKoszt.setText((dec.format(buffor.getKosztLaczny()+buffor.getKosztLacznyWlasnej())));
+			Buffor.setKosztLacznyWlasnej(Buffor.getKosztLacznyWlasnej()); //zmiana1
+            lblLacznyKoszt.setText((dec.format(Buffor.getKosztLaczny()+Buffor.getKosztLacznyWlasnej())));
             
             dostawa=false;
 		}
@@ -2451,21 +1886,28 @@ public class GUI extends JFrame implements ActionListener{
 			blokujWprowadzanieDanych();
 			
 			//Zmiana łącznego kosztu zamówienia po wyborze sposobu zamówienia
-			buffor.setKosztLaczny(Buffor.getKosztLacznyBezDostawy()+kosztDostawy[comboBoxDostawa.getSelectedIndex()]);
+			Buffor.setKosztLaczny(Buffor.getKosztLacznyBezDostawy()+kosztDostawy[comboBoxDostawa.getSelectedIndex()]);
 			
 			//Uaktualnienie wyświetlanego łącznego kosztu zamówienia po wyborze sposobu dostawy
-			buffor.setKosztLacznyWlasnej(buffor.getKosztLacznyWlasnej());
-			lblLacznyKoszt.setText((dec.format(buffor.getKosztLaczny()+buffor.getKosztLacznyWlasnej())));
-			lblWyswietlLacznyKosztZamowienia.setText((dec.format(buffor.getKosztLaczny()+buffor.getKosztLacznyWlasnej())));
+			Buffor.setKosztLacznyWlasnej(Buffor.getKosztLacznyWlasnej());
+			lblLacznyKoszt.setText((dec.format(Buffor.getKosztLaczny()+Buffor.getKosztLacznyWlasnej())));
+			lblWyswietlLacznyKosztZamowienia.setText((dec.format(Buffor.getKosztLaczny()+Buffor.getKosztLacznyWlasnej())));
 			}
 		else if (arg0.getSource() == btnDodajDoZamowienia){
 			liczydlo = 0;
-			if 	(comboBoxDostawa.getSelectedItem() == "Na miejscu" || comboBoxDostawa.getSelectedItem()=="Na wynos"){
-				CardLayout c1 = (CardLayout)(panelDolny.getLayout());
-	            c1.show(panelDolny,"card1");
+			
+			//Sprawdzenie, czy osiągnięto maksymalny rozmiar zamówienia
+			if(Buffor.getRozmiarZamowienia()==25){
+				BladOsiagnieciaLimitu blad=new BladOsiagnieciaLimitu();
 			}
-			else if(comboBoxDostawa.getSelectedItem() == "Z dowozem"){
-			utworzOknoBledu3();
+			else{
+				if 	(comboBoxDostawa.getSelectedItem() == "Na miejscu" || comboBoxDostawa.getSelectedItem()=="Na wynos"){
+					CardLayout c1 = (CardLayout)(panelDolny.getLayout());
+		            c1.show(panelDolny,"card1");
+				}
+				else if(comboBoxDostawa.getSelectedItem() == "Z dowozem"){
+				utworzOknoBledu2();
+				}				
 			}
 		}
 		else if(arg0.getSource() == btnDostawa4) {
@@ -2488,32 +1930,18 @@ public class GUI extends JFrame implements ActionListener{
     		txtVAT.setText("");
     		txtVAT.repaint();
 		}
-		
-		/*
-		else if(arg0.getSource() == btnPotwierdzenie) {
-			if 	(comboBoxDostawa.getSelectedItem() == "Na miejscu" || comboBoxDostawa.getSelectedItem()=="Na wynos"){
-				CardLayout c1 = (CardLayout)(panelDolny.getLayout());
-	            c1.show(panelDolny,"card4");
-			}
-			else if(comboBoxDostawa.getSelectedItem() == "Z dowozem") {
-			utworzOknoBledu();
-			}
-		}
-		*/
 		else if(arg0.getSource() == btnPotwierdzenie2) {
 			if 	(comboBoxDostawa.getSelectedItem() == "Na miejscu" || comboBoxDostawa.getSelectedItem()=="Na wynos"){
 			  /*Wyświetlenie informacji pobranych z ekranu wyboru stposobu dostawy: dane zamawiającego, sposób dostawy, koszt dostawy,
 	          łączny koszt zamówienia, VAT na ekranie zatwierdzanie zamówienia*/
-			  //buffor.setKosztLaczny(buffor.getKosztLaczny()+kosztDostawy[comboBoxDostawa.getSelectedIndex()]);
 	          txtrDaneZamawiajacego.setText("");
-			  //txtrDaneZamawiajacego.append(txtNumerTelefonu.getText()+"\n"+txtMiejscowosc.getText()+", ul. "+txtUlica.getText()+" "+
-			  //txtNrBudynku.getText()+"/"+txtNrMieszkania.getText());  
 	          txtSposobDostawy.setText(listaDostawa[comboBoxDostawa.getSelectedIndex()]);
 	          txtKosztDostawy.setText(dec.format(kosztDostawy[comboBoxDostawa.getSelectedIndex()]));
+	          
 	          //Łączny koszt i vat z cennika i własnej pizzy
-  			  buffor.setKosztLacznyWlasnej(buffor.getKosztLacznyWlasnej()); //zmiana1
-	          txtLacznyKosztZ.setText((dec.format(buffor.getKosztLaczny()+buffor.getKosztLacznyWlasnej())));
-	          txtVAT.setText(dec.format((buffor.getKosztLaczny()+buffor.getKosztLacznyWlasnej())*0.23));
+  			  Buffor.setKosztLacznyWlasnej(Buffor.getKosztLacznyWlasnej()); //zmiana1
+	          txtLacznyKosztZ.setText((dec.format(Buffor.getKosztLaczny()+Buffor.getKosztLacznyWlasnej())));
+	          txtVAT.setText(dec.format((Buffor.getKosztLaczny()+Buffor.getKosztLacznyWlasnej())*0.23));
 	          
 	          CardLayout c1 = (CardLayout)(panelDolny.getLayout());
 	          c1.show(panelDolny,"card4");
@@ -2527,51 +1955,27 @@ public class GUI extends JFrame implements ActionListener{
 		}
 		else if(arg0.getSource() == btnZamknij) {
 			dispose();
-			//dialogBlad.dispose();
 		}
 		else if(arg0.getSource() == btnOK) {
 			zamowienie.szukajPizzy(sorter, txtSzukaj);
 		}
 		else if(arg0.getSource() == btnZatwierdz) {
 			//Wyświetlenie łącznego kosztu zamówienia na podglądzie paragonu
-			zamowienie.wyswietlPodsumowanieParagonu("SUMA:",dec.format(buffor.getKosztLaczny()+buffor.getKosztLacznyWlasnej()), textPane2);
-			System.out.println(buffor.getKosztLaczny()+" "+buffor.getKosztLacznyWlasnej()+" "+buffor.getKosztLacznyBezDostawy());
-			/*
-			paragon=0;
-			czysc();
-			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
-            c1.show(panelDolny,"card1");
-            */
+			zamowienie.wyswietlPodsumowanieParagonu("SUMA:",dec.format(Buffor.getKosztLaczny()+Buffor.getKosztLacznyWlasnej()), textPane2);
+			System.out.println(Buffor.getKosztLaczny()+" "+Buffor.getKosztLacznyWlasnej()+" "+Buffor.getKosztLacznyBezDostawy());
 		}
 		else if (arg0.getSource() == btnDrukujParagon){
-			print();
-			/*
-			try {
-                boolean done = textPane2.print(null, null, true, null, null, true);
-                if (done) {
-                    JOptionPane.showMessageDialog(null, "Drukowanie zakończyło się pomyślnie!");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Błąd podczas drukowania.");
-                }
-            } catch (Exception pex) {
-                JOptionPane.showMessageDialog(null, "Błąd podczas drukowania.");
-                pex.printStackTrace();
-            }*/
+			zamowienie.drukujParagon(textPane2);
 		}
-		else if(arg0.getSource()==btnStartowyZCennika){
+		else if(arg0.getSource()==btnStartowyZCennika || arg0.getSource()==btnStartowyZWlasnaPizza){
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card1");
-		}
-		else if(arg0.getSource()==btnStartowyZWlasnaPizza){
-			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
-            c1.show(panelDolny,"card1");
-            
 		}
 		else if (arg0.getSource()==btnPomoc){
 			pomoc = new Pomoc();
 			pomoc.setVisible(true);
 		}
-		//Zdarzenia kliknięcia w chec boxy
+		//Zdarzenia kliknięcia w checkboxy
 		if (arg0.getSource() == checkBox1){
 			liczbaZaznaczonych(checkBox1.isSelected(), checkBox1.getName());
 		}	
@@ -2736,527 +2140,467 @@ public class GUI extends JFrame implements ActionListener{
 			sprawdzStan38=checkBox38.isSelected();
 			sprawdzStan39=checkBox39.isSelected();
 			sprawdzStan40=checkBox40.isSelected();	
-			//Sprawdzam czy text field do wprowadzania liczby pizz na ekranie własna pizza jest pusty i czy któryś z check boxów jest zaznaczony
-			if (txtWprowadzLiczbePizzWlasna.getText().isEmpty() == true  && 
-					(sprawdzStan1==true || sprawdzStan2==true || sprawdzStan3==true || sprawdzStan4==true || sprawdzStan5==true || sprawdzStan6==true || sprawdzStan7==true || sprawdzStan8==true ||
-					sprawdzStan9==true || sprawdzStan10==true || sprawdzStan11==true || sprawdzStan12==true || sprawdzStan13==true || sprawdzStan14==true || sprawdzStan15==true || 
-					sprawdzStan16==true || sprawdzStan17==true || sprawdzStan18==true || sprawdzStan19==true || sprawdzStan20==true || 
-					sprawdzStan21==true || sprawdzStan22==true || sprawdzStan23==true || sprawdzStan24==true || sprawdzStan25==true || 
-					sprawdzStan26==true || sprawdzStan27==true || sprawdzStan28==true || sprawdzStan29==true || sprawdzStan30==true ||
-					sprawdzStan31==true || sprawdzStan32==true || sprawdzStan33==true || sprawdzStan34==true || sprawdzStan35==true ||
-					sprawdzStan36==true || sprawdzStan37==true || sprawdzStan38==true || sprawdzStan39==true || sprawdzStan40==true				
-					)
-							
-					){
-				System.out.println("opcja 1");
-				pattern = Pattern.compile(".*[^0-9].*");
-		    	matcherLiczba = pattern.matcher(txtWprowadzLiczbePizzWlasna.getText());
-			    if (!matcherLiczba.matches()){
-			    	
-			    }
-			    else
-			    {
-			    	//błąd przy wprowadzaniu innych znaków niż liczba
-			    	//blad4=new Blad();
-			    	txtWprowadzLiczbePizzWlasna.setText("");
-			    }
-			    //błąd 'uzupełnij dane'
-				blad7 = new BladZaznaczoneSkladniki();
+			
+			//Sprawdzenie, czy nie wybrano liczby pizz (=1) i żadnego składnika
+			if ((int)spinLiczbaPizz.getValue()==1 && (sprawdzStan1==false && sprawdzStan2==false && sprawdzStan3==false && 
+					sprawdzStan4==false && sprawdzStan5==false && sprawdzStan6==false && sprawdzStan7==false && sprawdzStan8==false &&
+					sprawdzStan9==false && sprawdzStan10==false && sprawdzStan11==false && sprawdzStan12==false && sprawdzStan13==false && 
+					sprawdzStan14==false && sprawdzStan15==false && sprawdzStan16==false && sprawdzStan17==false && sprawdzStan18==false && 
+					sprawdzStan19==false && sprawdzStan20==false && sprawdzStan21==false && sprawdzStan22==false && sprawdzStan23==false && 
+					sprawdzStan24==false && sprawdzStan25==false && sprawdzStan26==false && sprawdzStan27==false && sprawdzStan28==false &&
+					sprawdzStan29==false && sprawdzStan30==false && sprawdzStan31==false && sprawdzStan32==false && sprawdzStan33==false && 
+					sprawdzStan34==false && sprawdzStan35==false && sprawdzStan36==false && sprawdzStan37==false && sprawdzStan38==false && 
+					sprawdzStan39==false && sprawdzStan40==false 
+					)){
+				CardLayout c1 = (CardLayout)(panelDolny.getLayout());
+		        c1.show(panelDolny,"card3");
+		        dostawa=true;				
 			}
-			//Sprawdzam czy text field do wprowadzania liczby pizz na ekranie własna pizza posiada zawartość i czy check boxy są odznaczone
-			else if (txtWprowadzLiczbePizzWlasna.getText().isEmpty() == false && (sprawdzStan1==false && sprawdzStan2==false && sprawdzStan3==false && sprawdzStan4==false &&
-					sprawdzStan5==false && sprawdzStan6==false && sprawdzStan7==false && sprawdzStan8==false &&
-					sprawdzStan9==false && sprawdzStan10==false && sprawdzStan11==false && sprawdzStan12==false &&
-					sprawdzStan13==false && sprawdzStan14==false && sprawdzStan15==false && sprawdzStan16==false &&
-					sprawdzStan17==false && sprawdzStan18==false && sprawdzStan19==false && sprawdzStan20==false &&
-					sprawdzStan21==false && sprawdzStan22==false && sprawdzStan23==false && sprawdzStan24==false &&
-					sprawdzStan25==false && sprawdzStan26==false && sprawdzStan27==false && sprawdzStan28==false &&
-					sprawdzStan29==false && sprawdzStan30==false && sprawdzStan31==false && sprawdzStan32==false &&
-					sprawdzStan33==false && sprawdzStan34==false && sprawdzStan35==false && sprawdzStan36==false &&
-					sprawdzStan37==false && sprawdzStan38==false && sprawdzStan39==false && sprawdzStan40==false 
-					)
-					){
-				System.out.println("opcja 2");
-				pattern = Pattern.compile(".*[^0-9].*");
-		    	matcherLiczba = pattern.matcher(txtWprowadzLiczbePizzWlasna.getText());
-			    if (!matcherLiczba.matches()){			    	
-			    }
-			    else
-			    {
-			    	//bład przy wprowadzaniu innych znaków niż liczba
-			    	blad4=new Blad();
-			    	txtWprowadzLiczbePizzWlasna.setText("");
-			    }
-			    //błą 'uzupełnij dane'
-				blad7 = new BladZaznaczoneSkladniki();
-			}
-			//Sprawdzam czy text field do wprowadzania liczby pizz na ekranie własna pizza posiada zawartość
-			else if (txtWprowadzLiczbePizzWlasna.getText().isEmpty() == false && sprawdzStan1==true || sprawdzStan2==true || sprawdzStan3==true || sprawdzStan4==true || sprawdzStan5==true || sprawdzStan6==true || sprawdzStan7==true || sprawdzStan8==true ||
-					sprawdzStan9==true || sprawdzStan10==true || sprawdzStan11==true || sprawdzStan12==true || sprawdzStan13==true || sprawdzStan14==true || sprawdzStan15==true || 
-					sprawdzStan16==true || sprawdzStan17==true || sprawdzStan18==true || sprawdzStan19==true || sprawdzStan20==true || 
-					sprawdzStan21==true || sprawdzStan22==true || sprawdzStan23==true || sprawdzStan24==true || sprawdzStan25==true || 
-					sprawdzStan26==true || sprawdzStan27==true || sprawdzStan28==true || sprawdzStan29==true || sprawdzStan30==true ||
-					sprawdzStan31==true || sprawdzStan32==true || sprawdzStan33==true || sprawdzStan34==true || sprawdzStan35==true ||
-					sprawdzStan36==true || sprawdzStan37==true || sprawdzStan38==true || sprawdzStan39==true || sprawdzStan40==true				
-					){
-				System.out.println("opcja 3");
-		         
-				sprawdzStan1=checkBox1.isSelected();
-				sprawdzStan2=checkBox2.isSelected();
-				sprawdzStan3=checkBox3.isSelected();
-				sprawdzStan4=checkBox4.isSelected();
-				sprawdzStan5=checkBox5.isSelected();
-				sprawdzStan6=checkBox6.isSelected();
-				sprawdzStan7=checkBox7.isSelected();
-				sprawdzStan8=checkBox8.isSelected();
-				sprawdzStan9=checkBox9.isSelected();
-				sprawdzStan10=checkBox10.isSelected();
-				sprawdzStan11=checkBox11.isSelected();
-				sprawdzStan12=checkBox12.isSelected();
-				sprawdzStan13=checkBox13.isSelected();
-				sprawdzStan14=checkBox14.isSelected();
-				sprawdzStan15=checkBox15.isSelected();
-				sprawdzStan16=checkBox16.isSelected();
-				sprawdzStan17=checkBox17.isSelected();
-				sprawdzStan18=checkBox18.isSelected();
-				sprawdzStan19=checkBox19.isSelected();
-				sprawdzStan20=checkBox20.isSelected();
-				sprawdzStan21=checkBox21.isSelected();
-				sprawdzStan22=checkBox22.isSelected();
-				sprawdzStan23=checkBox23.isSelected();
-				sprawdzStan24=checkBox24.isSelected();
-				sprawdzStan25=checkBox25.isSelected();
-				sprawdzStan26=checkBox26.isSelected();
-				sprawdzStan27=checkBox27.isSelected();
-				sprawdzStan28=checkBox28.isSelected();
-				sprawdzStan29=checkBox29.isSelected();
-				sprawdzStan30=checkBox30.isSelected();
-				sprawdzStan31=checkBox31.isSelected();
-				sprawdzStan32=checkBox32.isSelected();
-				sprawdzStan33=checkBox33.isSelected();
-				sprawdzStan34=checkBox34.isSelected();
-				sprawdzStan35=checkBox35.isSelected();
-				sprawdzStan36=checkBox36.isSelected();
-				sprawdzStan37=checkBox37.isSelected();
-				sprawdzStan38=checkBox38.isSelected();
-				sprawdzStan39=checkBox39.isSelected();
-				sprawdzStan40=checkBox40.isSelected();
-				
-				pattern = Pattern.compile(".*[^0-9].*");
-		    	matcherLiczba = pattern.matcher(txtWprowadzLiczbePizzWlasna.getText());
-			    if (!matcherLiczba.matches()){
-			    	System.out.println("jest ok");
-			    	//tutaj w text field jest wpisana liczba oraz przynajmniej jeden check box jest zaznaczony
-			    	lblLacznyKoszt.setText((dec.format(buffor.getKosztLaczny()+buffor.getKosztLacznyWlasnej())));
-    				buffor.setRozmiarPizzy(listaRozmiarow[customCombobox.getSelectedIndex()]);
-    				buffor.setLiczbaPizz(Integer.parseInt(txtWprowadzLiczbePizzWlasna.getText()));
-    				buffor.setSos(listaSosow[customCombobox2.getSelectedIndex()]);
-    				buffor.setKosztWlasnej((cenaWlasnaPizza()*buffor.getLiczbaPizz()));
-    				buffor.setKosztLacznyWlasnej((buffor.getKosztWlasnej()+buffor.getKosztLacznyWlasnej()));
-    				
-    				//Wpisanie lacznego kosztu wlasnej pizzy i z cennika w ekranie dostawy
-    		        lblLacznyKoszt.setText((dec.format(buffor.getKosztLaczny()+buffor.getKosztLacznyWlasnej())));
-    		        //Wpisanie wlasnej pizzy na podgladzie paragonu w ekranie dostawy
-    		        zamowienie.wyswietlPizze("Pizza własna"+"\t\t"+buffor.getRozmiarPizzy()+"\t"+"x"+buffor.getLiczbaPizz()+"\t"+
-    		        		dec.format(cenaWlasnaPizza()*buffor.getLiczbaPizz())+"\n", textPane);
-    		        //txtrZamowienie Wpisanie wybranej pizzy własnej do podglądu zamówienia na ekranie cennika
-    		        zamowienie.wyswietlPodgladZamowieniaWlasna(txtrZamowienie,  "Pizza własna", buffor.getSos(), buffor.getRozmiarPizzy(), buffor.getLiczbaPizz());
-    		        //Sprawdzanie który składnik został wybrany i wpisanie go na pogdląd paragonu w ekranie zatwierdzenia
-    				
-    		        
-    		        if(checkBox1.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("ananas,\n", textPane);
-    						}
-    						else{
-	    			        	zamowienie.wyswietlSkladniki("ananas, ", textPane);
-    						}
-    			        }
-    			        if(checkBox2.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("boczek wędzony, \n", textPane);
-    						}
-    						else{
-	    			        	zamowienie.wyswietlSkladniki("boczek wędzony, ", textPane);
-    						}
-    			        }
-    			        if (checkBox3.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("brokuły, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("brokuły, ", textPane);
-	    					}
-    					}
-    					if (checkBox4.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("camembert, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("camembert, ", textPane);
-	    					}
-    					}
-    					if (checkBox5.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("cebula biała, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("cebula biała, ", textPane);
-	    					}
-    					}
-    					if (checkBox6.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("cebula czerwona, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("cebula czerwona,  ", textPane);
-	    					}
-    					}
-    					if (checkBox7.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("chili, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("chili, " , textPane);
-	    					}
-    					}
-    					if (checkBox8.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("czosnek, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("czosnek, ", textPane);
-	    					}
-    					}
-    					if (checkBox9.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("fasola, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("fasola, ", textPane);
-	    					}
-    					}
-
-    					if (checkBox10.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("feta, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("feta, ", textPane);
-	    					}
-    					}
-						if(checkBox11.isSelected()){
-							liczydlo++;
-    						if(liczydlo == 3 ){
-    							zamowienie.wyswietlSkladniki("kabanosy, \n", textPane);
-    						}
-    						else{
-	    			        	zamowienie.wyswietlSkladniki("kabanosy, ", textPane);
-    					}
-    			        }
-    			        if(checkBox12.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("kapary, \n", textPane);
-    						}
-    						else{
-	    			        	zamowienie.wyswietlSkladniki("kapary, ", textPane);
-	    					}
-    			        }
-    			        if (checkBox13.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("kiełki sojowe, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("kiełki sojowe, ", textPane);
-	    					}
-    					}
-    					if (checkBox14.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("krewetki, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("krewetki, ", textPane);
-	    					}
-    					}
-    					if (checkBox15.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("kukurydza, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("kukurydza, ", textPane);
-	    					}
-    					}
-    					if (checkBox16.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("kurczak, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("kurczak, ", textPane);
-    						}
-    					}
-    					if (checkBox17.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("małże, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("małże, ", textPane);
-    						}
-    					}
-    					if (checkBox18.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("mozzarella, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("mozzarella, ", textPane);
-    						}
-    					}
-    					if (checkBox19.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("ogórek kiszony, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("ogórek kiszony, ", textPane);
-    						}
-    					}
-    					if (checkBox20.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("ogórek konserwowy, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("ogórek konserwowy, ", textPane);
-    						}
-    					}
-    			        if(checkBox21.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("oliwki czarne, \n", textPane);
-    						}
-    						else{
-	    			        	zamowienie.wyswietlSkladniki("oliwki czarne, ", textPane);
-    						}
-    			        }
-    			        if(checkBox22.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("oliwki zielone, \n", textPane);
-    						}
-    						else{
-	    			        	zamowienie.wyswietlSkladniki("oliwki zielone, ", textPane);
-    						}
-    			        }
-    			        if (checkBox23.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("oregano, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("oregano, ", textPane);
-    						}
-    					}
-    					if (checkBox24.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("papryka konserwowa, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("papryka konserwowa, ", textPane);
-    						}
-    					}
-    					if (checkBox25.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("peperoni, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("peperoni, ", textPane);
-    						}
-    					}
-    					if (checkBox26.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("pieczarki, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("pieczarki, ", textPane);
-    						}
-    					}
-    					if (checkBox27.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("pomidor, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("pomidor, ", textPane);
-    						}
-    					}
-    					if (checkBox28.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("por, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("por, ", textPane);
-    						}
-    					}
-    					if (checkBox29.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("salami, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("salami, ", textPane);
-    						}
-    					}
-    					if (checkBox30.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("ser, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("ser, ", textPane);
-    						}
-    					}
-    			        if(checkBox31.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("sos boloński, \n", textPane);
-    						}
-    						else{
-	    			        	zamowienie.wyswietlSkladniki("sos boloński, ", textPane);
-    						}
-    			        }
-    			        if(checkBox32.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("sos pomidorowy, \n", textPane);
-    						}
-    						else{
-	    			        	zamowienie.wyswietlSkladniki("sos pomidorowy, ", textPane);
-    						}
-    			        }
-    			        if (checkBox33.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("suszone pomidory, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("suszone pomidory, ", textPane);
-    						}
-    					}
-    					if (checkBox34.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("szparagi, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("szparagi, ", textPane);
-    						}
-    					}
-    					if (checkBox35.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("szpinak, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("szpinak, ", textPane);
-    						}
-    					}
-    					if (checkBox36.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("szynka, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("szynka, ", textPane);
-    						}
-    					}
-    					if (checkBox37.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("świeża bazylia, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("świeża bazylia, ", textPane);
-    						}
-    					}
-    					if (checkBox38.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("świeża papryka, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("świeża papryka, ", textPane);
-    						}
-    					}
-    					if (checkBox39.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("tabasco, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("tabasco, ", textPane);
-    						}
-    					}
-    					if (checkBox40.isSelected()){
-    						liczydlo++;
-    						if(liczydlo == 3 ){
-	    			        	zamowienie.wyswietlSkladniki("tuńczyk, \n", textPane);
-    						}
-    						else{
-	    						zamowienie.wyswietlSkladniki("tuńczyk, ", textPane);
-    						}
-    					}
-    				//Wprowadzenie nowej po wpisaniu wszystkich składników własnej pizzy
-    				zamowienie.wyswietlSkladniki("\n", textPane);
-    		        zamowienie.wyswietlSos(buffor.getSos(),"+ sos "+buffor.getSos()+"\n", textPane);
-    		        
-    		        //Wyświetlenie podglądu paragonu na ekranie zatwierdzania zamówienia
-    		        zamowienie.wyswietlPizzeNaParagonie("Pizza własna"+" "+buffor.getRozmiarPizzy()+"\t"+buffor.getLiczbaPizz()+"\t\tx\t"+
-    		       		dec.format(cenaWlasnaPizza()*buffor.getLiczbaPizz())+"\n", textPane2);
-                    zamowienie.wyswietlSos(buffor.getSos(), "Sos "+buffor.getSos().toLowerCase()+"\t"+"0\t\tx\t0,00"+"\n", textPane2);
-					
-			        //Wyświetlenie kosztu zamówienia pizz z własnego przepisu w cenniku
-                    buffor.setKosztLacznyWlasnej(buffor.getKosztLacznyWlasnej());
-			        zamowienie.wyswietlLacznyKoszt(lblWyswietlLacznyKosztZamowienia, buffor.getKosztLacznyWlasnej(), dec);
-			        txtKosztDostawy.setText(dec.format(kosztDostawy[comboBoxDostawa.getSelectedIndex()]));
-    				CardLayout c3 = (CardLayout)(panelDolny.getLayout());
-    		        c3.show(panelDolny,"card3");
-    		        dostawa=true;   
-			    }
-			    else
-			    {
-			    	//bład przy wprowadzaniu innych znaków niż liczba
-			    	blad4=new Blad();
-			    	txtWprowadzLiczbePizzWlasna.setText("");
-			    }
-				}
-				//Sprawdzam czy text field do wprowadzania licby pizz na ekranie własna pizza jest pusty i check boxy nie są zaznaczone
-				else	{
-					System.out.println("opcja 4");
-					//Przechodzę miedzy ekranem własna pizza do ekranu dostawy bez wprowadzania zmian
+			else{
+	            //Sprawdzenie, czy limit rozmiaru zamówienia został osiągnięty
+	            if(Buffor.getRozmiarZamowienia()==25){
+	            	BladOsiagnieciaLimitu blad=new BladOsiagnieciaLimitu();
+	            	
 					CardLayout c1 = (CardLayout)(panelDolny.getLayout());
 			        c1.show(panelDolny,"card3");
 			        dostawa=true;
-				}
+	            }
+	            else{
+	            	//Sprawdzenie, czy nie przekroczono maksymalnego rozmiaru zamówienia
+	            	if(zamowienie.sprawdzRozmiarZamowienia((int) spinLiczbaPizz.getValue())==true){
+	            		
+		    			//Sprawdzenie, czy wybrano liczbę pizz (>1), ale nie zaznaczono składników
+		    			if ((int)spinLiczbaPizz.getValue()>1 && (sprawdzStan1==false && sprawdzStan2==false && sprawdzStan3==false && 
+		    					sprawdzStan4==false && sprawdzStan5==false && sprawdzStan6==false && sprawdzStan7==false && sprawdzStan8==false &&
+		    					sprawdzStan9==false && sprawdzStan10==false && sprawdzStan11==false && sprawdzStan12==false && sprawdzStan13==false && 
+		    					sprawdzStan14==false && sprawdzStan15==false && sprawdzStan16==false && sprawdzStan17==false && sprawdzStan18==false && 
+		    					sprawdzStan19==false && sprawdzStan20==false && sprawdzStan21==false && sprawdzStan22==false && sprawdzStan23==false && 
+		    					sprawdzStan24==false && sprawdzStan25==false && sprawdzStan26==false && sprawdzStan27==false && sprawdzStan28==false &&
+		    					sprawdzStan29==false && sprawdzStan30==false && sprawdzStan31==false && sprawdzStan32==false && sprawdzStan33==false && 
+		    					sprawdzStan34==false && sprawdzStan35==false && sprawdzStan36==false && sprawdzStan37==false && sprawdzStan38==false && 
+		    					sprawdzStan39==false && sprawdzStan40==false 
+		    					)){
+		    				blad7 = new BladZaznaczoneSkladniki();
+		    			}
+		    			
+		    			//Sprawdzenie, czy wybrano liczbę pizz (>=1) i zaznaczono składniki
+		    			else if ((int)spinLiczbaPizz.getValue()>=1 || (sprawdzStan1==true || sprawdzStan2==true || sprawdzStan3==true || 
+		    					sprawdzStan4==true || sprawdzStan5==true || sprawdzStan6==true || sprawdzStan7==true || sprawdzStan8==true ||
+		    					sprawdzStan9==true || sprawdzStan10==true || sprawdzStan11==true || sprawdzStan12==true || sprawdzStan13==true || 
+		    					sprawdzStan14==true || sprawdzStan15==true || sprawdzStan16==true || sprawdzStan17==true || sprawdzStan18==true || 
+		    					sprawdzStan19==true || sprawdzStan20==true || sprawdzStan21==true || sprawdzStan22==true || sprawdzStan23==true || 
+		    					sprawdzStan24==true || sprawdzStan25==true || sprawdzStan26==true || sprawdzStan27==true || sprawdzStan28==true ||
+		    					sprawdzStan29==true || sprawdzStan30==true || sprawdzStan31==true || sprawdzStan32==true || sprawdzStan33==true || 
+		    					sprawdzStan34==true || sprawdzStan35==true || sprawdzStan36==true || sprawdzStan37==true || sprawdzStan38==true || 
+		    					sprawdzStan39==true || sprawdzStan40==true 
+		    					)){
+		    				
+		    				Buffor.setRozmiarPizzy(listaRozmiarow[customCombobox.getSelectedIndex()]);
+		    				Buffor.setLiczbaPizz((int) spinLiczbaPizz.getValue());
+		    				Buffor.setSos(listaSosow[customCombobox2.getSelectedIndex()]);
+		    				Buffor.setKosztWlasnej((cenaWlasnaPizza()*Buffor.getLiczbaPizz()));
+		    				Buffor.setKosztLacznyWlasnej((Buffor.getKosztWlasnej()+Buffor.getKosztLacznyWlasnej()));
+		    				Buffor.setRozmiarZamowienia(Buffor.getRozmiarZamowienia()+Buffor.getLiczbaPizz());
+		    				
+		    				//Wpisanie lacznego kosztu wlasnej pizzy i z cennika w ekranie dostawy
+		    		        lblLacznyKoszt.setText((dec.format(Buffor.getKosztLaczny()+Buffor.getKosztLacznyWlasnej())));
+		    		        //Wpisanie wlasnej pizzy na podgladzie paragonu w ekranie dostawy
+		    		        zamowienie.wyswietlPizze("Pizza własna"+"\t\t"+Buffor.getRozmiarPizzy()+"\t"+"x"+Buffor.getLiczbaPizz()+"\t"+
+		    		        		dec.format(cenaWlasnaPizza()*Buffor.getLiczbaPizz())+"\n", textPane);
+		    		        //txtrZamowienie Wpisanie wybranej pizzy własnej do podglądu zamówienia na ekranie cennika
+		    		        zamowienie.wyswietlPodgladZamowieniaWlasna(txtrZamowienie,  "Pizza własna", Buffor.getSos(), Buffor.getRozmiarPizzy(), 
+		    		        		Buffor.getLiczbaPizz());
+		    		        
+		    		        //Sprawdzanie który składnik został wybrany i wpisanie go na pogdląd paragonu w ekranie zatwierdzenia
+		    		        if(checkBox1.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("ananas,\n", textPane);
+		    						}
+		    						else{
+			    			        	zamowienie.wyswietlSkladniki("ananas, ", textPane);
+		    						}
+		    			        }
+		    			        if(checkBox2.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("boczek wędzony, \n", textPane);
+		    						}
+		    						else{
+			    			        	zamowienie.wyswietlSkladniki("boczek wędzony, ", textPane);
+		    						}
+		    			        }
+		    			        if (checkBox3.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("brokuły, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("brokuły, ", textPane);
+			    					}
+		    					}
+		    					if (checkBox4.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("camembert, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("camembert, ", textPane);
+			    					}
+		    					}
+		    					if (checkBox5.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("cebula biała, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("cebula biała, ", textPane);
+			    					}
+		    					}
+		    					if (checkBox6.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("cebula czerwona, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("cebula czerwona,  ", textPane);
+			    					}
+		    					}
+		    					if (checkBox7.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("chili, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("chili, " , textPane);
+			    					}
+		    					}
+		    					if (checkBox8.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("czosnek, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("czosnek, ", textPane);
+			    					}
+		    					}
+		    					if (checkBox9.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("fasola, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("fasola, ", textPane);
+			    					}
+		    					}
+
+		    					if (checkBox10.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("feta, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("feta, ", textPane);
+			    					}
+		    					}
+								if(checkBox11.isSelected()){
+									liczydlo++;
+		    						if(liczydlo == 3 ){
+		    							zamowienie.wyswietlSkladniki("kabanosy, \n", textPane);
+		    						}
+		    						else{
+			    			        	zamowienie.wyswietlSkladniki("kabanosy, ", textPane);
+		    					}
+		    			        }
+		    			        if(checkBox12.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("kapary, \n", textPane);
+		    						}
+		    						else{
+			    			        	zamowienie.wyswietlSkladniki("kapary, ", textPane);
+			    					}
+		    			        }
+		    			        if (checkBox13.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("kiełki sojowe, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("kiełki sojowe, ", textPane);
+			    					}
+		    					}
+		    					if (checkBox14.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("krewetki, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("krewetki, ", textPane);
+			    					}
+		    					}
+		    					if (checkBox15.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("kukurydza, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("kukurydza, ", textPane);
+			    					}
+		    					}
+		    					if (checkBox16.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("kurczak, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("kurczak, ", textPane);
+		    						}
+		    					}
+		    					if (checkBox17.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("małże, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("małże, ", textPane);
+		    						}
+		    					}
+		    					if (checkBox18.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("mozzarella, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("mozzarella, ", textPane);
+		    						}
+		    					}
+		    					if (checkBox19.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("ogórek kiszony, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("ogórek kiszony, ", textPane);
+		    						}
+		    					}
+		    					if (checkBox20.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("ogórek konserwowy, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("ogórek konserwowy, ", textPane);
+		    						}
+		    					}
+		    			        if(checkBox21.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("oliwki czarne, \n", textPane);
+		    						}
+		    						else{
+			    			        	zamowienie.wyswietlSkladniki("oliwki czarne, ", textPane);
+		    						}
+		    			        }
+		    			        if(checkBox22.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("oliwki zielone, \n", textPane);
+		    						}
+		    						else{
+			    			        	zamowienie.wyswietlSkladniki("oliwki zielone, ", textPane);
+		    						}
+		    			        }
+		    			        if (checkBox23.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("oregano, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("oregano, ", textPane);
+		    						}
+		    					}
+		    					if (checkBox24.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("papryka konserwowa, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("papryka konserwowa, ", textPane);
+		    						}
+		    					}
+		    					if (checkBox25.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("peperoni, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("peperoni, ", textPane);
+		    						}
+		    					}
+		    					if (checkBox26.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("pieczarki, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("pieczarki, ", textPane);
+		    						}
+		    					}
+		    					if (checkBox27.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("pomidor, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("pomidor, ", textPane);
+		    						}
+		    					}
+		    					if (checkBox28.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("por, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("por, ", textPane);
+		    						}
+		    					}
+		    					if (checkBox29.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("salami, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("salami, ", textPane);
+		    						}
+		    					}
+		    					if (checkBox30.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("ser, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("ser, ", textPane);
+		    						}
+		    					}
+		    			        if(checkBox31.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("sos boloński, \n", textPane);
+		    						}
+		    						else{
+			    			        	zamowienie.wyswietlSkladniki("sos boloński, ", textPane);
+		    						}
+		    			        }
+		    			        if(checkBox32.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("sos pomidorowy, \n", textPane);
+		    						}
+		    						else{
+			    			        	zamowienie.wyswietlSkladniki("sos pomidorowy, ", textPane);
+		    						}
+		    			        }
+		    			        if (checkBox33.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("suszone pomidory, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("suszone pomidory, ", textPane);
+		    						}
+		    					}
+		    					if (checkBox34.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("szparagi, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("szparagi, ", textPane);
+		    						}
+		    					}
+		    					if (checkBox35.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("szpinak, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("szpinak, ", textPane);
+		    						}
+		    					}
+		    					if (checkBox36.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("szynka, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("szynka, ", textPane);
+		    						}
+		    					}
+		    					if (checkBox37.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("świeża bazylia, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("świeża bazylia, ", textPane);
+		    						}
+		    					}
+		    					if (checkBox38.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("świeża papryka, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("świeża papryka, ", textPane);
+		    						}
+		    					}
+		    					if (checkBox39.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("tabasco, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("tabasco, ", textPane);
+		    						}
+		    					}
+		    					if (checkBox40.isSelected()){
+		    						liczydlo++;
+		    						if(liczydlo == 3 ){
+			    			        	zamowienie.wyswietlSkladniki("tuńczyk, \n", textPane);
+		    						}
+		    						else{
+			    						zamowienie.wyswietlSkladniki("tuńczyk, ", textPane);
+		    						}
+		    					}
+		    				//Wprowadzenie nowej po wpisaniu wszystkich składników własnej pizzy
+		    				zamowienie.wyswietlSkladniki("\n", textPane);
+		    		        zamowienie.wyswietlSos(Buffor.getSos(),"+ sos "+Buffor.getSos()+"\n", textPane);
+		    		        
+		    		        //Wyświetlenie podglądu paragonu na ekranie zatwierdzania zamówienia
+		    		        zamowienie.wyswietlPizzeNaParagonie("Pizza własna"+" "+Buffor.getRozmiarPizzy()+"\t"+Buffor.getLiczbaPizz()+"\t\tx\t"+
+		    		       		dec.format(cenaWlasnaPizza()*Buffor.getLiczbaPizz())+"\n", textPane2);
+		                    zamowienie.wyswietlSos(Buffor.getSos(), "Sos "+Buffor.getSos().toLowerCase()+"\t"+"0\t\tx\t0,00"+"\n", textPane2);
+							
+					        //Wyświetlenie kosztu zamówienia pizz z własnego przepisu w cenniku
+		                    Buffor.setKosztLacznyWlasnej(Buffor.getKosztLacznyWlasnej());
+					        zamowienie.wyswietlLacznyKoszt(lblWyswietlLacznyKosztZamowienia, Buffor.getKosztLacznyWlasnej(), dec);
+					        txtKosztDostawy.setText(dec.format(kosztDostawy[comboBoxDostawa.getSelectedIndex()]));
+		    				CardLayout c3 = (CardLayout)(panelDolny.getLayout());
+		    		        c3.show(panelDolny,"card3");
+		    		        dostawa=true;   
+		    			}	            		
+	            	}
+	            	else if(zamowienie.sprawdzRozmiarZamowienia((int) spinLiczbaPizz.getValue())==false){
+	    				int wynik=25-Buffor.getRozmiarZamowienia()-((int) spinLiczbaPizz.getValue());
+	    				
+	    				//Wyświetlenie komunikatu o błędzie
+	    				BladPrzekroczeniaLimitu blad=new BladPrzekroczeniaLimitu();
+	    				
+	    				spinLiczbaPizz.setValue((int) spinLiczbaPizz.getValue()+wynik);
+	            	}
+	            }				
+			}
 		}
 	}
 }

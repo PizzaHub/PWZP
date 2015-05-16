@@ -164,14 +164,6 @@ class Buffor {
 		Buffor.nazwaPizzy = nazwaPizzy;
 	}
 
-	String[][] getDane() {
-		return dane;
-	}
-
-	void setDane(String[][] dane) {
-		this.dane = dane;
-	}
-
 	static int getNumerRzedu() {
 		return numerRzedu;
 	}

@@ -18,6 +18,7 @@ import javax.print.attribute.standard.MediaPrintableArea;
 import javax.print.attribute.standard.OrientationRequested;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -321,7 +322,7 @@ public class Zamowienie {
 	 * Metoda drukująca paragon
 	 * @param textPane
 	 */
-	public void drukujParagon(JTextPane textPane){
+	void drukujParagon(JTextPane textPane){
 		  final PrinterJob printJob=PrinterJob.getPrinterJob();
           PageFormat pf = printJob.defaultPage();
 		  final HashPrintRequestAttributeSet attrs=new HashPrintRequestAttributeSet();
@@ -333,5 +334,21 @@ public class Zamowienie {
 		} catch (PrinterException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Metoda przypisująca ceny pizzy własnej do rozmiaru
+	 */
+	float ustalCene(JComboBox comboBox, float f){
+		if(comboBox.getSelectedItem()=="30cm"){
+			f=17;
+		}
+		else if(comboBox.getSelectedItem()=="40cm"){
+			f=25;
+		}
+		else if(comboBox.getSelectedItem()=="50cm"){
+			f=33;
+		}
+		return f;
 	}
 }

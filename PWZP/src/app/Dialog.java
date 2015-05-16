@@ -91,7 +91,7 @@ class Dialog extends JDialog implements ActionListener {
 	 * @return
 	 */
 	private JPanel utworzPanelCentralny() {
-		buffor.setDodaj(0);
+		Buffor.setDodaj(0);
 		
 		FormLayout layout = new FormLayout(                                                              
 				"9px, 30px, 21px, 53px, 32px, 14px, 36px, 38px, 51px, 30px, 1px, 7px", 
@@ -128,14 +128,9 @@ class Dialog extends JDialog implements ActionListener {
 		lblStopka=new JLabel(new ImageIcon("images/dialog_stopka.png"));
 		lblLewo=new JLabel(new ImageIcon("images/dialog_ramka_lewa.png"));
 		lblPrawo=new JLabel(new ImageIcon("images/dialog_ramka_prawa.png"));
-		
-		//Obramowanie dla txtWprowadzLiczbePizz
-		Border line = BorderFactory.createLineBorder(new Color(0x939393));
-		Border empty2 = new EmptyBorder(2, 7, 0, 0);
-		CompoundBorder border2 = new CompoundBorder(line, empty2);
-		
+			
 		//Nazwa pizzy
-		lblNazwaPizzy=new JLabel(buffor.dane[buffor.getNumerRzedu()][0]);
+		lblNazwaPizzy=new JLabel(buffor.dane[Buffor.getNumerRzedu()][0]);
 		lblNazwaPizzy.setFont(new Font("Arial", Font.PLAIN, 22));
 		lblNazwaPizzy.setForeground(Color.black);
 		
@@ -161,6 +156,7 @@ class Dialog extends JDialog implements ActionListener {
 		spinnerEditor.getTextField().setFont(new Font("Arial", Font.PLAIN, 17));
 		spinnerEditor.getTextField().setBorder(new EmptyBorder(0, 0, 1, 0));
 		spinnerEditor.getTextField().setForeground(Color.black);
+		spinnerEditor.getTextField().setBackground(new Color(0xeaeaeb));
 		spinLiczbaPizz.setPreferredSize(new Dimension(45,25));
 		
 		//Napis "Sos"
@@ -249,8 +245,6 @@ class Dialog extends JDialog implements ActionListener {
 				
 				spinLiczbaPizz.setValue((int) spinLiczbaPizz.getValue()+wynik);
 			}
-			
-			
 		}
 		else if(arg0.getSource()==btnZamknij){
 			this.dispose();	

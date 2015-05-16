@@ -49,6 +49,7 @@ import javax.swing.text.TabStop;
 
 
 
+
 import com.jgoodies.forms.debug.FormDebugPanel;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.CellConstraints.Alignment;
@@ -1018,6 +1019,7 @@ public class GUI extends JFrame implements ActionListener{
 		spinnerEditor.getTextField().setFont(new Font("Arial", Font.PLAIN, 17));
 		spinnerEditor.getTextField().setBorder(new EmptyBorder(1, 0, 1, 0));
 		spinnerEditor.getTextField().setForeground(Color.black);
+		spinnerEditor.getTextField().setBackground(new Color(0xeaeaeb));
 		spinLiczbaPizz.setPreferredSize(new Dimension(45,25));
 		
 		//Pole wyboru rodzaju sosu
@@ -1295,7 +1297,7 @@ public class GUI extends JFrame implements ActionListener{
 		textPane.repaint();
 		
 		//Czyszczenie pól wyboru sposobu dostawy i wprowadzania danych zamawiającego
-		comboBoxDostawa.getModel().setSelectedItem("Na wynos");
+		comboBoxDostawa.getModel().setSelectedItem("Na miejscu");
 		comboBoxDostawa.repaint();
 		txtNumerTelefonu.setText("");
 		txtNumerTelefonu.setValue(null);
@@ -1449,65 +1451,55 @@ public class GUI extends JFrame implements ActionListener{
 	/**
 	 * Blokada pól tekstowych przy wyborze 'Na miejscu' i 'Na wynos'
 	 */
-		private void blokujWprowadzanieDanych(){
-			if (comboBoxDostawa.getSelectedItem() == "Na miejscu" || comboBoxDostawa.getSelectedItem() == "Na wynos"){
-				txtNrMieszkania.setEnabled(false);
-				txtNrBudynku.setEnabled(false);
-				txtUlica.setEnabled(false);
-				txtMiejscowosc.setEnabled(false);
-				txtNumerTelefonu.setEnabled(false);
-				txtNumerTelefonu.setText("");
-				txtNumerTelefonu.setValue(null);
-				txtNumerTelefonu.repaint();
-				txtMiejscowosc.setText("");
-				txtMiejscowosc.repaint();		
-				txtUlica.setText("");
-				txtUlica.repaint();
-				txtNrBudynku.setText("");
-				txtNrBudynku.repaint();
-				txtNrMieszkania.setText("");
-				txtNrMieszkania.repaint();
-				lblDostawaText3.setIcon(new ImageIcon("images/dostawa_text3-gray.png"));
-				lblDostawaText4.setIcon(new ImageIcon("images/dostawa_text4-gray.png"));
-				lblDostawaText5.setIcon(new ImageIcon("images/dostawa_text5-gray.png"));
-				lblDostawaText6.setIcon(new ImageIcon("images/dostawa_text6-gray.png"));
-		        lblDostawaText7.setIcon(new ImageIcon("images/dostawa_text7-gray.png"));
-			}
-			else {
-				txtNrMieszkania.setEnabled(true);
-				txtNrBudynku.setEnabled(true);
-				txtUlica.setEnabled(true);
-				txtMiejscowosc.setEnabled(true);
-				txtNumerTelefonu.setEnabled(true);
-				txtMiejscowosc.repaint();		
-				txtNrMieszkania.repaint();
-				txtNrBudynku.repaint();
-				txtUlica.repaint();
-				txtNumerTelefonu.repaint();
-				lblDostawaText3.setIcon(new ImageIcon("images/dostawa_text3.png"));
-				lblDostawaText4.setIcon(new ImageIcon("images/dostawa_text4.png"));
-				lblDostawaText5.setIcon(new ImageIcon("images/dostawa_text5.png"));
-				lblDostawaText6.setIcon(new ImageIcon("images/dostawa_text6.png"));
-		        lblDostawaText7.setIcon(new ImageIcon("images/dostawa_text7.png"));
-			}
+	private void blokujWprowadzanieDanych(){
+		if (comboBoxDostawa.getSelectedItem() == "Na miejscu" || comboBoxDostawa.getSelectedItem() == "Na wynos"){
+			txtNrMieszkania.setEnabled(false);
+			txtNrBudynku.setEnabled(false);
+			txtUlica.setEnabled(false);
+			txtMiejscowosc.setEnabled(false);
+			txtNumerTelefonu.setEnabled(false);
+			txtNumerTelefonu.setText("");
+			txtNumerTelefonu.setValue(null);
+			txtNumerTelefonu.repaint();
+			txtMiejscowosc.setText("");
+			txtMiejscowosc.repaint();		
+			txtUlica.setText("");
+			txtUlica.repaint();
+			txtNrBudynku.setText("");
+			txtNrBudynku.repaint();
+			txtNrMieszkania.setText("");
+			txtNrMieszkania.repaint();
+			lblDostawaText3.setIcon(new ImageIcon("images/dostawa_text3-gray.png"));
+			lblDostawaText4.setIcon(new ImageIcon("images/dostawa_text4-gray.png"));
+			lblDostawaText5.setIcon(new ImageIcon("images/dostawa_text5-gray.png"));
+			lblDostawaText6.setIcon(new ImageIcon("images/dostawa_text6-gray.png"));
+	        lblDostawaText7.setIcon(new ImageIcon("images/dostawa_text7-gray.png"));
 		}
-		
-	//Metoda przypisująca ceny pizzy własnej do rozmiaru
-	private float cenaWlasnaPizza(){
-		if(customCombobox.getSelectedItem()=="30cm"){
-			cenaWlasnejPizzy=17;
+		else {
+			txtNrMieszkania.setEnabled(true);
+			txtNrBudynku.setEnabled(true);
+			txtUlica.setEnabled(true);
+			txtMiejscowosc.setEnabled(true);
+			txtNumerTelefonu.setEnabled(true);
+			txtMiejscowosc.repaint();		
+			txtNrMieszkania.repaint();
+			txtNrBudynku.repaint();
+			txtUlica.repaint();
+			txtNumerTelefonu.repaint();
+			lblDostawaText3.setIcon(new ImageIcon("images/dostawa_text3.png"));
+			lblDostawaText4.setIcon(new ImageIcon("images/dostawa_text4.png"));
+			lblDostawaText5.setIcon(new ImageIcon("images/dostawa_text5.png"));
+			lblDostawaText6.setIcon(new ImageIcon("images/dostawa_text6.png"));
+	        lblDostawaText7.setIcon(new ImageIcon("images/dostawa_text7.png"));
 		}
-		else if(customCombobox.getSelectedItem()=="40cm"){
-			cenaWlasnejPizzy=25;
-		}
-		else if(customCombobox.getSelectedItem()=="50cm"){
-			cenaWlasnejPizzy=33;
-		}
-		return cenaWlasnejPizzy;
 	}
-	
-	//Metoda ograniczająca liczbę składników do wyboru
-	public void liczbaZaznaczonych(boolean isSelected, String nazwa){
+		
+	/**
+	 * Metoda ograniczająca liczbę składników do wyboru
+	 * @param isSelected
+	 * @param nazwa
+	 */
+	private void ograniczLiczbeSkladnikow(boolean isSelected, String nazwa){
 		   if (isSelected){
 			    liczbaZaznaczonych++;		    
 			    }
@@ -1977,124 +1969,124 @@ public class GUI extends JFrame implements ActionListener{
 		}
 		//Zdarzenia kliknięcia w checkboxy
 		if (arg0.getSource() == checkBox1){
-			liczbaZaznaczonych(checkBox1.isSelected(), checkBox1.getName());
+			ograniczLiczbeSkladnikow(checkBox1.isSelected(), checkBox1.getName());
 		}	
 		if (arg0.getSource() == checkBox2){
-			liczbaZaznaczonych(checkBox2.isSelected(), checkBox2.getName());
+			ograniczLiczbeSkladnikow(checkBox2.isSelected(), checkBox2.getName());
 		}
 		if (arg0.getSource() == checkBox3){
-			liczbaZaznaczonych(checkBox3.isSelected(), checkBox3.getName());
+			ograniczLiczbeSkladnikow(checkBox3.isSelected(), checkBox3.getName());
 		}
 		if (arg0.getSource() == checkBox4){
-			liczbaZaznaczonych(checkBox4.isSelected(), checkBox4.getName());
+			ograniczLiczbeSkladnikow(checkBox4.isSelected(), checkBox4.getName());
 		}
 		if (arg0.getSource() == checkBox5){
-			liczbaZaznaczonych(checkBox5.isSelected(), checkBox5.getName());
+			ograniczLiczbeSkladnikow(checkBox5.isSelected(), checkBox5.getName());
 		}
 		if (arg0.getSource() == checkBox6){
-			liczbaZaznaczonych(checkBox6.isSelected(), checkBox6.getName());
+			ograniczLiczbeSkladnikow(checkBox6.isSelected(), checkBox6.getName());
 		}
 		if (arg0.getSource() == checkBox7){
-			liczbaZaznaczonych(checkBox7.isSelected(), checkBox7.getName());
+			ograniczLiczbeSkladnikow(checkBox7.isSelected(), checkBox7.getName());
 		}
 		if (arg0.getSource() == checkBox8){
-			liczbaZaznaczonych(checkBox8.isSelected(), checkBox8.getName());
+			ograniczLiczbeSkladnikow(checkBox8.isSelected(), checkBox8.getName());
 		}
 		if (arg0.getSource() == checkBox9){
-			liczbaZaznaczonych(checkBox9.isSelected(), checkBox9.getName());
+			ograniczLiczbeSkladnikow(checkBox9.isSelected(), checkBox9.getName());
 		}
 		if (arg0.getSource() == checkBox10){
-			liczbaZaznaczonych(checkBox10.isSelected(), checkBox10.getName());
+			ograniczLiczbeSkladnikow(checkBox10.isSelected(), checkBox10.getName());
 		}
 		if (arg0.getSource() == checkBox11){
-			liczbaZaznaczonych(checkBox11.isSelected(), checkBox11.getName());
+			ograniczLiczbeSkladnikow(checkBox11.isSelected(), checkBox11.getName());
 		}
 		if (arg0.getSource() == checkBox12){
-			liczbaZaznaczonych(checkBox12.isSelected(), checkBox12.getName());
+			ograniczLiczbeSkladnikow(checkBox12.isSelected(), checkBox12.getName());
 		}
 		if (arg0.getSource() == checkBox13){
-			liczbaZaznaczonych(checkBox13.isSelected(), checkBox13.getName());
+			ograniczLiczbeSkladnikow(checkBox13.isSelected(), checkBox13.getName());
 		}
 		if (arg0.getSource() == checkBox14){
-			liczbaZaznaczonych(checkBox14.isSelected(), checkBox14.getName());
+			ograniczLiczbeSkladnikow(checkBox14.isSelected(), checkBox14.getName());
 		}
 		if (arg0.getSource() == checkBox15){
-			liczbaZaznaczonych(checkBox15.isSelected(), checkBox15.getName());
+			ograniczLiczbeSkladnikow(checkBox15.isSelected(), checkBox15.getName());
 		}
 		if (arg0.getSource() == checkBox16){
-			liczbaZaznaczonych(checkBox16.isSelected(), checkBox16.getName());
+			ograniczLiczbeSkladnikow(checkBox16.isSelected(), checkBox16.getName());
 		}
 		if (arg0.getSource() == checkBox17){
-			liczbaZaznaczonych(checkBox17.isSelected(), checkBox17.getName());
+			ograniczLiczbeSkladnikow(checkBox17.isSelected(), checkBox17.getName());
 		}
 		if (arg0.getSource() == checkBox18){
-			liczbaZaznaczonych(checkBox18.isSelected(), checkBox18.getName());
+			ograniczLiczbeSkladnikow(checkBox18.isSelected(), checkBox18.getName());
 		}
 		if (arg0.getSource() == checkBox19){
-			liczbaZaznaczonych(checkBox19.isSelected(), checkBox19.getName());
+			ograniczLiczbeSkladnikow(checkBox19.isSelected(), checkBox19.getName());
 		}
 		if (arg0.getSource() == checkBox20){
-			liczbaZaznaczonych(checkBox20.isSelected(), checkBox20.getName());
+			ograniczLiczbeSkladnikow(checkBox20.isSelected(), checkBox20.getName());
 		}
 		if (arg0.getSource() == checkBox21){
-			liczbaZaznaczonych(checkBox21.isSelected(), checkBox21.getName());
+			ograniczLiczbeSkladnikow(checkBox21.isSelected(), checkBox21.getName());
 		}
 		if (arg0.getSource() == checkBox22){
-			liczbaZaznaczonych(checkBox22.isSelected(), checkBox22.getName());
+			ograniczLiczbeSkladnikow(checkBox22.isSelected(), checkBox22.getName());
 		}
 		if (arg0.getSource() == checkBox23){
-			liczbaZaznaczonych(checkBox23.isSelected(), checkBox23.getName());
+			ograniczLiczbeSkladnikow(checkBox23.isSelected(), checkBox23.getName());
 		}
 		if (arg0.getSource() == checkBox24){
-			liczbaZaznaczonych(checkBox24.isSelected(), checkBox24.getName());
+			ograniczLiczbeSkladnikow(checkBox24.isSelected(), checkBox24.getName());
 		}
 		if (arg0.getSource() == checkBox25){
-			liczbaZaznaczonych(checkBox25.isSelected(), checkBox25.getName());
+			ograniczLiczbeSkladnikow(checkBox25.isSelected(), checkBox25.getName());
 		}
 		if (arg0.getSource() == checkBox26){
-			liczbaZaznaczonych(checkBox26.isSelected(), checkBox26.getName());
+			ograniczLiczbeSkladnikow(checkBox26.isSelected(), checkBox26.getName());
 		}
 		if (arg0.getSource() == checkBox27){
-			liczbaZaznaczonych(checkBox27.isSelected(), checkBox27.getName());
+			ograniczLiczbeSkladnikow(checkBox27.isSelected(), checkBox27.getName());
 		}
 		if (arg0.getSource() == checkBox28){
-			liczbaZaznaczonych(checkBox28.isSelected(), checkBox28.getName());
+			ograniczLiczbeSkladnikow(checkBox28.isSelected(), checkBox28.getName());
 		}
 		if (arg0.getSource() == checkBox29){
-			liczbaZaznaczonych(checkBox29.isSelected(), checkBox29.getName());
+			ograniczLiczbeSkladnikow(checkBox29.isSelected(), checkBox29.getName());
 		}
 		if (arg0.getSource() == checkBox30){
-			liczbaZaznaczonych(checkBox30.isSelected(), checkBox30.getName());
+			ograniczLiczbeSkladnikow(checkBox30.isSelected(), checkBox30.getName());
 		}
 		if (arg0.getSource() == checkBox31){
-			liczbaZaznaczonych(checkBox31.isSelected(), checkBox31.getName());
+			ograniczLiczbeSkladnikow(checkBox31.isSelected(), checkBox31.getName());
 		}
 		if (arg0.getSource() == checkBox32){
-			liczbaZaznaczonych(checkBox32.isSelected(), checkBox32.getName());
+			ograniczLiczbeSkladnikow(checkBox32.isSelected(), checkBox32.getName());
 		}
 		if (arg0.getSource() == checkBox33){
-			liczbaZaznaczonych(checkBox33.isSelected(), checkBox33.getName());
+			ograniczLiczbeSkladnikow(checkBox33.isSelected(), checkBox33.getName());
 		}
 		if (arg0.getSource() == checkBox34){
-			liczbaZaznaczonych(checkBox34.isSelected(), checkBox34.getName());
+			ograniczLiczbeSkladnikow(checkBox34.isSelected(), checkBox34.getName());
 		}
 		if (arg0.getSource() == checkBox35){
-			liczbaZaznaczonych(checkBox35.isSelected(), checkBox35.getName());
+			ograniczLiczbeSkladnikow(checkBox35.isSelected(), checkBox35.getName());
 		}
 		if (arg0.getSource() == checkBox36){
-			liczbaZaznaczonych(checkBox36.isSelected(), checkBox36.getName());
+			ograniczLiczbeSkladnikow(checkBox36.isSelected(), checkBox36.getName());
 		}
 		if (arg0.getSource() == checkBox37){
-			liczbaZaznaczonych(checkBox37.isSelected(), checkBox37.getName());
+			ograniczLiczbeSkladnikow(checkBox37.isSelected(), checkBox37.getName());
 		}
 		if (arg0.getSource() == checkBox38){
-			liczbaZaznaczonych(checkBox38.isSelected(), checkBox38.getName());
+			ograniczLiczbeSkladnikow(checkBox38.isSelected(), checkBox38.getName());
 		}
 		if (arg0.getSource() == checkBox39){
-			liczbaZaznaczonych(checkBox39.isSelected(), checkBox39.getName());
+			ograniczLiczbeSkladnikow(checkBox39.isSelected(), checkBox39.getName());
 		}
 		if (arg0.getSource() == checkBox40){
-			liczbaZaznaczonych(checkBox40.isSelected(), checkBox40.getName());			
+			ograniczLiczbeSkladnikow(checkBox40.isSelected(), checkBox40.getName());			
 		}
 		
 		else if(arg0.getSource()==btnDostawa5){
@@ -2198,7 +2190,7 @@ public class GUI extends JFrame implements ActionListener{
 		    				Buffor.setRozmiarPizzy(listaRozmiarow[customCombobox.getSelectedIndex()]);
 		    				Buffor.setLiczbaPizz((int) spinLiczbaPizz.getValue());
 		    				Buffor.setSos(listaSosow[customCombobox2.getSelectedIndex()]);
-		    				Buffor.setKosztWlasnej((cenaWlasnaPizza()*Buffor.getLiczbaPizz()));
+		    				Buffor.setKosztWlasnej((zamowienie.ustalCene(customCombobox, cenaWlasnejPizzy)*Buffor.getLiczbaPizz()));
 		    				Buffor.setKosztLacznyWlasnej((Buffor.getKosztWlasnej()+Buffor.getKosztLacznyWlasnej()));
 		    				Buffor.setRozmiarZamowienia(Buffor.getRozmiarZamowienia()+Buffor.getLiczbaPizz());
 		    				
@@ -2206,7 +2198,7 @@ public class GUI extends JFrame implements ActionListener{
 		    		        lblLacznyKoszt.setText((dec.format(Buffor.getKosztLaczny()+Buffor.getKosztLacznyWlasnej())));
 		    		        //Wpisanie wlasnej pizzy na podgladzie paragonu w ekranie dostawy
 		    		        zamowienie.wyswietlPizze("Pizza własna"+"\t\t"+Buffor.getRozmiarPizzy()+"\t"+"x"+Buffor.getLiczbaPizz()+"\t"+
-		    		        		dec.format(cenaWlasnaPizza()*Buffor.getLiczbaPizz())+"\n", textPane);
+		    		        		dec.format(zamowienie.ustalCene(customCombobox, cenaWlasnejPizzy)*Buffor.getLiczbaPizz())+"\n", textPane);
 		    		        //txtrZamowienie Wpisanie wybranej pizzy własnej do podglądu zamówienia na ekranie cennika
 		    		        zamowienie.wyswietlPodgladZamowieniaWlasna(txtrZamowienie,  "Pizza własna", Buffor.getSos(), Buffor.getRozmiarPizzy(), 
 		    		        		Buffor.getLiczbaPizz());
@@ -2579,7 +2571,7 @@ public class GUI extends JFrame implements ActionListener{
 		    		        
 		    		        //Wyświetlenie podglądu paragonu na ekranie zatwierdzania zamówienia
 		    		        zamowienie.wyswietlPizzeNaParagonie("Pizza własna"+" "+Buffor.getRozmiarPizzy()+"\t"+Buffor.getLiczbaPizz()+"\t\tx\t"+
-		    		       		dec.format(cenaWlasnaPizza()*Buffor.getLiczbaPizz())+"\n", textPane2);
+		    		       		dec.format(zamowienie.ustalCene(customCombobox, cenaWlasnejPizzy)*Buffor.getLiczbaPizz())+"\n", textPane2);
 		                    zamowienie.wyswietlSos(Buffor.getSos(), "Sos "+Buffor.getSos().toLowerCase()+"\t"+"0\t\tx\t0,00"+"\n", textPane2);
 							
 					        //Wyświetlenie kosztu zamówienia pizz z własnego przepisu w cenniku

@@ -42,6 +42,7 @@ import javax.swing.text.TabStop;
 
 
 
+
 import com.jgoodies.forms.debug.FormDebugPanel;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.CellConstraints.Alignment;
@@ -60,6 +61,7 @@ public class GUI extends JFrame implements ActionListener{
 	private Zamowienie zamowienie=new Zamowienie();
 	private Dialog dialog;
 	private Buffor buffor=new Buffor();
+	private Pomoc pomoc;
 	
 	/**
 	 * Deklaracja górnego i dolnego panelu
@@ -307,6 +309,7 @@ public class GUI extends JFrame implements ActionListener{
 		btnPomoc = new JButton(new ImageIcon("images/pomoc.png"));
 		btnPomoc.setPreferredSize(new Dimension(119,32));
 		btnPomoc.setBorder(null);
+		btnPomoc.addActionListener(this);
 		
 		ekranStartowy.add(lblStartowyLogo, cc.xyw(1, 1, 11)); 
 		ekranStartowy.add(btnZamowzMenu, cc.xyw(3, 3, 4));
@@ -2231,7 +2234,7 @@ public class GUI extends JFrame implements ActionListener{
 		  attrs.add(Chromaticity.MONOCHROME);
 		  attrs.add(new MediaPrintableArea(0,0,200,150,MediaPrintableArea.MM));	
 		  try {
-			  textPane2.print(null, null, true, null, attrs, dostawa);
+			  textPane2.print(null, null, true, null, attrs, false);
 		} catch (PrinterException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -2563,6 +2566,10 @@ public class GUI extends JFrame implements ActionListener{
 			CardLayout c1 = (CardLayout)(panelDolny.getLayout());
             c1.show(panelDolny,"card1");
             
+		}
+		else if (arg0.getSource()==btnPomoc){
+			pomoc = new Pomoc();
+			pomoc.setVisible(true);
 		}
 		//Zdarzenia kliknięcia w chec boxy
 		if (arg0.getSource() == checkBox1){

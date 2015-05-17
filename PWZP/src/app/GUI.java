@@ -386,16 +386,18 @@ public class GUI extends JFrame implements ActionListener{
 			    {"<html><strong>10. Polska</strong><br>"
 						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, szynka, kiełbasa, kabanosy,</font><br>"
 						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>biała cebula, świeża papryka, oregano</font></html>","18,10", "25,60", "31,50"},	
-				{"<html><strong>11. Margherita</strong><br>"
-						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, oregano</font></html>","9,50", "17,80", "19,90"},
-				{"<html><strong>12. Margherita</strong><br>"
-					    + "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, oregano</font></html>","9,50", "17,80", "19,90"},
-			    {"<html><strong>12. Margherita</strong><br>"
-					    + "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, oregano</font></html>","9,50", "17,80", "19,90"},
-				{"<html><strong>12. Margherita</strong><br>"
-					    + "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, oregano</font></html>","9,50", "17,80", "19,90"},
-				{"<html><strong>12. Margherita</strong><br>"
-					    + "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, oregano</font></html>","9,50", "17,80", "19,90"},
+				{"<html><strong>11. Farmerska</strong><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, kurczak, szynka, świeża papryka</font></html>","15,50", "21,80", "29,90"},				
+				{"<html><strong>12. Vega</strong><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, pieczarki, fasola, kukurydza,</font><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>szparagi</font></html>","13,00", "20,40", "28,40"},
+				{"<html><strong>13. Kaukaska</strong><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, tuńczyk, czosnek,</font><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ogórek konserwowy, świeża papryka</font></html>","19,00", "25,80", "31,00"},
+				{"<html><strong>14. Krewetkowa</strong><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, krewetki, małże, czosnek</font></html>","19,40", "27,00", "39,90"},	    
+				{"<html><strong>15. Spinachio</strong><br>"
+						+ "&nbsp;&nbsp;&nbsp;&nbsp<font size='16px'>ser, sos pomidorowy, feta, szpinak, czosnek</font></html>","18,10", "25,60", "31,50"},
 		};
 		
 		//Model tabeli
@@ -495,10 +497,9 @@ public class GUI extends JFrame implements ActionListener{
         cennikTabela.setRowHeight(1, 40);
         cennikTabela.setRowHeight(6, 40);
         cennikTabela.setRowHeight(10, 40);
-        cennikTabela.setRowHeight(11, 40);
-        cennikTabela.setRowHeight(12, 40);
+        cennikTabela.setRowHeight(11, 60);
+        cennikTabela.setRowHeight(12, 60);
         cennikTabela.setRowHeight(13, 40);
-        
 	    scrollPane2 = new JScrollPane(cennikTabela);
 		scrollPane2.setBorder(BorderFactory.createEmptyBorder()); 
 		scrollPane2.getViewport().setBackground(new Color(0xf2f2f3));

@@ -18,11 +18,11 @@ class Buffor {
 			{"Piacere","17.60", "26.90", "30.60"},
 			{"Roma", "16.90", "24.80", "29.30"},
 		    {"Polska","18.10", "25.60", "31.50"},	
-			{"Margherita","9.50", "17.80", "19.90"},
-			{"Margherita","9.50", "17.80", "19.90"},
-		    {"Margherita","9.50", "17.80", "19.90"},
-			{"Margherita","9.50", "17.80", "19.90"},
-			{"Margherita","9.50", "17.80", "19.90"},
+			{"Farmerska","15.50", "21.80", "29.90"},
+			{"Vega","13.0", "20.40", "28.40"},
+		    {"Kaukaska","19.0", "25.80", "31.00"},
+			{"Krewetkowa","19.40", "27.00", "39.90"},
+			{"Spinachio","9.50", "17.80", "19.90"},
 	};
 	
 	String[] skladniki = {
@@ -36,11 +36,11 @@ class Buffor {
 			"ser, sos pomidorowy, salami, boczek wędzony," +"\n"+ "cebula biała, kukurydza, oregano",
 			"ser, sos pomidorowy, salami, kabanosy," +"\n"+ "papryka konserwowa, oregano",
 		    "ser, sos pomidorowy, szynka, kiełbasa," +"\n"+ "kabanosy, biała cebula, świeża papryka, oregano",	
-			"ser, sos pomidorowy, oregano",
-			"ser, sos pomidorowy, oregano",
-		    "ser, sos pomidorowy, oregano",
-			"ser, sos pomidorowy, oregano",
-			"ser, sos pomidorowy, oregano",
+			"ser, sos pomidorowy, kurczak, szynka," +"\n"+ "świeża papryka",
+			"ser, sos pomidorowy, pieczarki, fasola," +"\n"+ "kukurydza, szparagi",
+		    "ser, sos pomidorowy, tuńczyk, czosnek," +"\n"+"ogórek konserwowy, świeża papryka",
+			"ser, sos pomidorowy, krewetki, małże," +"\n"+ "czosnek",
+			"ser, sos pomidorowy, feta, szpinak," +"\n"+ "czosnek",
 	};
 	
 	private static int numerRzedu, liczbaPizz, dodaj, rozmiarZamowienia;

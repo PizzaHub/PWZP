@@ -3,7 +3,7 @@ Program wspomagający zarządzanie pizzerią, tworzony w ramach "Projektu Zespo�
 
 ## Członkowie (liczba nieterminowych realizacji zadań)
 - [madamski](https://github.com/madamski) (1)
-- [danielblokus](https://github.com/danielblokus) (0)
+- [danielblokus](https://github.com/danielblokus) (1)
 - [mhamulak](https://github.com/mhamulak) (0)
 - <strike>[MichalPawlik](https://github.com/MichalPawlik) (3)</strike>
 

@@ -50,6 +50,7 @@ import javax.swing.text.TabStop;
 
 
 
+
 import com.jgoodies.forms.debug.FormDebugPanel;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.CellConstraints.Alignment;
@@ -186,11 +187,15 @@ public class GUI extends JFrame implements ActionListener{
 	 * Deklaracja zmiennych dla okna błędu wprowadzania znaków
 	 */
 	Pattern pattern, pattern2;
+	private static final String POLSKIE_ZNAKI_SPACJA_MYSLNIK = "^[\\p{L}*\\s]+([ '-][\\p{L}*]+)";
 	private static final String POLSKIE_ZNAKI = "^[\\p{L}*]+";
+	static Pattern p1 = Pattern.compile(POLSKIE_ZNAKI_SPACJA_MYSLNIK, Pattern.CANON_EQ |Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+	static Pattern p2 = Pattern.compile(POLSKIE_ZNAKI, Pattern.CANON_EQ |Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     Matcher matcherNrBudynku, matcherNrMieszkania, matcherMiejscowosc, matcherUlica, matcherLiczba, matcherWybor;
     private Blad blad1;
     private BladSkladniki blad6;
     private BladZaznaczoneSkladniki blad7;
+    
 
 //*************************************************************************************************************************************
 	
@@ -705,6 +710,7 @@ public class GUI extends JFrame implements ActionListener{
 		txtMiejscowosc.setOpaque(false);
 		txtMiejscowosc.setBorder(border2);
 		txtMiejscowosc.setFont(new Font("Arial", Font.PLAIN, 17));
+		txtMiejscowosc.setDocument(new TextFieldLimit(13));
 		
 		lblMiejscowosc=new JLabel(new ImageIcon("images/tlo_input.png"));
 		lblMiejscowosc.setLayout(new BorderLayout());
@@ -714,6 +720,7 @@ public class GUI extends JFrame implements ActionListener{
 		txtUlica.setOpaque(false);
 		txtUlica.setBorder(border2);
 		txtUlica.setFont(new Font("Arial", Font.PLAIN, 17));
+		txtUlica.setDocument(new TextFieldLimit(13));
 		
 		lblUlica=new JLabel(new ImageIcon("images/tlo_input.png"));
 		lblUlica.setLayout(new BorderLayout());
@@ -723,6 +730,7 @@ public class GUI extends JFrame implements ActionListener{
 		txtNrBudynku.setOpaque(false);
 		txtNrBudynku.setBorder(border2);
 		txtNrBudynku.setFont(new Font("Arial", Font.PLAIN, 17));
+		txtNrBudynku.setDocument(new TextFieldLimit(2));
 		
 		lblNrBudynku=new JLabel(new ImageIcon("images/liczba.png"));
 		lblNrBudynku.setLayout(new BorderLayout());
@@ -732,6 +740,7 @@ public class GUI extends JFrame implements ActionListener{
 		txtNrMieszkania.setOpaque(false);
 		txtNrMieszkania.setBorder(border2);
 		txtNrMieszkania.setFont(new Font("Arial", Font.PLAIN, 17));
+		txtNrMieszkania.setDocument(new TextFieldLimit(2));
 		
 		lblNrMieszkania=new JLabel(new ImageIcon("images/liczba.png"));
 		lblNrMieszkania.setLayout(new BorderLayout());
@@ -965,7 +974,7 @@ public class GUI extends JFrame implements ActionListener{
 		ekranZatwierdzaniaZamowienia.add(lblPodgladParagonu, cc.xywh(4,3,1,2));
 		ekranZatwierdzaniaZamowienia.add(scrollPane4, cc.xywh(4,6,2,16));
 		ekranZatwierdzaniaZamowienia.add(lblDaneZamawiajacego, cc.xywh(7,6,6,1));
-		ekranZatwierdzaniaZamowienia.add(txtrDaneZamawiajacego, cc.xywh(14,4,5,4));
+		ekranZatwierdzaniaZamowienia.add(txtrDaneZamawiajacego, cc.xywh(14,4,6,4));
 		ekranZatwierdzaniaZamowienia.add(lblSposobDostawy, cc.xywh(8,9,5,1));
 		ekranZatwierdzaniaZamowienia.add(txtSposobDostawy, cc.xywh(14,9,4,1));
 		ekranZatwierdzaniaZamowienia.add(lblKosztDostawy, cc.xywh(9,11,4,1));
@@ -1382,26 +1391,34 @@ public class GUI extends JFrame implements ActionListener{
 		checkBox39.setSelected(false);
 		checkBox40.setSelected(false);
 	}
+	/**
+	 * Metoda odpowiedzialna za dwa wzory wpisywania nazwy miasta i ulicy w ekranie dostawa
+	 * @param tekst
+	 * @return
+	 */
+	public static boolean wzorZgodny(String tekst){
+		   return p1.matcher(tekst).matches() || p2.matcher(tekst).matches();
+		}
 	
 	/**
 	 * Obsługa błędu wprowadzania danych w ekranie dostawy
 	 */
 	private void utworzOknoBledu(){
 		pattern = Pattern.compile(".*[^0-9].*");
-		pattern2 = Pattern.compile(POLSKIE_ZNAKI, Pattern.CANON_EQ |Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-		matcherMiejscowosc = pattern2.matcher(txtMiejscowosc.getText());
-		matcherUlica = pattern2.matcher(txtUlica.getText());
+		//pattern2 = Pattern.compile(POLSKIE_ZNAKI, Pattern.CANON_EQ |Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+		//matcherMiejscowosc = pattern2.matcher(txtMiejscowosc.getText());
+		//matcherUlica = pattern2.matcher(txtUlica.getText());
         matcherNrMieszkania = pattern.matcher(txtNrMieszkania.getText());
         matcherNrBudynku  = pattern.matcher(txtNrBudynku.getText());
 		if (matcherNrMieszkania.matches()){
 			blad1=new Blad();
 	        txtNrMieszkania.setText("");
 		}
-		else if (!matcherMiejscowosc.matches()){
+		else if (!wzorZgodny(txtMiejscowosc.getText())){
 			blad1=new Blad();
 			txtMiejscowosc.setText("");
 		}
-		else if (!matcherUlica.matches()){
+		else if (!wzorZgodny(txtUlica.getText())){
 			blad1=new Blad();
 			txtUlica.setText("");
 		}
@@ -1426,20 +1443,20 @@ public class GUI extends JFrame implements ActionListener{
 	 */
 	private void utworzOknoBledu2(){
 		pattern = Pattern.compile(".*[^0-9].*");
-		pattern2 = Pattern.compile(POLSKIE_ZNAKI, Pattern.CANON_EQ |Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-		matcherMiejscowosc = pattern2.matcher(txtMiejscowosc.getText());
-		matcherUlica = pattern2.matcher(txtUlica.getText());
+		//pattern2 = Pattern.compile(POLSKIE_ZNAKI, Pattern.CANON_EQ |Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+		//matcherMiejscowosc = pattern2.matcher(txtMiejscowosc.getText());
+		//matcherUlica = pattern2.matcher(txtUlica.getText());
         matcherNrMieszkania = pattern.matcher(txtNrMieszkania.getText());
         matcherNrBudynku  = pattern.matcher(txtNrBudynku.getText());
 		if (matcherNrMieszkania.matches()){
 			blad1=new Blad();
 	        txtNrMieszkania.setText("");
 		}
-		else if (!matcherMiejscowosc.matches()){
+		else if (!wzorZgodny(txtMiejscowosc.getText())){
 			blad1=new Blad();
 			txtMiejscowosc.setText("");
 		}
-		else if (!matcherUlica.matches()){
+		else if (!wzorZgodny(txtUlica.getText())){
 			blad1=new Blad();
 			txtUlica.setText("");
 		}

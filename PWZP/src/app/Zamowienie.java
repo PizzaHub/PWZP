@@ -156,28 +156,6 @@ public class Zamowienie {
 	}
 	
 	/**
-	 * Metoda służąca do wyświetlania informacji: nazwa firmy, adres na podglądzie paragonu na ekranie zamówienia
-	 * @param s
-	 * @param pane
-	 */
-	void wyswietlNaglowekParagonu(String s, JTextPane pane) {
-		try {   
-			StyledDocument doc2 = pane.getStyledDocument();
-			SimpleAttributeSet center = new SimpleAttributeSet();
-			StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
-			doc2.setParagraphAttributes(0, doc2.getLength(), center, false);
-		      
-			SimpleAttributeSet attributes2 = new SimpleAttributeSet();
-			attributes2.addAttribute(StyleConstants.CharacterConstants.Size, 16);
-		      
-			doc2.insertString(doc2.getLength(), s, attributes2);
-		} 
-		catch(BadLocationException exc) {
-			exc.printStackTrace();
-		}
-	}
-	
-	/**
 	 * Metoda służąca do wyświetlania daty i godziny na podglądzie paragonu na ekranie zatwierdzania zamówienia
 	 * @param pane
 	 */

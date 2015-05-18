@@ -1396,7 +1396,7 @@ public class GUI extends JFrame implements ActionListener{
 	 * @param tekst
 	 * @return
 	 */
-	public static boolean wzorZgodny(String tekst){
+	public static boolean utworzWzor(String tekst){
 		   return p1.matcher(tekst).matches() || p2.matcher(tekst).matches();
 		}
 	
@@ -1414,11 +1414,11 @@ public class GUI extends JFrame implements ActionListener{
 			blad1=new Blad();
 	        txtNrMieszkania.setText("");
 		}
-		else if (!wzorZgodny(txtMiejscowosc.getText())){
+		else if (!utworzWzor(txtMiejscowosc.getText())){
 			blad1=new Blad();
 			txtMiejscowosc.setText("");
 		}
-		else if (!wzorZgodny(txtUlica.getText())){
+		else if (!utworzWzor(txtUlica.getText())){
 			blad1=new Blad();
 			txtUlica.setText("");
 		}
@@ -1452,11 +1452,11 @@ public class GUI extends JFrame implements ActionListener{
 			blad1=new Blad();
 	        txtNrMieszkania.setText("");
 		}
-		else if (!wzorZgodny(txtMiejscowosc.getText())){
+		else if (!utworzWzor(txtMiejscowosc.getText())){
 			blad1=new Blad();
 			txtMiejscowosc.setText("");
 		}
-		else if (!wzorZgodny(txtUlica.getText())){
+		else if (!utworzWzor(txtUlica.getText())){
 			blad1=new Blad();
 			txtUlica.setText("");
 		}

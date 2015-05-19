@@ -2583,8 +2583,10 @@ public class GUI extends JFrame implements ActionListener{
 			    						zamowienie.wyswietlSkladniki("tuńczyk, ", textPane);
 		    						}
 		    					}
-		    				//Wprowadzenie nowej po wpisaniu wszystkich składników własnej pizzy
-		    				zamowienie.wyswietlSkladniki("\n", textPane);
+	    					//Wprowadzenie nowej po wpisaniu wszystkich składników własnej pizzy
+	    					if (liczydlo== 1 || liczydlo == 2 || liczydlo == 4 || liczydlo == 5 || liczydlo == 6){
+	    					zamowienie.wyswietlSkladniki("\n", textPane);
+	    					}
 		    		        zamowienie.wyswietlSos(Buffor.getSos(),"+ sos "+Buffor.getSos()+"\n", textPane);
 		    		        
 		    		        //Wyświetlenie podglądu paragonu na ekranie zatwierdzania zamówienia

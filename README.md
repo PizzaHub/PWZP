@@ -1,7 +1,7 @@
 # PWZP
 Program wspomagający zarządzanie pizzerią, tworzony w ramach "Projektu Zespołowego".
 
-## Członkowie
+## Członkowie zespołu
 - [madamski](https://github.com/madamski)
 - [danielblokus](https://github.com/danielblokus)
 - [mhamulak](https://github.com/mhamulak)
